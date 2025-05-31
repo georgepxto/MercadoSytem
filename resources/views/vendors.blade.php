@@ -11,78 +11,107 @@
 @endsection
 
 @section('content')
-<div class="row">
+<div class="row g-3">
     @foreach($vendors as $vendor)
-    <div class="col-md-6 col-lg-4 mb-4">
-        <div class="card h-100">
-            <div class="card-body">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card h-100 border-0 shadow-sm">
+            <div class="card-body p-3">
                 <div class="d-flex align-items-center mb-3">
-                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px; font-size: 1.5rem;">
+                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 50px; height: 50px; font-size: 1.5rem;">
                         {{ substr($vendor->name, 0, 1) }}
                     </div>
-                    <div>
-                        <h5 class="card-title mb-0">{{ $vendor->name }}</h5>
-                        <small class="text-muted">{{ $vendor->email }}</small>
+                    <div class="flex-grow-1 min-width-0">
+                        <h5 class="card-title mb-1 text-truncate">{{ $vendor->name }}</h5>
+                        <small class="text-muted text-truncate d-block">{{ $vendor->email }}</small>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <span class="badge bg-info">{{ $vendor->food_type }}</span>
+                    <span class="badge bg-info me-1">{{ $vendor->food_type }}</span>
                     @if($vendor->active)
                         <span class="badge bg-success">Ativo</span>
                     @else
                         <span class="badge bg-secondary">Inativo</span>
                     @endif
-                </div>                <div class="mb-3">
-                    <p class="text-muted small mb-2">
-                        <i class="bi bi-telephone"></i>
-                        {{ $vendor->phone }}
-                    </p>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex align-items-center text-muted small mb-2">
+                        <i class="bi bi-telephone me-2 flex-shrink-0"></i>
+                        <span class="text-truncate">{{ $vendor->phone }}</span>
+                    </div>
                     @if($vendor->has_cnpj && $vendor->cnpj)
-                        <p class="text-muted small mb-2">
-                            <i class="bi bi-building"></i>
-                            CNPJ: {{ $vendor->cnpj }}
-                        </p>
+                        <div class="d-flex align-items-center text-muted small mb-2">
+                            <i class="bi bi-building me-2 flex-shrink-0"></i>
+                            <span class="text-truncate">CNPJ: {{ $vendor->cnpj }}</span>
+                        </div>
                     @endif
                     @if($vendor->description)
-                        <p class="text-muted small">{{ $vendor->description }}</p>
+                        <p class="text-muted small mb-0 text-truncate">{{ $vendor->description }}</p>
                     @endif
                 </div>
 
-                @if($vendor->schedules->count() > 0)
+                                @if($vendor->schedules->count() > 0)
                     <div class="mb-3">
-                        <h6 class="text-muted">Horários:</h6>
-                        @foreach($vendor->schedules as $schedule)
-                            <div class="d-flex justify-content-between small mb-1">
-                                <span class="badge bg-secondary">{{ ucfirst($schedule->day_of_week) }}</span>
-                                <span>{{ date('H:i', strtotime($schedule->start_time)) }} - {{ date('H:i', strtotime($schedule->end_time)) }}</span>
-                                <span class="text-muted">Box {{ $schedule->box->number }}</span>
-                            </div>
-                        @endforeach
+                        <h6 class="text-muted mb-2">
+                            <i class="bi bi-clock me-1"></i>
+                            Horários:
+                        </h6>
+                        <div class="d-flex flex-column gap-1">
+                            @foreach($vendor->schedules as $schedule)
+                                <div class="d-flex justify-content-between align-items-center small bg-light rounded p-2">
+                                    <span class="badge bg-secondary">{{ ucfirst($schedule->day_of_week) }}</span>
+                                    <span class="fw-semibold">{{ date('H:i', strtotime($schedule->start_time)) }} - {{ date('H:i', strtotime($schedule->end_time)) }}</span>
+                                    <small class="text-muted">Box {{ $schedule->box->number }}</small>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 @endif
-            </div>            <div class="card-footer bg-transparent">
-                <button class="btn btn-sm btn-outline-primary" onclick="editVendor({{ $vendor->id }})">
-                    <i class="bi bi-pencil"></i>
-                    Editar
-                </button>
-                <button class="btn btn-sm btn-outline-success" onclick="addSchedule({{ $vendor->id }})">
-                    <i class="bi bi-calendar-plus"></i>
-                    Horário
-                </button>
-                <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')">
-                    <i class="bi bi-trash"></i>
-                    Excluir
-                </button>
+            </div>
+            
+            <div class="card-footer bg-transparent p-3 pt-0">
+                <div class="d-none d-md-flex gap-2">
+                    <button class="btn btn-sm btn-outline-primary" onclick="editVendor({{ $vendor->id }})">
+                        <i class="bi bi-pencil"></i>
+                        Editar
+                    </button>
+                    <button class="btn btn-sm btn-outline-success" onclick="addSchedule({{ $vendor->id }})">
+                        <i class="bi bi-calendar-plus"></i>
+                        Horário
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')">
+                        <i class="bi bi-trash"></i>
+                        Excluir
+                    </button>
+                </div>
+                
+                <div class="d-md-none">
+                    <div class="d-grid gap-2">
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-outline-primary btn-sm" onclick="editVendor({{ $vendor->id }})">
+                                <i class="bi bi-pencil"></i>
+                                Editar
+                            </button>
+                            <button class="btn btn-outline-success btn-sm" onclick="addSchedule({{ $vendor->id }})">
+                                <i class="bi bi-calendar-plus"></i>
+                                Horário
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')">
+                                <i class="bi bi-trash"></i>
+                                Excluir
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
     @endforeach
 </div>
 
-<!-- Modal Vendedor -->
 <div class="modal fade" id="vendorModal" tabindex="-1">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Novo Vendedor</h5>
@@ -144,7 +173,6 @@
     </div>
 </div>
 
-<!-- Modal Horário -->
 <div class="modal fade" id="scheduleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -160,7 +188,6 @@
                         <label for="box_id" class="form-label">Box</label>
                         <select class="form-select" id="schedule_box_id" name="box_id" required>
                             <option value="">Selecione um box</option>
-                            <!-- Será preenchido via JavaScript -->
                         </select>
                     </div>
 

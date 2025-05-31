@@ -4,20 +4,23 @@
 @section('page-title', 'Check-in / Check-out')
 
 @section('content')
-<div class="row">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
+<div class="row g-3">
+    <div class="col-lg-6 col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-success text-white">
                 <h5 class="card-title mb-0">
-                    <i class="bi bi-box-arrow-in-right"></i>
+                    <i class="bi bi-box-arrow-in-right me-2"></i>
                     Fazer Check-in
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-3">
                 <form id="checkinForm">
                     <div class="mb-3">
-                        <label for="vendor_id" class="form-label">Vendedor</label>
-                        <select class="form-select" id="vendor_id" name="vendor_id" required>
+                        <label for="vendor_id" class="form-label fw-semibold">
+                            <i class="bi bi-person me-1"></i>
+                            Vendedor
+                        </label>
+                        <select class="form-select form-select-lg" id="vendor_id" name="vendor_id" required>
                             <option value="">Selecione um vendedor</option>
                             @foreach($vendors as $vendor)
                                 <option value="{{ $vendor->id }}" data-food-type="{{ $vendor->food_type }}">
@@ -28,8 +31,11 @@
                     </div>
 
                     <div class="mb-3">
-                        <label for="box_id" class="form-label">Box</label>
-                        <select class="form-select" id="box_id" name="box_id" required>
+                        <label for="box_id" class="form-label fw-semibold">
+                            <i class="bi bi-grid-3x3 me-1"></i>
+                            Box
+                        </label>
+                        <select class="form-select form-select-lg" id="box_id" name="box_id" required>
                             <option value="">Selecione um box</option>
                             @foreach($boxes as $box)
                                 <option value="{{ $box->id }}">
@@ -42,49 +48,52 @@
                         </select>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="notes" class="form-label">Observações (opcional)</label>
+                    <div class="mb-4">
+                        <label for="notes" class="form-label fw-semibold">
+                            <i class="bi bi-chat-text me-1"></i>
+                            Observações (opcional)
+                        </label>
                         <textarea class="form-control" id="notes" name="notes" rows="3" placeholder="Observações sobre o check-in..."></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-check-circle"></i>
-                        Fazer Check-in
-                    </button>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success btn-lg">
+                            <i class="bi bi-check-circle me-2"></i>
+                            Fazer Check-in
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
+    <div class="col-lg-6 col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
                 <h5 class="card-title mb-0">
-                    <i class="bi bi-person-check"></i>
+                    <i class="bi bi-person-check me-2"></i>
                     Vendedores Ativos
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-3">
                 <div id="activeVendors">
-                    <!-- Será preenchido via JavaScript -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row mt-4">
+<div class="row mt-3">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-info text-white">
                 <h5 class="card-title mb-0">
-                    <i class="bi bi-clock-history"></i>
+                    <i class="bi bi-clock-history me-2"></i>
                     Últimas Atividades
                 </h5>
             </div>
-            <div class="card-body">
+            <div class="card-body p-3">
                 <div id="recentEntries">
-                    <!-- Será preenchido via JavaScript -->
                 </div>
             </div>
         </div>

@@ -4,47 +4,41 @@
 @section('page-title', 'Histórico de Entradas')
 
 @section('content')
-<div class="row mb-4">
+<div class="row mb-3">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-clock-history"></i>
-                            Filtros
-                        </h5>
-                    </div>
-                    <div class="col-auto">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="clearFilters()">
-                            <i class="bi bi-x-circle"></i>
-                            Limpar
-                        </button>
-                    </div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-funnel me-2"></i>
+                        Filtros
+                    </h5>
+                    <button class="btn btn-outline-light btn-sm" onclick="clearFilters()">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Limpar
+                    </button>
                 </div>
             </div>
-            <div class="card-body">
+            <div class="card-body p-3">
                 <form class="row g-3" id="filterForm">
-                    <div class="col-md-3">
-                        <label for="filter_vendor" class="form-label">Vendedor</label>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <label for="filter_vendor" class="form-label fw-semibold">Vendedor</label>
                         <select class="form-select" id="filter_vendor">
                             <option value="">Todos os vendedores</option>
-                            <!-- Será preenchido via JavaScript -->
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label for="filter_box" class="form-label">Box</label>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <label for="filter_box" class="form-label fw-semibold">Box</label>
                         <select class="form-select" id="filter_box">
                             <option value="">Todos os boxes</option>
-                            <!-- Será preenchido via JavaScript -->
                         </select>
                     </div>
-                    <div class="col-md-3">
-                        <label for="filter_date_from" class="form-label">Data Início</label>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <label for="filter_date_from" class="form-label fw-semibold">Data Início</label>
                         <input type="date" class="form-control" id="filter_date_from">
                     </div>
-                    <div class="col-md-3">
-                        <label for="filter_date_to" class="form-label">Data Fim</label>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <label for="filter_date_to" class="form-label fw-semibold">Data Fim</label>
                         <input type="date" class="form-control" id="filter_date_to">
                     </div>
                 </form>
@@ -55,23 +49,19 @@
 
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="row align-items-center">
-                    <div class="col">
-                        <h5 class="card-title mb-0">
-                            <i class="bi bi-list-ul"></i>
-                            Registros de Entrada/Saída
-                        </h5>
-                    </div>
-                    <div class="col-auto">
-                        <span id="totalRecords" class="badge bg-secondary">{{ $entries->total() }} registros</span>
-                    </div>
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-info text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-list-ul me-2"></i>
+                        Registros de Entrada/Saída
+                    </h5>
+                    <span id="totalRecords" class="badge bg-light text-dark">{{ $entries->total() }} registros</span>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
+            <div class="card-body p-3">
+                <div class="table-responsive d-none d-lg-block">
+                    <table class="table table-hover mb-0">
                         <thead class="table-light">
                             <tr>
                                 <th>Data</th>
@@ -150,6 +140,93 @@
                     </table>
                 </div>
 
+                <div class="d-lg-none" id="mobileEntriesContainer">
+                    @foreach($entries as $entry)
+                    <div class="card mb-3 border-start border-3 @if($entry->exit_time) border-secondary @else border-success @endif">
+                        <div class="card-body p-3">
+                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                <div class="d-flex align-items-center flex-grow-1">
+                                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; min-width: 45px;">
+                                        <span class="fw-bold">{{ substr($entry->vendor->name, 0, 1) }}</span>
+                                    </div>
+                                    <div class="flex-grow-1 min-width-0">
+                                        <h6 class="mb-1 fw-bold text-truncate">{{ $entry->vendor->name }}</h6>
+                                        <small class="text-muted">{{ $entry->vendor->food_type }}</small>
+                                    </div>
+                                </div>
+                                <div class="ms-2">
+                                    @if($entry->exit_time)
+                                        <span class="badge bg-secondary">Finalizado</span>
+                                    @else
+                                        <span class="badge bg-success">Ativo</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="small text-muted mb-1">Data</div>
+                                    <div class="fw-semibold">{{ $entry->entry_date->format('d/m/Y') }}</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="small text-muted mb-1">Box</div>
+                                    <div>
+                                        <span class="badge bg-secondary me-1">{{ $entry->box->number }}</span>
+                                        <small class="text-muted">{{ $entry->box->location }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="small text-muted mb-1">Entrada</div>
+                                    <div class="fw-semibold">{{ $entry->entry_time->format('H:i') }}</div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="small text-muted mb-1">Saída</div>
+                                    <div class="fw-semibold">
+                                        @if($entry->exit_time)
+                                            {{ $entry->exit_time->format('H:i') }}
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="small text-muted mb-1">Tempo Total</div>
+                                    <div class="fw-semibold">
+                                        @if($entry->exit_time)
+                                            @php
+                                                $totalMinutes = $entry->entry_time->diffInMinutes($entry->exit_time);
+                                                $hours = floor($totalMinutes / 60);
+                                                $minutes = $totalMinutes % 60;
+                                            @endphp
+                                            {{ $hours }}h {{ $minutes }}min
+                                        @else
+                                            <span class="text-muted">-</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if(!$entry->exit_time || $entry->notes)
+                            <div class="d-flex gap-2">
+                                @if(!$entry->exit_time)
+                                    <button class="btn btn-warning btn-sm flex-grow-1" onclick="checkOut({{ $entry->id }})">
+                                        <i class="bi bi-box-arrow-right me-1"></i>
+                                        Check-out
+                                    </button>
+                                @endif
+                                @if($entry->notes)
+                                    <button class="btn btn-outline-info btn-sm" onclick="showNotes('{{ $entry->notes }}')" title="Ver observações">
+                                        <i class="bi bi-chat-text"></i>
+                                    </button>
+                                @endif
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
                 @if($entries->count() == 0)
                     <div class="text-center py-4">
                         <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
@@ -167,7 +244,6 @@
     </div>
 </div>
 
-<!-- Modal para mostrar observações -->
 <div class="modal fade" id="notesModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
