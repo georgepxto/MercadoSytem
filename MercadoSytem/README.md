@@ -6,6 +6,14 @@ Um sistema completo desenvolvido em Laravel para gerenciar vendedores de feira a
 
 Este é um sistema web moderno e responsivo que permite a administração completa de uma feira alimentar, oferecendo controle detalhado sobre vendedores, boxes, horários e movimentação diária. Desenvolvido com foco na usabilidade e eficiência operacional.
 
+## 🔄 **Atualizações Recentes**
+
+### ✅ **Correção de Timezone (Junho 2025)**
+- **Problema resolvido**: Horários de entrada/saída dos vendedores estavam sendo exibidos 3 horas à frente
+- **Solução aplicada**: Configuração de timezone do Laravel alterada para `America/Sao_Paulo`
+- **Resultado**: Todos os horários agora são exibidos corretamente no fuso horário brasileiro (UTC-3)
+- **Documentação completa**: Ver [TIMEZONE_FIX_DOCUMENTATION.md](TIMEZONE_FIX_DOCUMENTATION.md)
+
 ## 🚀 **Início Rápido**
 
 ```bash
