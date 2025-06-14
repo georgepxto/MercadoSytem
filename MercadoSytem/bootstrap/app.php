@@ -1,5 +1,8 @@
 <?php
 
+// Suprimir avisos de deprecation do PHP 8.2+
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

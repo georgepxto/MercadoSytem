@@ -10,12 +10,10 @@ return new class extends Migration
      * Run the migrations.
      *
      * @return void
-     */
-    public function up()
+     */    public function up()
     {
-        Schema::create('boxes', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->after('id');
+        Schema::create('boxes', function (Blueprint $table) {            $table->id();
+            $table->string('name');
             $table->string('number')->unique(); // número do box
             $table->string('location'); // localização no mercado
             $table->text('description')->nullable();

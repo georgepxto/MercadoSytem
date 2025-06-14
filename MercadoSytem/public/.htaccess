@@ -3,6 +3,11 @@
         Options -MultiViews -Indexes
     </IfModule>
 
+    # Suprimir avisos de deprecation
+    php_value error_reporting "E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED"
+    php_flag display_errors Off
+    php_flag log_errors On
+
     RewriteEngine On
 
     # Handle Authorization Header

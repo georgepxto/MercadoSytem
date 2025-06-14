@@ -27,10 +27,10 @@ class BoxController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+     */    public function store(Request $request)
     {
         $request->validate([
+            'name' => 'required|string|max:255',
             'number' => 'required|string|unique:boxes',
             'location' => 'required|string|max:255',
             'description' => 'nullable|string',

@@ -123,9 +123,13 @@
                 <h5 class="modal-title">Novo Box</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <form id="boxForm">
+            <div class="modal-body">                <form id="boxForm">
                     <input type="hidden" id="box_id" name="box_id">
+                    
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nome do Box</label>
+                        <input type="text" class="form-control" id="name" name="name" required placeholder="Ex: Box Principal, Box da Entrada, Box Familiar...">
+                    </div>
                     
                     <div class="mb-3">
                         <label for="number" class="form-label">Número do Box</label>
