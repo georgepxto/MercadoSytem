@@ -16,13 +16,20 @@ class Schedule extends Model
         'start_time',
         'end_time',
         'active'
+    ];    protected $casts = [
+        'active' => 'boolean'
     ];
 
-    protected $casts = [
-        'active' => 'boolean',
-        'start_time' => 'datetime:H:i',
-        'end_time' => 'datetime:H:i'
-    ];
+    // Accessor to ensure time format is consistent
+    public function getStartTimeAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
+
+    public function getEndTimeAttribute($value)
+    {
+        return date('H:i', strtotime($value));
+    }
 
     public function vendor()
     {
