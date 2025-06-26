@@ -16,11 +16,13 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
-     */
-    protected $fillable = [
+     */    protected $fillable = [
         'name',
         'email',
         'password',
+        'dashboard_name',
+        'user_type',
+        'has_dashboard_access',
     ];
 
     /**
@@ -40,5 +42,30 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'has_dashboard_access' => 'boolean',
     ];
+
+    /**
+     * Check if user is admin type
+     */
+    public function isAdmin(): bool
+    {
+        return $this->user_type === 'admin';
+    }
+
+    /**
+     * Check if user has dashboard access
+     */
+    public function hasDashboardAccess(): bool
+    {
+        return $this->has_dashboard_access;
+    }
+
+    /**
+     * Get dashboard name (defaults to user name if not set)
+     */
+    public function getDashboardName(): string
+    {
+        return $this->dashboard_name ?? $this->name;
+    }
 }

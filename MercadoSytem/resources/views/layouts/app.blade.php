@@ -313,8 +313,11 @@
                     <div class="text-center mb-4">
                         <h5 class="text-white">
                             <i class="bi bi-shop"></i>
-                            Mercado N. S. Fátima
+                            {{ auth()->user()->getDashboardName() }}
                         </h5>
+                        <small class="text-white-50">
+                            Bem-vindo, {{ auth()->user()->name }}
+                        </small>
                     </div>
                     
                     <ul class="nav flex-column">
@@ -347,6 +350,16 @@
                                 <i class="bi bi-clock-history"></i>
                                 Histórico
                             </a>
+                        </li>
+                        <li class="nav-item mt-3">
+                            <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
+                                @csrf
+                                <button type="submit" class="nav-link btn btn-link text-start w-100 border-0" 
+                                        style="color: rgba(255,255,255,.8); background: none;">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    Sair
+                                </button>
+                            </form>
                         </li>
                     </ul>
                 </div>            </nav>

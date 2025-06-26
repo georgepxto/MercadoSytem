@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
+            // Sistema de autenticação
+            DashboardManagerSeeder::class,
+            UserSeeder::class,
+            
             // Sistema principal
             BoxSeeder::class,
             VendorSeeder::class,

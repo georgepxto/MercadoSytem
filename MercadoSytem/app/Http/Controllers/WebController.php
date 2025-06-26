@@ -11,6 +11,17 @@ use Carbon\Carbon;
 
 class WebController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (!auth()->user()->hasDashboardAccess()) {
+                auth()->logout();
+                return redirect('/login')->withErrors(['access' => 'Acesso negado ao dashboard.']);
+            }
+            return $next($request);
+        });
+    }
     public function index()
     {
         $todayEntries = Entry::with(['vendor', 'box'])

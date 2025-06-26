@@ -33,12 +33,15 @@ return [
     |
     | Supported: "session"
     |
-    */
-
-    'guards' => [
+    */    'guards' => [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'dashboard_manager' => [
+            'driver' => 'session',
+            'provider' => 'dashboard_managers',
         ],
     ],
 
@@ -57,12 +60,15 @@ return [
     |
     | Supported: "database", "eloquent"
     |
-    */
-
-    'providers' => [
+    */    'providers' => [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'dashboard_managers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\DashboardManager::class,
         ],
 
         // 'users' => [
