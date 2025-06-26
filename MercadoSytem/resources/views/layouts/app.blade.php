@@ -6,11 +6,720 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Sistema de Controle - Mercado')</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <style>        .sidebar {
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">    <style>
+        /* Variáveis CSS para Sistema de Temas */
+        :root {
+            --bg-primary: #1a1d23;
+            --bg-secondary: #2d3748;
+            --bg-tertiary: #4a5568;
+            --text-primary: #f7fafc;
+            --text-secondary: #e2e8f0;
+            --text-muted: #a0aec0;
+            --border-color: #4a5568;
+            --card-bg: #2d3748;
+            --sidebar-bg: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            --btn-primary: #4299e1;
+            --btn-primary-hover: #3182ce;
+            --accent-color: #81e6d9;
+            --toast-bg: #2d3748;
+            --toast-text: #e2e8f0;
+        }
+        
+        /* Tema Claro */
+        [data-theme="light"] {
+            --bg-primary: #f8f9fa;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #e9ecef;
+            --text-primary: #212529;
+            --text-secondary: #495057;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --card-bg: #ffffff;
+            --sidebar-bg: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --btn-primary: #0d6efd;
+            --btn-primary-hover: #0b5ed7;
+            --accent-color: #20c997;
+            --toast-bg: #ffffff;
+            --toast-text: #212529;
+        }
+          /* Estilos base com variáveis */
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+          /* Aplicar cor de texto padrão apenas para elementos principais */
+        body {
+            color: var(--text-primary);
+        }
+        
+        /* Aplicar cores de tema apenas onde necessário */
+        .main-content h1,
+        .main-content h2,
+        .main-content h3,
+        .main-content h4,
+        .main-content h5,
+        .main-content h6,
+        .main-content p,
+        .main-content span:not(.badge),
+        .main-content div:not(.btn):not(.badge):not(.alert),
+        .card-title,
+        .card-text {
+            color: var(--text-primary);
+        }
+        
+        /* Exceções para elementos que devem manter cores específicas */
+        .btn,
+        .badge,
+        .alert,
+        .text-success,
+        .text-danger,
+        .text-warning,
+        .text-info,
+        .text-white {
+            color: inherit;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+          .table {
+            --bs-table-bg: var(--card-bg);
+            --bs-table-color: var(--text-primary);
+            --bs-table-border-color: var(--border-color);
+        }        /* Correções de legibilidade para modo escuro */
+        .form-control,
+        .form-select {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        .form-control:focus,
+        .form-select:focus {
+            background-color: var(--card-bg) !important;
+            border-color: var(--accent-color) !important;
+            color: var(--text-primary) !important;
+            box-shadow: 0 0 0 0.25rem rgba(129, 230, 217, 0.25) !important;
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted) !important;
+            opacity: 0.7;
+        }
+        
+        /* Garantir que opções do select também tenham cor correta */
+        .form-select option {
+            background-color: var(--card-bg) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        /* Bootstrap Override - força cores no modo escuro */
+        [data-theme="dark"] .form-control,
+        [data-theme="dark"] .form-select,
+        [data-theme="dark"] input,
+        [data-theme="dark"] textarea,
+        [data-theme="dark"] select {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .form-control:focus,
+        [data-theme="dark"] .form-select:focus,
+        [data-theme="dark"] input:focus,
+        [data-theme="dark"] textarea:focus,
+        [data-theme="dark"] select:focus {
+            background-color: var(--card-bg) !important;
+            border-color: var(--accent-color) !important;
+            color: var(--text-primary) !important;
+            box-shadow: 0 0 0 0.25rem rgba(129, 230, 217, 0.25) !important;
+        }
+          /* Correções específicas para formulários */
+        .form-label,
+        .form-text {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Textos mutados mantêm sua cor específica */
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Elementos com cores específicas do Bootstrap */
+        .btn {
+            color: white;
+        }
+        
+        .btn-outline-secondary {
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        
+        .btn-outline-secondary:hover {
+            background-color: var(--bg-secondary);
+            border-color: var(--border-color);
+            color: var(--text-primary);
+        }
+        
+        .page-header h1 {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Modal no modo escuro */
+        .modal-content {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+        }
+        
+        .modal-header {
+            border-bottom-color: var(--border-color);
+        }
+        
+        .modal-footer {
+            border-top-color: var(--border-color);
+        }
+        
+        /* Dropdown no modo escuro */
+        .dropdown-menu {
+            background-color: var(--card-bg);
+            border-color: var(--border-color);
+        }
+        
+        .dropdown-item {
+            color: var(--text-primary);
+        }
+          .dropdown-item:hover {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+          /* Correções adicionais para elementos específicos */
+        .card-header,
+        .card-footer {
+            color: var(--text-primary);
+        }
+        
+        .table td,
+        .table th {
+            color: var(--text-primary);
+        }
+        
+        /* Inputs específicos */
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="url"],
+        input[type="search"],
+        input[type="date"],
+        input[type="time"],
+        input[type="datetime-local"],
+        textarea,
+        select {
+            background-color: var(--card-bg) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
+        }
+          /* Correção para elementos específicos */
+        .text-dark {
+            color: var(--text-primary) !important;
+        }
+        
+        .text-black {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Elementos em negrito mantêm a cor do tema */
+        .fw-bold,
+        .fw-semibold,
+        strong,
+        b {
+            color: inherit;
+        }        /* Correções específicas para MODO ESCURO */
+        [data-theme="dark"] {
+            /* Força cores básicas apenas no modo escuro */
+        }
+        
+        [data-theme="dark"] .main-content,
+        [data-theme="dark"] .main-content *:not(.btn):not(.badge):not(.alert):not(.text-success):not(.text-danger):not(.text-warning):not(.text-info):not(.text-white) {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Correções específicas para tabelas no modo escuro */
+        [data-theme="dark"] .table,
+        [data-theme="dark"] .table td,
+        [data-theme="dark"] .table th,
+        [data-theme="dark"] .table tbody tr,
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            color: var(--text-primary) !important;
+            background-color: transparent !important;
+        }
+        
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            background-color: var(--bg-tertiary) !important;
+        }
+        
+        /* Correções específicas para cabeçalhos de tabela no modo escuro */
+        [data-theme="dark"] .table thead th,
+        [data-theme="dark"] .table-light thead th,
+        [data-theme="dark"] thead.table-light th,
+        [data-theme="dark"] .table thead,
+        [data-theme="dark"] .table-light thead {
+            background-color: var(--bg-secondary) !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-color) !important;
+        }
+          /* Força texto em elementos específicos da tabela */
+        [data-theme="dark"] .table .fw-bold,
+        [data-theme="dark"] .table .text-muted,
+        [data-theme="dark"] .table small,
+        [data-theme="dark"] .table .small,
+        [data-theme="dark"] .table div:not(.badge):not(.btn) {
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .table .text-muted,
+        [data-theme="dark"] .table small.text-muted {
+            color: var(--text-muted) !important;
+        }
+          /* Força cor em elementos inseridos dinamicamente via JavaScript */
+        [data-theme="dark"] #entriesTableBody,
+        [data-theme="dark"] #entriesTableBody *:not(.btn):not(.badge):not(.bg-primary):not(.rounded-circle) {
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] #entriesTableBody .text-muted,
+        [data-theme="dark"] #entriesTableBody small {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Elementos de histórico inseridos dinamicamente */
+        [data-theme="dark"] #entriesTableBody tr,
+        [data-theme="dark"] #entriesTableBody td,
+        [data-theme="dark"] #entriesTableBody div:not(.badge):not(.btn):not(.bg-primary) {
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] #mobileEntriesContainer,
+        [data-theme="dark"] #mobileEntriesContainer *:not(.btn):not(.badge):not(.bg-primary):not(.rounded-circle) {
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] #mobileEntriesContainer .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Cards de histórico mobile específicos */
+        [data-theme="dark"] #mobileEntriesContainer .card,
+        [data-theme="dark"] #mobileEntriesContainer .card-body,
+        [data-theme="dark"] #mobileEntriesContainer .card-body div:not(.badge):not(.btn):not(.bg-primary),
+        [data-theme="dark"] #mobileEntriesContainer h6,
+        [data-theme="dark"] #mobileEntriesContainer .fw-bold,
+        [data-theme="dark"] #mobileEntriesContainer .fw-semibold {
+            color: var(--text-primary) !important;
+        }
+          /* Elementos de paginação e contadores */
+        [data-theme="dark"] .pagination,
+        [data-theme="dark"] .pagination *,
+        [data-theme="dark"] #totalRecords {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Correção específica para badge de contador no modo escuro */
+        [data-theme="dark"] .badge.bg-light {
+            background-color: var(--bg-secondary) !important;
+            color: var(--text-primary) !important;
+        }
+          [data-theme="dark"] .badge.text-dark {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Paginação do Laravel no modo escuro */
+        [data-theme="dark"] .pagination .page-link {
+            background-color: var(--card-bg) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .pagination .page-link:hover {
+            background-color: var(--bg-secondary) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .pagination .page-item.active .page-link {
+            background-color: var(--btn-primary) !important;
+            border-color: var(--btn-primary) !important;
+            color: white !important;
+        }
+        
+        [data-theme="dark"] .pagination .page-item.disabled .page-link {
+            background-color: var(--bg-tertiary) !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-muted) !important;
+        }
+          /* Cards mobile no modo escuro */
+        [data-theme="dark"] .card-body,
+        [data-theme="dark"] .card-body *:not(.btn):not(.badge):not(.bg-primary):not(.rounded-circle) {
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .card-body .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Elementos críticos para legibilidade no histórico */
+        [data-theme="dark"] .table-responsive table,
+        [data-theme="dark"] .table-responsive table *:not(.btn):not(.badge):not(.bg-primary):not(.bg-secondary):not(.bg-success):not(.bg-warning):not(.bg-danger):not(.bg-info) {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Força texto visível em todos os elementos do card no modo escuro */
+        [data-theme="dark"] .card .fw-bold,
+        [data-theme="dark"] .card .fw-semibold,
+        [data-theme="dark"] .card h1, [data-theme="dark"] .card h2, [data-theme="dark"] .card h3,
+        [data-theme="dark"] .card h4, [data-theme="dark"] .card h5, [data-theme="dark"] .card h6,
+        [data-theme="dark"] .card p, [data-theme="dark"] .card span:not(.badge),
+        [data-theme="dark"] .card div:not(.btn):not(.badge):not(.bg-primary):not(.bg-secondary):not(.bg-success):not(.bg-warning):not(.bg-danger):not(.bg-info) {
+            color: var(--text-primary) !important;
+        }
+        
+        /* Correção específica para textos mutados no modo escuro */
+        [data-theme="dark"] .text-muted,
+        [data-theme="dark"] small.text-muted,
+        [data-theme="dark"] .small.text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Garantir que avatares circulares mantenham sua cor de fundo */
+        [data-theme="dark"] .bg-primary.rounded-circle {
+            background-color: #0d6efd !important;
+            color: white !important;
+        }
+        
+        /* Sidebar sempre mantém suas cores originais */
+        .sidebar,
+        .sidebar *,
+        .sidebar .nav-link,
+        .sidebar .text-white,
+        .sidebar .text-white-50,
+        .mobile-header,
+        .mobile-header *,
+        .mobile-brand,
+        .theme-toggle,
+        .theme-toggle * {
+            color: inherit !important;
+        }
+        
+        /* Exceções importantes para elementos que precisam manter suas cores */
+        [data-theme="dark"] .btn,
+        [data-theme="dark"] .btn *,
+        [data-theme="dark"] .badge,
+        [data-theme="dark"] .badge *,
+        [data-theme="dark"] .alert,
+        [data-theme="dark"] .alert *,
+        [data-theme="dark"] .text-success,
+        [data-theme="dark"] .text-danger,
+        [data-theme="dark"] .text-warning,
+        [data-theme="dark"] .text-info,
+        [data-theme="dark"] .text-white,
+        [data-theme="dark"] .text-primary,
+        [data-theme="dark"] .text-secondary {
+            color: inherit !important;
+        }
+          /* Correções específicas para MODO CLARO */
+        [data-theme="light"] .sidebar .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+        }
+        
+        [data-theme="light"] .sidebar .nav-link:hover,
+        [data-theme="light"] .sidebar .nav-link.active {
+            color: white !important;
+        }
+        
+        [data-theme="light"] .sidebar .text-white {
+            color: white !important;
+        }
+        
+        [data-theme="light"] .sidebar .text-white-50 {
+            color: rgba(255,255,255,0.5) !important;
+        }
+        
+        [data-theme="light"] .mobile-brand {
+            color: white !important;
+        }        [data-theme="light"] .theme-toggle-text {
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* Correções específicas para o texto e ícone do botão de tema no modo claro */
+        [data-theme="light"] .theme-toggle i {
+            color: white !important;
+        }
+        
+        [data-theme="light"] .theme-toggle-text {
+            color: white !important;
+        }
+        
+        /* Correções específicas para CARDS DE ESTATÍSTICAS no modo claro */
+        [data-theme="light"] .card.bg-primary .text-white-75,
+        [data-theme="light"] .card.bg-success .text-white-75,
+        [data-theme="light"] .card.bg-warning .text-white-75,
+        [data-theme="light"] .card.bg-info .text-white-75 {
+            color: rgba(255, 255, 255, 0.75) !important;
+        }
+        
+        [data-theme="light"] .card.bg-primary .fs-2,
+        [data-theme="light"] .card.bg-success .fs-2,
+        [data-theme="light"] .card.bg-warning .fs-2,
+        [data-theme="light"] .card.bg-info .fs-2 {
+            color: white !important;
+        }
+        
+        /* Correções para elementos da tabela no modo claro */
+        [data-theme="light"] .table .badge.bg-secondary {
+            background-color: #6c757d !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .table .badge.bg-success {
+            background-color: #198754 !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .table .text-muted,
+        [data-theme="light"] .card-body .text-muted,
+        [data-theme="light"] small.text-muted {
+            color: #6c757d !important;
+        }
+          [data-theme="light"] .fw-bold,
+        [data-theme="light"] .fw-semibold {
+            color: #212529 !important;
+        }
+        
+        /* Resetar regras agressivas do modo escuro para o modo claro */
+        [data-theme="light"] .main-content,
+        [data-theme="light"] .main-content * {
+            color: inherit !important;
+        }
+        
+        /* Aplicar cores corretas no modo claro */
+        [data-theme="light"] .card-body,
+        [data-theme="light"] .table,
+        [data-theme="light"] .table td,
+        [data-theme="light"] .table th {
+            color: #212529 !important;
+        }
+          [data-theme="light"] .card.text-white * {
+            color: white !important;
+        }
+        
+        /* Correção específica para avatares circulares no modo claro */
+        [data-theme="light"] .bg-primary.rounded-circle,
+        [data-theme="light"] .bg-primary.rounded-circle * {
+            background-color: #0d6efd !important;
+            color: white !important;
+        }
+          /* Cabeçalhos de tabela no modo claro */
+        [data-theme="light"] .table thead th,
+        [data-theme="light"] .table-light thead th,
+        [data-theme="light"] thead.table-light th {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+            border-color: #dee2e6 !important;
+        }
+        
+        /* Correções específicas para página de Check-in no modo claro */
+        [data-theme="light"] .card-header.bg-success h5,
+        [data-theme="light"] .card-header.bg-success i,
+        [data-theme="light"] .card-header.bg-primary h5,
+        [data-theme="light"] .card-header.bg-primary i,
+        [data-theme="light"] .card-header.bg-info h5,
+        [data-theme="light"] .card-header.bg-info i {
+            color: white !important;
+        }
+        
+        /* Labels e ícones dos formulários no modo claro */
+        [data-theme="light"] .form-label,
+        [data-theme="light"] .form-label i,
+        [data-theme="light"] .fw-semibold {
+            color: #212529 !important;
+        }
+        
+        /* Botões no modo claro */
+        [data-theme="light"] .btn-success,
+        [data-theme="light"] .btn-success i {
+            background-color: #198754 !important;
+            color: white !important;
+        }
+        
+        /* Elementos dinâmicos inseridos via JavaScript no modo claro */
+        [data-theme="light"] #activeVendors .fw-bold,
+        [data-theme="light"] #recentEntries strong,
+        [data-theme="light"] #recentEntries td {
+            color: #212529 !important;
+        }
+        
+        [data-theme="light"] #activeVendors .text-muted,
+        [data-theme="light"] #recentEntries .text-muted,
+        [data-theme="light"] #activeVendors small,
+        [data-theme="light"] #recentEntries small {
+            color: #6c757d !important;
+        }
+          /* Ícones de estado vazio no modo claro */
+        [data-theme="light"] .bi.text-muted {
+            color: #6c757d !important;
+        }
+          /* Correções específicas para badges na página de vendedores no modo claro */
+        [data-theme="light"] .badge.bg-info {
+            background-color: #0e7490 !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .badge.bg-success {
+            background-color: #198754 !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .badge.bg-secondary {
+            background-color: #6c757d !important;
+            color: white !important;
+        }
+        
+        /* Botões primários no modo claro */
+        [data-theme="light"] .btn-primary,
+        [data-theme="light"] .btn-primary i {
+            background-color: #0d6efd !important;
+            border-color: #0d6efd !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .btn-primary:hover {
+            background-color: #0b5ed7 !important;
+            border-color: #0a58ca !important;
+            color: white !important;
+        }
+        
+        /* Botões secundários e outros no modo claro */
+        [data-theme="light"] .btn-secondary,
+        [data-theme="light"] .btn-secondary i {
+            background-color: #6c757d !important;
+            border-color: #6c757d !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .btn-success,
+        [data-theme="light"] .btn-success i {
+            background-color: #198754 !important;
+            border-color: #198754 !important;
+            color: white !important;
+        }
+        
+        /* Modal e seus elementos no modo claro */
+        [data-theme="light"] .modal-content {
+            background-color: #ffffff !important;
+            color: #212529 !important;
+        }
+        
+        [data-theme="light"] .modal-header,
+        [data-theme="light"] .modal-body,
+        [data-theme="light"] .modal-footer {
+            color: #212529 !important;
+        }
+          [data-theme="light"] .modal-title {
+            color: #212529 !important;
+        }
+          /* Correção para botão outline-light no modo claro */
+        [data-theme="light"] .btn-outline-light {
+            border-color: white !important;
+            color: white !important;
+            background-color: transparent !important;
+        }
+        
+        [data-theme="light"] .btn-outline-light:hover {
+            background-color: white !important;
+            border-color: white !important;
+            color: #007bff !important;
+        }
+        
+        [data-theme="light"] .btn-outline-light i {
+            color: inherit !important;
+        }
+        
+        /* Texto dentro dos cards de vendedores no modo claro */
+        [data-theme="light"] .card-title {
+            color: #212529 !important;
+        }
+        
+        [data-theme="light"] .text-muted {
+            color: #6c757d !important;
+        }
+        
+        /* Horários dos vendedores no modo claro */
+        [data-theme="light"] .bg-light {
+            background-color: #f8f9fa !important;
+            color: #212529 !important;
+        }
+        
+        [data-theme="light"] .fw-semibold {
+            color: #212529 !important;
+        }
+          /* Toggle do Tema */
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 1rem;
+            margin-top: auto;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+        
+        .theme-toggle i {
+            font-size: 16px;
+            color: #81e6d9;
+            transition: transform 0.3s ease;
+        }
+        
+        .theme-toggle:hover i {
+            transform: rotate(15deg);
+        }
+        
+        .theme-toggle-text {
+            font-size: 11px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+          .sidebar {
             min-height: 100vh;
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: var(--sidebar-bg);
             transition: transform 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar .position-sticky {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar .nav {
+            flex: 1;
         }@media (max-width: 767.98px) {            .sidebar {
                 position: fixed;
                 top: 0;
@@ -327,12 +1036,11 @@
             max-width: 400px;
             width: 100%;
         }
-        
-        .modern-toast {
-            background: white;
-            border: none;
+          .modern-toast {
+            background: var(--toast-bg);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             margin-bottom: 16px;
             overflow: hidden;
             border-left: 4px solid;
@@ -402,10 +1110,9 @@
           .toast-icon.info {
             background: #0e7490;
         }
-        
-        .toast-title {
+          .toast-title {
             font-weight: 600;
-            color: #1f2937;
+            color: var(--toast-text);
             margin: 0;
             font-size: 16px;
             flex: 1;
@@ -413,7 +1120,7 @@
         
         .toast-body-modern {
             padding: 0 20px 16px;
-            color: #6b7280;
+            color: var(--text-muted);
             font-size: 14px;
             line-height: 1.5;
         }
@@ -421,7 +1128,7 @@
         .toast-close {
             background: none;
             border: none;
-            color: #9ca3af;
+            color: var(--text-muted);
             cursor: pointer;
             padding: 6px;
             border-radius: 6px;
@@ -435,10 +1142,9 @@
             justify-content: center;
             margin-left: auto;
         }
-        
-        .toast-close:hover {
-            background: #f3f4f6;
-            color: #374151;
+          .toast-close:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
             transform: scale(1.1);
         }
         
@@ -474,10 +1180,9 @@
             }
         }
         
-        @media (prefers-reduced-motion: no-preference) {
-    </style>
+        @media (prefers-reduced-motion: no-preference) {    </style>
 </head>
-<body class="bg-light">    
+<body>    
     <!-- Container para Notificações Modernas -->
     <div class="toast-container" id="toastContainer"></div>
     
@@ -531,8 +1236,7 @@
                                 <i class="bi bi-clock-history"></i>
                                 Histórico
                             </a>
-                        </li>
-                        <li class="nav-item mt-3">
+                        </li>                        <li class="nav-item mt-3">
                             <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
                                 @csrf
                                 <button type="submit" class="nav-link btn btn-link text-start w-100 border-0" 
@@ -543,7 +1247,13 @@
                             </form>
                         </li>
                     </ul>
-                </div>            </nav>
+                    
+                    <!-- Toggle do Tema -->
+                    <div class="theme-toggle" id="themeToggle">
+                        <i class="bi bi-moon-fill" id="themeIcon"></i>
+                        <span class="theme-toggle-text" id="themeText">Escuro</span>
+                    </div>
+                </div></nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">                <div class="mobile-header d-none">
                     <div class="d-flex justify-content-between align-items-center w-100">
@@ -569,10 +1279,39 @@
         </div>    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    <script>
+        // Sistema de Tema Escuro/Claro
         document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const themeText = document.getElementById('themeText');
+            const body = document.body;
+            
+            // Verificar tema salvo ou usar escuro como padrão
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            setTheme(savedTheme);
+            
+            // Toggle do tema
+            themeToggle.addEventListener('click', () => {
+                const currentTheme = body.getAttribute('data-theme') || 'dark';
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                setTheme(newTheme);
+                localStorage.setItem('theme', newTheme);
+            });
+            
+            function setTheme(theme) {
+                body.setAttribute('data-theme', theme);
+                
+                if (theme === 'light') {
+                    themeIcon.className = 'bi bi-sun-fill';
+                    themeText.textContent = 'Claro';
+                } else {
+                    themeIcon.className = 'bi bi-moon-fill';
+                    themeText.textContent = 'Escuro';
+                }
+            }
+            
+            // Sistema de Sidebar
             const sidebar = document.getElementById('sidebar');
             const overlay = document.getElementById('sidebar-overlay');
             const toggleBtn = document.getElementById('toggleSidebar');

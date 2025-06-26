@@ -39,10 +39,9 @@
                     <div class="d-flex align-items-center text-muted small mb-2">
                         <i class="bi bi-telephone me-2 flex-shrink-0"></i>
                         <span class="text-truncate">{{ $vendor->phone }}</span>
-                    </div>
-                    @if($vendor->has_cnpj && $vendor->cnpj)
+                    </div>                    @if($vendor->has_cnpj && $vendor->cnpj)
                         <div class="d-flex align-items-center text-muted small mb-2">
-                            <i class="bi bi-building me-2 flex-shrink-0"></i>
+                            <i class="bi bi-shop me-2 flex-shrink-0"></i>
                             <span class="text-truncate">CNPJ: {{ $vendor->cnpj }}</span>
                         </div>
                     @endif

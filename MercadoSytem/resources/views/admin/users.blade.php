@@ -64,12 +64,11 @@
                                         </form>
                                     </td>
                                     <td>{{ $user->created_at->format('d/m/Y H:i') }}</td>
-                                    <td>
-                                        <form method="POST" action="{{ route('admin.users.delete', $user) }}" class="d-inline"
-                                              onsubmit="return confirm('Tem certeza que deseja excluir este usuário?')">
+                                    <td>                                        <form method="POST" action="{{ route('admin.users.delete', $user) }}" class="d-inline"
+                                              id="deleteForm{{ $user->id }}">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
@@ -130,3 +129,20 @@
     </div>
 </div>
 @endsection
+
+<script>
+function confirmDelete(userId) {
+    modernToast.confirm(
+        'Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.',
+        'Excluir Usuário',
+        () => {
+            // Confirmar - submeter o formulário
+            document.getElementById('deleteForm' + userId).submit();
+        },
+        () => {
+            // Cancelar - não fazer nada
+            modernToast.info('Operação cancelada', 'Cancelado', 3000);
+        }
+    );
+}
+</script>
