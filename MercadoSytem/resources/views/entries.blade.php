@@ -18,8 +18,7 @@
                         Limpar
                     </button>
                 </div>
-            </div>
-            <div class="card-body p-3">
+            </div>            <div class="card-body p-3">
                 <form class="row g-3" id="filterForm">
                     <div class="col-lg-3 col-md-6 col-12">
                         <label for="filter_vendor" class="form-label fw-semibold">Vendedor</label>
@@ -40,6 +39,18 @@
                     <div class="col-lg-3 col-md-6 col-12">
                         <label for="filter_date_to" class="form-label fw-semibold">Data Fim</label>
                         <input type="date" class="form-control" id="filter_date_to">
+                    </div>
+                    <div class="col-12">
+                        <div class="d-flex gap-2">
+                            <button type="button" class="btn btn-primary" onclick="applyFilters()">
+                                <i class="bi bi-funnel-fill me-1"></i>
+                                Filtrar
+                            </button>
+                            <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Limpar
+                            </button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -265,18 +276,19 @@
 @section('scripts')
 <script>
     // Configurar CSRF token
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    // Carregar dados iniciais
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');    // Carregar dados iniciais
     document.addEventListener('DOMContentLoaded', function() {
+        console.log('Página de entries carregada');
         loadFilterOptions();
-        setupFilterListeners();
     });
 
     function loadFilterOptions() {
+        console.log('Carregando opções de filtro...');
+        
         // Carregar vendedores
         axios.get('/api/vendors')
             .then(response => {
+                console.log('Vendedores carregados:', response.data.length);
                 const select = document.getElementById('filter_vendor');
                 response.data.forEach(vendor => {
                     const option = document.createElement('option');
@@ -284,51 +296,124 @@
                     option.textContent = vendor.name + ' - ' + vendor.food_type;
                     select.appendChild(option);
                 });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar vendedores:', error);
             });
 
         // Carregar boxes
         axios.get('/api/boxes')
             .then(response => {
-                const select = document.getElementById('filter_box');                response.data.forEach(box => {
+                console.log('Boxes carregados:', response.data.length);
+                const select = document.getElementById('filter_box');
+                response.data.forEach(box => {
                     const option = document.createElement('option');
                     option.value = box.id;
                     option.textContent = (box.name || 'Box') + ' | Box ' + box.number + ' - ' + box.location;
                     select.appendChild(option);
                 });
+            })
+            .catch(error => {
+                console.error('Erro ao carregar boxes:', error);
             });
-    }
-
-    function setupFilterListeners() {
-        const filterInputs = ['filter_vendor', 'filter_box', 'filter_date_from', 'filter_date_to'];
+    }    function applyFilters() {
+        console.log('=== APLICANDO FILTROS ===');
         
-        filterInputs.forEach(inputId => {
-            document.getElementById(inputId).addEventListener('change', applyFilters);
-        });
-    }
-
-    function applyFilters() {
         const vendorId = document.getElementById('filter_vendor').value;
         const boxId = document.getElementById('filter_box').value;
         const dateFrom = document.getElementById('filter_date_from').value;
         const dateTo = document.getElementById('filter_date_to').value;
 
+        console.log('Filtros selecionados:', {
+            vendorId,
+            boxId,
+            dateFrom,
+            dateTo
+        });
+
         let params = new URLSearchParams();
         
-        if (vendorId) params.append('vendor_id', vendorId);
-        if (boxId) params.append('box_id', boxId);
-        if (dateFrom) params.append('date_from', dateFrom);
-        if (dateTo) params.append('date_to', dateTo);
+        if (vendorId) {
+            params.append('vendor_id', vendorId);
+            console.log('Adicionado filtro vendor_id:', vendorId);
+        }
+        if (boxId) {
+            params.append('box_id', boxId);
+            console.log('Adicionado filtro box_id:', boxId);
+        }
+        if (dateFrom) {
+            params.append('date_from', dateFrom);
+            console.log('Adicionado filtro date_from:', dateFrom);
+        }
+        if (dateTo) {
+            params.append('date_to', dateTo);
+            console.log('Adicionado filtro date_to:', dateTo);
+        }
 
         const queryString = params.toString();
         const url = queryString ? `/api/entries?${queryString}` : '/api/entries';
 
+        console.log('URL final da API:', url);
+
+        // Mostrar loading
+        const tbody = document.getElementById('entriesTableBody');
+        const mobileContainer = document.getElementById('mobileEntriesContainer');
+        
+        if (tbody) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="8" class="text-center py-4">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                        <p class="mt-2 mb-0">Aplicando filtros...</p>
+                    </td>
+                </tr>
+            `;
+        }
+
+        if (mobileContainer) {
+            mobileContainer.innerHTML = `
+                <div class="text-center py-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2 mb-0">Aplicando filtros...</p>
+                </div>
+            `;
+        }
+
         axios.get(url)
             .then(response => {
+                console.log('Resposta da API recebida:', response.data.length, 'registros');
+                console.log('Primeiros 3 registros:', response.data.slice(0, 3));
+                
                 updateEntriesTable(response.data);
-                document.getElementById('totalRecords').textContent = response.data.length + ' registros';
+                updateMobileEntries(response.data);
+                
+                const totalElement = document.getElementById('totalRecords');
+                if (totalElement) {
+                    totalElement.textContent = response.data.length + ' registros';
+                }
+                
+                // Feedback de sucesso
+                if (typeof modernToast !== 'undefined') {
+                    modernToast.success(`Filtros aplicados! ${response.data.length} registros encontrados.`);
+                } else {
+                    alert(`Filtros aplicados! ${response.data.length} registros encontrados.`);
+                }
+                
+                console.log('=== FILTROS APLICADOS COM SUCESSO ===');
             })
             .catch(error => {
                 console.error('Erro ao aplicar filtros:', error);
+                console.error('Resposta de erro:', error.response);
+                
+                if (typeof modernToast !== 'undefined') {
+                    modernToast.error('Erro ao aplicar filtros: ' + (error.response?.data?.message || error.message));
+                } else {
+                    alert('Erro ao aplicar filtros: ' + (error.response?.data?.message || error.message));
+                }
             });
     }
 
@@ -396,6 +481,107 @@
         });
 
         tbody.innerHTML = html;
+    }
+
+    function updateMobileEntries(entries) {
+        const mobileContainer = document.getElementById('mobileEntriesContainer');
+        if (!mobileContainer) return;
+        
+        if (entries.length === 0) {
+            mobileContainer.innerHTML = `
+                <div class="text-center py-4">
+                    <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
+                    <h5 class="text-muted">Nenhum registro encontrado</h5>
+                    <p class="text-muted">Não há registros com os filtros aplicados.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = '';
+        entries.forEach(entry => {
+            const entryDate = new Date(entry.entry_date).toLocaleDateString('pt-BR');
+            const entryTime = new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+            const exitTime = entry.exit_time ? new Date(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : '-';
+            
+            let totalTime = '-';
+            if (entry.exit_time) {
+                const totalMinutes = Math.floor((new Date(entry.exit_time) - new Date(entry.entry_time)) / (1000 * 60));
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+                totalTime = `${hours}h ${minutes}min`;
+            }
+
+            const statusBadge = entry.exit_time ? 
+                '<span class="badge bg-secondary">Finalizado</span>' : 
+                '<span class="badge bg-success">Ativo</span>';
+
+            const checkoutButton = !entry.exit_time ? 
+                `<button class="btn btn-warning btn-sm flex-grow-1" onclick="checkOut(${entry.id})">
+                    <i class="bi bi-box-arrow-right me-1"></i>
+                    Check-out
+                </button>` : '';
+
+            const notesButton = entry.notes ? 
+                `<button class="btn btn-outline-info btn-sm" onclick="showNotes('${entry.notes.replace(/'/g, "\\'")}'" title="Ver observações">
+                    <i class="bi bi-chat-text"></i>
+                </button>` : '';
+
+            html += `
+                <div class="card mb-3 border-start border-3 ${entry.exit_time ? 'border-secondary' : 'border-success'}">
+                    <div class="card-body p-3">
+                        <div class="d-flex align-items-start justify-content-between mb-3">
+                            <div class="d-flex align-items-center flex-grow-1">
+                                <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; min-width: 45px;">
+                                    <span class="fw-bold">${entry.vendor.name.charAt(0)}</span>
+                                </div>
+                                <div class="flex-grow-1 min-width-0">
+                                    <h6 class="mb-1 fw-bold text-truncate">${entry.vendor.name}</h6>
+                                    <small class="text-muted">${entry.vendor.food_type}</small>
+                                </div>
+                            </div>
+                            <div class="ms-2">
+                                ${statusBadge}
+                            </div>
+                        </div>
+                        
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <div class="small text-muted mb-1">Data</div>
+                                <div class="fw-semibold">${entryDate}</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="small text-muted mb-1">Box</div>
+                                <div>
+                                    <span class="badge bg-secondary me-1">${entry.box.number}</span>
+                                    <small class="text-muted">${entry.box.location}</small>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="small text-muted mb-1">Entrada</div>
+                                <div class="fw-semibold">${entryTime}</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="small text-muted mb-1">Saída</div>
+                                <div class="fw-semibold">${exitTime}</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="small text-muted mb-1">Tempo Total</div>
+                                <div class="fw-semibold">${totalTime}</div>
+                            </div>
+                        </div>
+
+                        ${(checkoutButton || notesButton) ? `
+                        <div class="d-flex gap-2">
+                            ${checkoutButton}
+                            ${notesButton}
+                        </div>` : ''}
+                    </div>
+                </div>
+            `;
+        });
+
+        mobileContainer.innerHTML = html;
     }
 
     function clearFilters() {

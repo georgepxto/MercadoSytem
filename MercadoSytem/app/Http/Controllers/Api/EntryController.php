@@ -9,16 +9,34 @@ use Illuminate\Http\Response;
 use Carbon\Carbon;
 
 class EntryController extends Controller
-{
-    /**
+{    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $entries = Entry::with(['vendor', 'box'])
-            ->orderBy('entry_date', 'desc')
+        $query = Entry::with(['vendor', 'box']);
+
+        // Aplicar filtros se fornecidos
+        if ($request->has('vendor_id') && $request->vendor_id) {
+            $query->where('vendor_id', $request->vendor_id);
+        }
+
+        if ($request->has('box_id') && $request->box_id) {
+            $query->where('box_id', $request->box_id);
+        }
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->whereDate('entry_date', '>=', $request->date_from);
+        }
+
+        if ($request->has('date_to') && $request->date_to) {
+            $query->whereDate('entry_date', '<=', $request->date_to);
+        }
+
+        $entries = $query->orderBy('entry_date', 'desc')
             ->orderBy('entry_time', 'desc')
             ->get();
+        
         return response()->json($entries);
     }
 
