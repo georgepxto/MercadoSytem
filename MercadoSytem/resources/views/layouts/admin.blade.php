@@ -213,25 +213,32 @@
         .toast-close:active {
             transform: scale(0.95);
         }
-        
-        @media (max-width: 480px) {
+          @media (max-width: 480px) {
             .toast-container {
-                left: 20px;
-                right: 20px;
+                left: 50%;
+                right: auto;
                 top: 20px;
-                max-width: none;
+                max-width: 90vw;
+                width: 90vw;
+                transform: translateX(-50%);
+                z-index: 1055;
             }
             
             .modern-toast {
-                transform: translateY(-100px);
+                margin: 0 auto 10px auto;
+                width: 100%;
+                transform: translateY(-20px);
+                opacity: 0;
             }
             
             .modern-toast.show {
                 transform: translateY(0);
+                opacity: 1;
             }
             
             .modern-toast.hide {
-                transform: translateY(-100px);
+                transform: translateY(-20px);
+                opacity: 0;
             }
         }
     </style>
