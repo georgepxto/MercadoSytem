@@ -381,8 +381,7 @@
         [data-theme="light"] .theme-toggle-text {
             color: white !important;
         }
-          /* Toggle do Tema */
-        .theme-toggle {
+          /* Toggle do Tema */        .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
@@ -392,20 +391,22 @@
             gap: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 1rem;
+            margin: 1rem 0.5rem; /* Ajustar margem para evitar overflow */
             margin-top: auto;
+            max-width: calc(100% - 1rem); /* Limitar largura máxima */
         }
         
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+            transform: none; /* Remover transform que pode causar overflow */
         }
         
         .theme-toggle i {
             font-size: 16px;
             color: #81e6d9;
             transition: transform 0.3s ease;
+            flex-shrink: 0; /* Impede que o ícone encolha */
         }
         
         .theme-toggle:hover i {
@@ -418,32 +419,63 @@
             color: rgba(255, 255, 255, 0.8);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-          .sidebar {
-            min-height: 100vh;
+            white-space: nowrap; /* Evita quebra de linha */
+        }.sidebar {
+            width: 280px; /* Largura fixa da sidebar - aumentada */
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
             background: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden; /* Evita overflow horizontal */
+            z-index: 1000;
         }
         
         .sidebar .position-sticky {
             flex: 1;
             display: flex;
             flex-direction: column;
+            overflow: hidden; /* Contenção de overflow */
         }
         
         .sidebar .nav {
             flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden; /* Evita overflow horizontal */
         }
-        .sidebar .nav-item .nav-link {
+        
+        /* Ajustar margem do conteúdo principal para compensar sidebar fixa */
+        .main-content {
+            margin-left: 280px; /* Mesma largura da sidebar */
+            height: 100vh;
+            overflow-y: auto;
+            padding: 0 1.5rem; /* Adicionar padding interno */
+        }        .sidebar .nav-item .nav-link {
             color: rgba(255,255,255,.8);
             padding: 1rem;
             border-radius: 0.35rem;
-            margin: 0.25rem 1rem;
+            margin: 0.25rem 0.5rem; /* Ajustar margem para evitar overflow */
+            overflow: hidden; /* Evita que o hover ultrapasse os limites */
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
         }
+        
+        /* Espaçamento entre ícones e texto na sidebar admin */
+        .sidebar .nav-item .nav-link i {
+            margin-right: 0.75rem; /* Espaçamento adequado entre ícone e texto */
+            width: 20px; /* Largura fixa para alinhamento consistente */
+            text-align: center; /* Centralizar ícones */
+            flex-shrink: 0; /* Impedir que o ícone encolha */
+        }
+        
         .sidebar .nav-item .nav-link:hover {
             color: #fff;
             background-color: rgba(255,255,255,.1);
+            transform: none; /* Remove qualquer transform que cause overflow */
         }
         .sidebar .nav-item .nav-link.active {
             color: #fff;
@@ -657,6 +689,14 @@
 </head>
 
 <body>
+    <!-- Aplicar tema antes do carregamento da página -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
     <!-- Container para Notificações Modernas -->
     <div class="toast-container" id="toastContainer"></div>
     
@@ -717,17 +757,16 @@
         </div>
     </div>    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <script>
-        // Sistema de Tema Escuro/Claro
+    <script>        // Sistema de Tema Escuro/Claro
         document.addEventListener('DOMContentLoaded', function() {
             const themeToggle = document.getElementById('themeToggle');
             const themeIcon = document.getElementById('themeIcon');
             const themeText = document.getElementById('themeText');
             const body = document.body;
             
-            // Verificar tema salvo ou usar escuro como padrão
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            setTheme(savedTheme);
+            // Verificar tema atual (já aplicado no início da página)
+            const currentTheme = body.getAttribute('data-theme') || 'dark';
+            updateThemeUI(currentTheme);
             
             // Toggle do tema
             themeToggle.addEventListener('click', () => {
@@ -739,7 +778,10 @@
             
             function setTheme(theme) {
                 body.setAttribute('data-theme', theme);
-                
+                updateThemeUI(theme);
+            }
+            
+            function updateThemeUI(theme) {
                 if (theme === 'light') {
                     themeIcon.className = 'bi bi-sun-fill';
                     themeText.textContent = 'Claro';

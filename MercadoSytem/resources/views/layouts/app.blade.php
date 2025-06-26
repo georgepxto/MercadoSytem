@@ -665,8 +665,7 @@
         
         [data-theme="light"] .fw-semibold {
             color: #212529 !important;
-        }
-          /* Toggle do Tema */
+        }        /* Toggle do Tema */
         .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -677,20 +676,22 @@
             gap: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 1rem;
+            margin: 1rem 0.5rem; /* Ajustar margem para evitar overflow */
             margin-top: auto;
+            max-width: calc(100% - 1rem); /* Limitar largura máxima */
         }
         
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
             border-color: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
+            transform: none; /* Remover transform que pode causar overflow */
         }
         
         .theme-toggle i {
             font-size: 16px;
             color: #81e6d9;
             transition: transform 0.3s ease;
+            flex-shrink: 0; /* Impede que o ícone encolha */
         }
         
         .theme-toggle:hover i {
@@ -703,33 +704,54 @@
             color: rgba(255, 255, 255, 0.8);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-        }
-          .sidebar {
-            min-height: 100vh;
+            white-space: nowrap; /* Evita quebra de linha */
+        }.sidebar {
+            width: 280px; /* Largura fixa da sidebar - aumentada */
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
             background: var(--sidebar-bg);
             transition: transform 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
+            overflow-x: hidden; /* Evita overflow horizontal */
+            z-index: 1000;
         }
         
         .sidebar .position-sticky {
             flex: 1;
             display: flex;
             flex-direction: column;
+            height: 100%;
+            overflow: hidden; /* Contenção de overflow */
         }
         
         .sidebar .nav {
             flex: 1;
-        }@media (max-width: 767.98px) {            .sidebar {
+            overflow-y: auto;
+            overflow-x: hidden; /* Evita overflow horizontal */
+        }
+        
+        /* Ajustar margem do conteúdo principal para compensar sidebar fixa */
+        .main-content {
+            margin-left: 280px; /* Mesma largura da sidebar */
+            height: 100vh;
+            overflow-y: auto;
+            padding: 0 1.5rem; /* Adicionar padding interno */
+        }@media (max-width: 767.98px) {
+            .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
                 z-index: 1000;
                 width: 300px;
+                height: 100vh;
                 transform: translateX(-100%);
-                min-height: 100vh;
                 box-shadow: 8px 0 32px rgba(0,0,0,0.2);
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow-y: auto;
             }
               .sidebar.show {
                 transform: translateX(0);
@@ -760,7 +782,11 @@
                 padding-left: 15px !important;
                 padding-right: 15px !important;
                 width: 100% !important;
-            }              .mobile-header {
+                height: 100vh !important;
+                overflow-y: auto !important;
+            }
+            
+            .mobile-header {
                 display: flex !important;
                 background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
                 padding: 1rem 1.25rem;
@@ -771,45 +797,59 @@
                 top: 0;
                 z-index: 100;
             }
-              .hamburger-btn {
-                background: rgba(255,255,255,0.2) !important;
-                border: 1px solid rgba(255,255,255,0.3) !important;
-                color: white !important;
-                width: 40px;
-                height: 40px;
-                border-radius: 8px !important;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease;
+        }
+          @media (min-width: 768px) {
+            .mobile-header {
+                display: none !important;
             }
             
-            .hamburger-btn:hover,
-            .hamburger-btn:focus {
-                background: rgba(255,255,255,0.3) !important;
-                border-color: rgba(255,255,255,0.5) !important;
-                transform: scale(1.05);
+            .sidebar-overlay {
+                display: none !important;
             }
-            
-            .hamburger-btn i {
-                font-size: 1.1rem;
-                transition: transform 0.3s ease;
-            }
-              .mobile-brand {
-                color: white;
-                font-weight: 600;
-                font-size: 1.1rem;
-                text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-                letter-spacing: 0.3px;
-                display: flex;
-                align-items: center;
-            }
-            
-            .mobile-brand i {
-                font-size: 1.2rem;
-                margin-right: 0.5rem;
-            }
-            
+        }
+        
+        /* Estilos para elementos mobile */
+        .hamburger-btn {
+            background: rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            color: white !important;
+            width: 40px;
+            height: 40px;
+            border-radius: 8px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger-btn:hover,
+        .hamburger-btn:focus {
+            background: rgba(255,255,255,0.3) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            transform: scale(1.05);
+        }
+        
+        .hamburger-btn i {
+            font-size: 1.1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-brand {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .mobile-brand i {
+            font-size: 1.2rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 767.98px) {
             .page-header {
                 flex-direction: column;
                 align-items: flex-start !important;
@@ -822,29 +862,32 @@
                 font-weight: 700;
                 color: #2d3748;
             }
-        }
-        
-        @media (min-width: 768px) {
-            .mobile-header {
-                display: none !important;
-            }
-            
-            .sidebar-overlay {
-                display: none !important;
-            }
-        }
-        
-        .sidebar .nav-link {
+        }        .sidebar .nav-link {
             color: rgba(255,255,255,0.8);
             padding: 0.75rem 1rem;
-            margin: 0.25rem 0;
+            margin: 0.25rem 0.5rem; /* Adicionar margem lateral para espaçamento */
             border-radius: 0.5rem;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden; /* Evita que o hover ultrapasse os limites */
         }
+        
+        /* Espaçamento entre ícones e texto na sidebar */
+        .sidebar .nav-link i {
+            margin-right: 0.75rem; /* Espaçamento adequado entre ícone e texto */
+            width: 20px; /* Largura fixa para alinhamento consistente */
+            text-align: center; /* Centralizar ícones */
+            flex-shrink: 0; /* Impedir que o ícone encolha */
+        }
+        
         .sidebar .nav-link:hover,
         .sidebar .nav-link.active {
             background-color: rgba(255,255,255,0.1);
             color: white;
+            transform: none; /* Remove qualquer transform que cause overflow */
         }
         .card {
             border: none;
@@ -1182,101 +1225,113 @@
         
         @media (prefers-reduced-motion: no-preference) {    </style>
 </head>
-<body>    
+<body>
+    <!-- Aplicar tema antes do carregamento da página -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    
     <!-- Container para Notificações Modernas -->
     <div class="toast-container" id="toastContainer"></div>
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
     
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-    
-    <div class="container-fluid">
-        <div class="row">
-            <nav class="col-md-3 col-lg-2 sidebar" id="sidebar">                <div class="position-sticky pt-3">
-                    <div class="d-md-none text-end mb-3">
-                        <button class="btn btn-outline-light btn-sm" id="closeSidebar">
-                            <i class="bi bi-x-lg"></i>
+    <nav class="col-md-3 col-lg-2 sidebar" id="sidebar">
+        <div class="position-sticky pt-3">
+            <div class="d-md-none text-end mb-3">
+                <button class="btn btn-outline-light btn-sm" id="closeSidebar">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </div>
+            
+            <div class="text-center mb-4">
+                <h5 class="text-white">
+                    <i class="bi bi-shop"></i>
+                    {{ auth()->user()->getDashboardName() }}
+                </h5>
+                <small class="text-white-50">
+                    Bem-vindo, {{ auth()->user()->getDashboardName() }}
+                </small>
+            </div>
+            
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
+                        <i class="bi bi-speedometer2"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('checkin') ? 'active' : '' }}" href="{{ route('checkin') }}">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Check-in/Check-out
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('vendors') ? 'active' : '' }}" href="{{ route('vendors') }}">
+                        <i class="bi bi-people"></i>
+                        Vendedores
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('boxes') ? 'active' : '' }}" href="{{ route('boxes') }}">
+                        <i class="bi bi-grid-3x3"></i>
+                        Boxes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('entries') ? 'active' : '' }}" href="{{ route('entries') }}">
+                        <i class="bi bi-clock-history"></i>
+                        Histórico
+                    </a>
+                </li>
+                <li class="nav-item mt-3">
+                    <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
+                        @csrf
+                        <button type="submit" class="nav-link btn btn-link text-start w-100 border-0" 
+                                style="color: rgba(255,255,255,.8); background: none;">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Sair
                         </button>
-                    </div>
-                    
-                    <div class="text-center mb-4">
-                        <h5 class="text-white">
-                            <i class="bi bi-shop"></i>
-                            {{ auth()->user()->getDashboardName() }}
-                        </h5>                        <small class="text-white-50">
-                            Bem-vindo, {{ auth()->user()->getDashboardName() }}
-                        </small>
-                    </div>
-                    
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}" href="{{ route('dashboard') }}">
-                                <i class="bi bi-speedometer2"></i>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('checkin') ? 'active' : '' }}" href="{{ route('checkin') }}">
-                                <i class="bi bi-box-arrow-in-right"></i>
-                                Check-in/Check-out
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('vendors') ? 'active' : '' }}" href="{{ route('vendors') }}">
-                                <i class="bi bi-people"></i>
-                                Vendedores
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('boxes') ? 'active' : '' }}" href="{{ route('boxes') }}">
-                                <i class="bi bi-grid-3x3"></i>
-                                Boxes
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->routeIs('entries') ? 'active' : '' }}" href="{{ route('entries') }}">
-                                <i class="bi bi-clock-history"></i>
-                                Histórico
-                            </a>
-                        </li>                        <li class="nav-item mt-3">
-                            <form method="POST" action="{{ route('logout') }}" class="d-inline w-100">
-                                @csrf
-                                <button type="submit" class="nav-link btn btn-link text-start w-100 border-0" 
-                                        style="color: rgba(255,255,255,.8); background: none;">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    Sair
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                    
-                    <!-- Toggle do Tema -->
-                    <div class="theme-toggle" id="themeToggle">
-                        <i class="bi bi-moon-fill" id="themeIcon"></i>
-                        <span class="theme-toggle-text" id="themeText">Escuro</span>
-                    </div>
-                </div></nav>
+                    </form>
+                </li>
+            </ul>
+            
+            <!-- Toggle do Tema -->
+            <div class="theme-toggle" id="themeToggle">
+                <i class="bi bi-moon-fill" id="themeIcon"></i>
+                <span class="theme-toggle-text" id="themeText">Escuro</span>
+            </div>
+        </div>
+    </nav>
 
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">                <div class="mobile-header d-none">
-                    <div class="d-flex justify-content-between align-items-center w-100">
-                        <button class="hamburger-btn" id="toggleSidebar">
-                            <i class="bi bi-list"></i>
-                        </button>                        <div class="mobile-brand">
-                            <i class="bi bi-shop"></i>
-                            {{ auth()->user()->getDashboardName() }}
-                        </div>
-                        <div style="width: 40px;"></div>
-                    </div>
+    <main class="main-content">
+        <div class="mobile-header d-none">
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <button class="hamburger-btn" id="toggleSidebar">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="mobile-brand">
+                    <i class="bi bi-shop"></i>
+                    {{ auth()->user()->getDashboardName() }}
                 </div>
-                
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom page-header">
-                    <h1 class="h2">@yield('page-title', 'Dashboard')</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                        @yield('page-actions')
-                    </div>
+                <div style="width: 40px;"></div>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom page-header">
+                <h1 class="h2">@yield('page-title', 'Dashboard')</h1>
+                <div class="btn-toolbar mb-2 mb-md-0">
+                    @yield('page-actions')
                 </div>
+            </div>
 
-                @yield('content')
-            </main>
-        </div>    </div>
+            @yield('content')
+        </div>
+    </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>    <script>
