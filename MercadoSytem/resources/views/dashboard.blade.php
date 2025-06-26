@@ -216,18 +216,22 @@
 @section('scripts')
 <script>
     // Configurar CSRF token para requests AJAX
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    function checkOut(entryId) {
-        if (confirm('Confirma o check-out deste vendedor?')) {
-            axios.post(`/api/entries/${entryId}/checkout`)
-                .then(response => {
-                    location.reload();
-                })
-                .catch(error => {
-                    alert('Erro ao fazer check-out: ' + error.response.data.message);
-                });
-        }
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');    function checkOut(entryId) {
+        modernToast.confirm(
+            'Confirma o check-out deste vendedor?',
+            'Confirmar Check-out',
+            () => {
+                // Função executada ao confirmar
+                axios.post(`/api/entries/${entryId}/checkout`)
+                    .then(response => {
+                        modernToast.success('Check-out realizado com sucesso!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        modernToast.error('Erro ao fazer check-out: ' + error.response.data.message);
+                    });
+            }
+        );
     }
 
     // Auto-refresh da página a cada 30 segundos

@@ -405,19 +405,22 @@
         document.getElementById('filter_date_to').value = '';
         
         location.reload();
-    }
-
-    function checkOut(entryId) {
-        if (confirm('Confirma o check-out deste vendedor?')) {
-            axios.post(`/api/entries/${entryId}/checkout`)
-                .then(response => {
-                    alert('Check-out realizado com sucesso!');
-                    location.reload();
-                })
-                .catch(error => {
-                    alert('Erro ao fazer check-out: ' + (error.response?.data?.message || error.message));
-                });
-        }
+    }    function checkOut(entryId) {
+        modernToast.confirm(
+            'Confirma o check-out deste vendedor?',
+            'Confirmar Check-out',
+            () => {
+                // Função executada ao confirmar
+                axios.post(`/api/entries/${entryId}/checkout`)
+                    .then(response => {
+                        modernToast.success('Check-out realizado com sucesso!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        modernToast.error('Erro ao fazer check-out: ' + (error.response?.data?.message || error.message));
+                    });
+            }
+        );
     }
 
     function showNotes(notes) {

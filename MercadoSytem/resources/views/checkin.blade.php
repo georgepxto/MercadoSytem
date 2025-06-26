@@ -120,7 +120,7 @@
 
         axios.post('/api/entries', data)
             .then(response => {
-                alert('Check-in realizado com sucesso!');
+                modernToast.success('Check-in realizado com sucesso!');
                 this.reset();
                 loadActiveVendors();
                 loadRecentEntries();
@@ -132,10 +132,9 @@
                         errors.forEach(error => {
                             errorMessage += '- ' + error + '\n';
                         });
-                    });
-                    alert(errorMessage);
+                    });                    modernToast.error(errorMessage);
                 } else {
-                    alert('Erro ao fazer check-in: ' + (error.response?.data?.message || error.message));
+                    modernToast.error('Erro ao fazer check-in: ' + (error.response?.data?.message || error.message));
                 }
             });
     });
@@ -218,20 +217,23 @@
             .catch(error => {
                 console.error('Erro ao carregar entradas recentes:', error);
             });
-    }
-
-    function checkOut(entryId) {
-        if (confirm('Confirma o check-out deste vendedor?')) {
-            axios.post(`/api/entries/${entryId}/checkout`)
-                .then(response => {
-                    alert('Check-out realizado com sucesso!');
-                    loadActiveVendors();
-                    loadRecentEntries();
-                })
-                .catch(error => {
-                    alert('Erro ao fazer check-out: ' + (error.response?.data?.message || error.message));
-                });
-        }
+    }    function checkOut(entryId) {
+        modernToast.confirm(
+            'Confirma o check-out deste vendedor?',
+            'Confirmar Check-out',
+            () => {
+                // Função executada ao confirmar
+                axios.post(`/api/entries/${entryId}/checkout`)
+                    .then(response => {
+                        modernToast.success('Check-out realizado com sucesso!');
+                        loadActiveVendors();
+                        loadRecentEntries();
+                    })
+                    .catch(error => {
+                        modernToast.error('Erro ao fazer check-out: ' + (error.response?.data?.message || error.message));
+                    });
+            }
+        );
     }
 
     // Auto-refresh a cada 15 segundos

@@ -214,9 +214,8 @@
                 setTimeout(() => {
                     new bootstrap.Modal(document.getElementById('boxModal')).show();
                 }, 100);
-            })
-            .catch(error => {
-                alert('Erro ao carregar dados do box');
+            })            .catch(error => {
+                modernToast.error('Erro ao carregar dados do box');
                 console.error('Erro na API:', error);
             });
     }function saveBox() {
@@ -240,12 +239,24 @@
         const request = isEditing 
             ? axios.put(`/api/boxes/${boxId}`, data)
             : axios.post('/api/boxes', data);
-            
-        request
-            .then(response => {
+              request            .then(response => {
                 console.log('Resposta da API:', response.data);
-                alert(isEditing ? 'Box atualizado com sucesso!' : 'Box criado com sucesso!');
-                location.reload();
+                
+                // Fechar o modal primeiro
+                const modal = bootstrap.Modal.getInstance(document.getElementById('boxModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Aguardar o modal fechar completamente antes de mostrar a notificação
+                setTimeout(() => {
+                    modernToast.success(isEditing ? 'Box atualizado com sucesso!' : 'Box criado com sucesso!');
+                    
+                    // Recarregar a página após um pequeno delay para o usuário ver a notificação
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }, 300);
             })
             .catch(error => {
                 console.error('Erro completo:', error);
@@ -255,10 +266,9 @@
                         errors.forEach(error => {
                             errorMessage += '- ' + error + '\n';
                         });
-                    });
-                    alert(errorMessage);
+                    });                    modernToast.error(errorMessage);
                 } else {
-                    alert('Erro ao salvar box: ' + (error.response?.data?.message || error.message));
+                    modernToast.error('Erro ao salvar box: ' + (error.response?.data?.message || error.message));
                 }
             });
     }
@@ -350,9 +360,8 @@
                         document.getElementById('boxDetailsContent').innerHTML = html;
                         new bootstrap.Modal(document.getElementById('boxDetailsModal')).show();
                     });
-            })
-            .catch(error => {
-                alert('Erro ao carregar detalhes do box');
+            })            .catch(error => {
+                modernToast.error('Erro ao carregar detalhes do box');
             });
     }    // Limpar form quando modal é fechado
     document.getElementById('boxModal').addEventListener('hidden.bs.modal', function () {
@@ -379,31 +388,31 @@
                 if (totalEntries > 0) {
                     warningMessage += `\n⚠️ Este box possui ${totalEntries} entrada(s) no histórico.`;
                 }
+                  const confirmMessage = `Tem certeza que deseja excluir o ${boxInfo}?${warningMessage}\n\nEsta ação não pode ser desfeita.`;
                 
-                const confirmMessage = `Tem certeza que deseja excluir o ${boxInfo}?${warningMessage}\n\nEsta ação não pode ser desfeita.`;
-                
-                if (confirm(confirmMessage)) {
-                    axios.delete(`/api/boxes/${boxId}`)
-                        .then(response => {
-                            alert('Box excluído com sucesso!');
+                modernToast.confirm(
+                    confirmMessage,
+                    'Confirmar Exclusão',
+                    () => {
+                        // Função executada ao confirmar
+                        axios.delete(`/api/boxes/${boxId}`)                        .then(response => {
+                            modernToast.success('Box excluído com sucesso!');
                             location.reload();
                         })
                         .catch(error => {
                             console.error('Erro ao excluir box:', error);
-                            
-                            if (error.response && error.response.data.error) {
-                                alert('Erro: ' + error.response.data.error);
+                              if (error.response && error.response.data.error) {
+                                modernToast.error('Erro: ' + error.response.data.error);
                             } else if (error.response && error.response.status === 422) {
-                                alert('Erro: Não é possível excluir este box devido a relacionamentos existentes.');
-                            } else {
-                                alert('Erro ao excluir box. Tente novamente.');
+                                modernToast.error('Erro: Não é possível excluir este box devido a relacionamentos existentes.');                            } else {
+                                modernToast.error('Erro ao excluir box. Tente novamente.');
                             }
                         });
-                }
-            })
-            .catch(error => {
+                    }
+                );
+            }).catch(error => {
                 console.error('Erro ao carregar dados do box:', error);
-                alert('Erro ao carregar dados do box.');
+                modernToast.error('Erro ao carregar dados do box.');
             });
     }
 </script>

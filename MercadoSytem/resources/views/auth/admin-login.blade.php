@@ -128,5 +128,120 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Converter alerts Bootstrap em notificações modernas
+        document.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert-danger');
+            alerts.forEach(alert => {
+                const message = alert.textContent.trim();
+                if (message) {
+                    // Remover alert Bootstrap
+                    alert.style.display = 'none';
+                    
+                    // Criar notificação moderna
+                    setTimeout(() => {
+                        showModernToast(message, 'error', 'Erro de Login Admin');
+                    }, 100);
+                }
+            });
+        });
+        
+        // Sistema de notificação simples para páginas de login
+        function showModernToast(message, type = 'info', title = 'Aviso') {
+            const container = document.getElementById('toastContainer') || createToastContainer();
+            
+            const toastId = 'toast_' + Date.now();
+            const icons = {
+                success: '✓',
+                error: '✕',
+                warning: '⚠',
+                info: 'ⓘ'
+            };
+            
+            const colors = {
+                success: '#22c55e',
+                error: '#ef4444',
+                warning: '#f59e0b',
+                info: '#3b82f6'
+            };
+            
+            const toastHtml = `
+                <div class="modern-toast ${type}" id="${toastId}" style="
+                    background: white;
+                    border: none;
+                    border-radius: 12px;
+                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+                    margin-bottom: 16px;
+                    overflow: hidden;
+                    border-left: 4px solid ${colors[type]};
+                    transform: translateX(400px);
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    opacity: 0;
+                    position: relative;
+                ">
+                    <div style="padding: 16px 20px 8px; display: flex; align-items: center; gap: 12px;">
+                        <div style="
+                            width: 24px; height: 24px; border-radius: 50%; 
+                            display: flex; align-items: center; justify-content: center; 
+                            font-size: 14px; color: white; font-weight: bold;
+                            background: ${colors[type]};
+                        ">${icons[type]}</div>
+                        <h6 style="font-weight: 600; color: #1f2937; margin: 0; font-size: 16px;">${title}</h6>
+                        <button onclick="hideToast('${toastId}')" style="
+                            position: absolute; top: 12px; right: 12px; background: none; 
+                            border: none; color: #9ca3af; cursor: pointer; padding: 4px; 
+                            border-radius: 4px; transition: all 0.2s;
+                        ">✕</button>
+                    </div>
+                    <div style="padding: 0 20px 16px; color: #6b7280; font-size: 14px; line-height: 1.5;">
+                        ${message}
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', toastHtml);
+            const toastElement = document.getElementById(toastId);
+            
+            // Animar entrada
+            setTimeout(() => {
+                toastElement.style.transform = 'translateX(0)';
+                toastElement.style.opacity = '1';
+            }, 100);
+            
+            // Auto-remover após 6 segundos
+            setTimeout(() => {
+                hideToast(toastId);
+            }, 6000);
+        }
+        
+        function hideToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                toast.style.transform = 'translateX(400px)';
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 400);
+            }
+        }
+        
+        function createToastContainer() {
+            const container = document.createElement('div');
+            container.id = 'toastContainer';
+            container.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                max-width: 400px;
+                width: 100%;
+            `;
+            document.body.appendChild(container);
+            return container;
+        }
+    </script>
 </body>
 </html>

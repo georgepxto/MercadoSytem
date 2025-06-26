@@ -132,8 +132,7 @@
                     </div>                    <div class="mb-3">
                         <label for="phone" class="form-label">Telefone</label>
                         <input type="text" class="form-control" id="phone" name="phone" required 
-                               placeholder="(11) 99999-9999" maxlength="15"
-                               oninput="formatPhone(this)" onblur="validatePhone(this)">
+                               placeholder="(11) 99999-9999" maxlength="15">
                         <div class="invalid-feedback" id="phone-error"></div>
                     </div>
 
@@ -148,13 +147,10 @@
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="has_cnpj" name="has_cnpj" onchange="toggleCnpjField()">
                         <label class="form-check-label" for="has_cnpj">Possui CNPJ</label>
-                    </div>
-
-                    <div class="mb-3" id="cnpj-field" style="display: none;">
+                    </div>                    <div class="mb-3" id="cnpj-field" style="display: none;">
                         <label for="cnpj" class="form-label">CNPJ</label>
                         <input type="text" class="form-control" id="cnpj" name="cnpj" 
-                               placeholder="XX.XXX.XXX/XXXX-XX" maxlength="18"
-                               oninput="formatCnpj(this)" onblur="validateCnpj(this)">
+                               placeholder="XX.XXX.XXX/XXXX-XX" maxlength="18">
                         <div class="invalid-feedback" id="cnpj-error"></div>
                         <div class="form-text">Digite apenas números, a formatação será aplicada automaticamente</div>
                     </div>
@@ -326,10 +322,14 @@
         
         return isValid;
     }    function editVendor(vendorId) {
+        console.log('Editando vendedor ID:', vendorId);
+        
         axios.get(`/api/vendors/${vendorId}`)
             .then(response => {
                 const vendor = response.data;
+                console.log('Dados do vendedor recebidos:', vendor);
                 
+                // Popular campos com os dados do vendedor
                 document.getElementById('vendor_id').value = vendor.id;
                 document.getElementById('name').value = vendor.name;
                 document.getElementById('email').value = vendor.email;
@@ -339,17 +339,26 @@
                 document.getElementById('active').checked = vendor.active;
                 
                 // Carregar dados de CNPJ
-                document.getElementById('has_cnpj').checked = vendor.has_cnpj || false;
+                const hasCnpjCheckbox = document.getElementById('has_cnpj');
+                hasCnpjCheckbox.checked = vendor.has_cnpj || false;
                 document.getElementById('cnpj').value = vendor.cnpj || '';
                 
                 // Mostrar/ocultar campo de CNPJ baseado no checkbox
                 toggleCnpjField();
                 
+                // Alterar título do modal
                 document.querySelector('#vendorModal .modal-title').textContent = 'Editar Vendedor';
-                new bootstrap.Modal(document.getElementById('vendorModal')).show();
+                
+                console.log('Campos populados, mostrando modal...');
+                
+                // Mostrar modal usando data-bs-toggle (método mais confiável)
+                const modalElement = document.getElementById('vendorModal');
+                const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+                modal.show();
             })
             .catch(error => {
-                alert('Erro ao carregar dados do vendedor');
+                console.error('Erro ao carregar dados do vendedor:', error);
+                modernToast.error('Erro ao carregar dados do vendedor');
             });
     }function saveVendor() {
         const form = document.getElementById('vendorForm');
@@ -388,12 +397,25 @@
         const request = isEditing 
             ? axios.put(`/api/vendors/${vendorId}`, data)
             : axios.post('/api/vendors', data);
-            
-        request
+              request
             .then(response => {
                 console.log('Sucesso:', response.data); // Debug
-                alert(isEditing ? 'Vendedor atualizado com sucesso!' : 'Vendedor criado com sucesso!');
-                location.reload();
+                
+                // Fechar o modal primeiro
+                const modal = bootstrap.Modal.getInstance(document.getElementById('vendorModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Aguardar o modal fechar completamente antes de mostrar a notificação
+                setTimeout(() => {
+                    modernToast.success(isEditing ? 'Vendedor atualizado com sucesso!' : 'Vendedor criado com sucesso!');
+                    
+                    // Recarregar a página após um pequeno delay para o usuário ver a notificação
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }, 300);
             })
             .catch(error => {
                 console.error('Erro completo:', error); // Debug
@@ -403,10 +425,9 @@
                         errors.forEach(error => {
                             errorMessage += '- ' + error + '\n';
                         });
-                    });
-                    alert(errorMessage);
+                    });                    modernToast.error(errorMessage);
                 } else {
-                    alert('Erro ao salvar vendedor: ' + (error.response?.data?.message || error.message));
+                    modernToast.error('Erro ao salvar vendedor: ' + (error.response?.data?.message || error.message));
                 }
             });
     }
@@ -427,19 +448,30 @@
                 });
                 
                 new bootstrap.Modal(document.getElementById('scheduleModal')).show();
-            })
-            .catch(error => {
-                alert('Erro ao carregar boxes');
+            })            .catch(error => {
+                modernToast.error('Erro ao carregar boxes');
             });
     }    function saveSchedule() {
         const form = document.getElementById('scheduleForm');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
-        
-        axios.post('/api/schedules', data)
+          axios.post('/api/schedules', data)
             .then(response => {
-                alert('Horário adicionado com sucesso!');
-                location.reload();
+                // Fechar o modal primeiro
+                const modal = bootstrap.Modal.getInstance(document.getElementById('scheduleModal'));
+                if (modal) {
+                    modal.hide();
+                }
+                
+                // Aguardar o modal fechar completamente antes de mostrar a notificação
+                setTimeout(() => {
+                    modernToast.success('Horário adicionado com sucesso!');
+                    
+                    // Recarregar a página após um pequeno delay para o usuário ver a notificação
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+                }, 300);
             })
             .catch(error => {
                 if (error.response && error.response.data.errors) {
@@ -448,41 +480,87 @@
                         errors.forEach(error => {
                             errorMessage += '- ' + error + '\n';
                         });
-                    });
-                    alert(errorMessage);
+                    });                    modernToast.error(errorMessage);
                 } else {
-                    alert('Erro ao salvar horário');
+                    modernToast.error('Erro ao salvar horário');
                 }
             });
-    }
-
-    function deleteVendor(vendorId, vendorName) {
-        if (confirm(`Tem certeza que deseja excluir o vendedor "${vendorName}"?\n\nEsta ação não pode ser desfeita.`)) {
-            axios.delete(`/api/vendors/${vendorId}`)
-                .then(response => {
-                    alert('Vendedor excluído com sucesso!');
-                    location.reload();
-                })
-                .catch(error => {
-                    console.error('Erro ao excluir vendedor:', error);
-                    if (error.response && error.response.status === 400) {
-                        alert('Não é possível excluir este vendedor pois ele possui registros associados (horários, entradas, etc.).');
-                    } else {
-                        alert('Erro ao excluir vendedor: ' + (error.response?.data?.message || error.message));
-                    }
-                });
-        }
-    }
-
-    // Limpar form quando modal é fechado
+    }    function deleteVendor(vendorId, vendorName) {
+        modernToast.confirm(
+            `Tem certeza que deseja excluir o vendedor "${vendorName}"?\n\nEsta ação não pode ser desfeita.`,
+            'Confirmar Exclusão',
+            () => {
+                // Função executada ao confirmar
+                axios.delete(`/api/vendors/${vendorId}`)
+                    .then(response => {
+                        modernToast.success('Vendedor excluído com sucesso!');
+                        location.reload();
+                    })
+                    .catch(error => {
+                        console.error('Erro ao excluir vendedor:', error);
+                        if (error.response && error.response.status === 400) {
+                            modernToast.error('Não é possível excluir este vendedor pois ele possui registros associados (horários, entradas, etc.).');
+                        } else {
+                            modernToast.error('Erro ao excluir vendedor: ' + (error.response?.data?.message || error.message));
+                        }
+                    });
+            }
+        );
+    }    // Limpar form quando modal é fechado
     document.getElementById('vendorModal').addEventListener('hidden.bs.modal', function () {
+        console.log('Modal fechado - limpando formulário');
         document.getElementById('vendorForm').reset();
         document.getElementById('vendor_id').value = '';
         document.querySelector('#vendorModal .modal-title').textContent = 'Novo Vendedor';
-    });
-
-    document.getElementById('scheduleModal').addEventListener('hidden.bs.modal', function () {
+        
+        // Limpar validações visuais
+        document.querySelectorAll('#vendorForm .is-invalid').forEach(el => {
+            el.classList.remove('is-invalid');
+        });
+        document.querySelectorAll('#vendorForm .invalid-feedback').forEach(el => {
+            el.textContent = '';
+        });
+        
+        // Garantir que o campo CNPJ fique oculto
+        document.getElementById('cnpj-field').style.display = 'none';
+    });    document.getElementById('scheduleModal').addEventListener('hidden.bs.modal', function () {
         document.getElementById('scheduleForm').reset();
+    });
+    
+    // Debug do modal - adicionar eventos para detectar problemas
+    document.getElementById('vendorModal').addEventListener('show.bs.modal', function () {
+        console.log('Modal de vendedor sendo mostrado');
+    });
+    
+    document.getElementById('vendorModal').addEventListener('shown.bs.modal', function () {
+        console.log('Modal de vendedor totalmente carregado');
+    });
+      document.getElementById('vendorModal').addEventListener('hide.bs.modal', function (event) {
+        console.log('Modal de vendedor sendo fechado - razão:', event);
+    });
+    
+    // Adicionar eventos de formatação e validação aos campos
+    document.addEventListener('DOMContentLoaded', function() {
+        const phoneInput = document.getElementById('phone');
+        const cnpjInput = document.getElementById('cnpj');
+        
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function() {
+                formatPhone(this);
+            });
+            phoneInput.addEventListener('blur', function() {
+                validatePhone(this);
+            });
+        }
+        
+        if (cnpjInput) {
+            cnpjInput.addEventListener('input', function() {
+                formatCnpj(this);
+            });
+            cnpjInput.addEventListener('blur', function() {
+                validateCnpj(this);
+            });
+        }
     });
 </script>
 @endsection
