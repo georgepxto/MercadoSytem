@@ -419,11 +419,10 @@
             .then(response => {
                 const select = document.getElementById('schedule_box_id');
                 select.innerHTML = '<option value="">Selecione um box</option>';
-                
-                response.data.forEach(box => {
+                  response.data.forEach(box => {
                     const option = document.createElement('option');
                     option.value = box.id;
-                    option.textContent = `${box.number} - ${box.location}`;
+                    option.textContent = (box.name || 'Box') + ' | Box ' + box.number + ' - ' + box.location;
                     select.appendChild(option);
                 });
                 

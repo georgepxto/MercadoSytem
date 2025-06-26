@@ -289,11 +289,10 @@
         // Carregar boxes
         axios.get('/api/boxes')
             .then(response => {
-                const select = document.getElementById('filter_box');
-                response.data.forEach(box => {
+                const select = document.getElementById('filter_box');                response.data.forEach(box => {
                     const option = document.createElement('option');
                     option.value = box.id;
-                    option.textContent = 'Box ' + box.number + ' - ' + box.location;
+                    option.textContent = (box.name || 'Box') + ' | Box ' + box.number + ' - ' + box.location;
                     select.appendChild(option);
                 });
             });

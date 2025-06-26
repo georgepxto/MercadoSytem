@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema de Mercado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -21,18 +20,16 @@
             overflow: hidden;
             max-width: 400px;
             width: 100%;
-        }
-        .login-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }        .login-header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
             padding: 2rem;
             text-align: center;
         }
         .login-body {
             padding: 2rem;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }        .btn-primary {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             border: none;
             border-radius: 25px;
             padding: 12px 30px;
@@ -41,11 +38,10 @@
             border-radius: 25px;
             padding: 12px 20px;
             border: 2px solid #e9ecef;
-        }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }        .user-type-tabs {
+        }        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
+        }.user-type-tabs {
             display: none;
         }
         .user-type-tab {
@@ -57,9 +53,8 @@
             transition: all 0.3s;
             border: none;
             background: transparent;
-        }
-        .user-type-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }        .user-type-tab.active {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
         }
     </style>

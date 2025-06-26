@@ -17,10 +17,9 @@
         body {
             font-family: 'Nunito', sans-serif;
             background-color: #f8f9fc;
-        }
-        .sidebar {
+        }        .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+            background: #000000;
         }
         .sidebar .nav-item .nav-link {
             color: rgba(255,255,255,.8);

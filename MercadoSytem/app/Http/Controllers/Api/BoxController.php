@@ -56,12 +56,10 @@ class BoxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $box = Box::findOrFail($id);
-
-        $request->validate([
-            'name' => 'nullable|string|max:255',
-            'number' => 'string|unique:boxes,number,' . $id,
-            'location' => 'string|max:255',
+        $box = Box::findOrFail($id);        $request->validate([
+            'name' => 'required|string|max:255',
+            'number' => 'required|string|unique:boxes,number,' . $id,
+            'location' => 'required|string|max:255',
             'description' => 'nullable|string',
             'available' => 'boolean',
             'monthly_price' => 'nullable|numeric|min:0'

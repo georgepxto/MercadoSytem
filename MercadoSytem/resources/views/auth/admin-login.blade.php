@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Administrativo - Sistema de Mercado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
         body {
-            background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -21,18 +20,16 @@
             overflow: hidden;
             max-width: 400px;
             width: 100%;
-        }
-        .login-header {
-            background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        }        .login-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
             color: white;
             padding: 2rem;
             text-align: center;
         }
         .login-body {
             padding: 2rem;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #dc3545 0%, #6f42c1 100%);
+        }        .btn-primary {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
             border: none;
             border-radius: 25px;
             padding: 12px 30px;
@@ -41,10 +38,9 @@
             border-radius: 25px;
             padding: 12px 20px;
             border: 2px solid #e9ecef;
-        }
-        .form-control:focus {
-            border-color: #dc3545;
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }        .form-control:focus {
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
         }
         .back-link {
             position: absolute;

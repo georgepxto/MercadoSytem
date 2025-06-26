@@ -36,10 +36,9 @@
                             Box
                         </label>
                         <select class="form-select form-select-lg" id="box_id" name="box_id" required>
-                            <option value="">Selecione um box</option>
-                            @foreach($boxes as $box)
+                            <option value="">Selecione um box</option>                            @foreach($boxes as $box)
                                 <option value="{{ $box->id }}">
-                                    {{ $box->number }} - {{ $box->location }}
+                                    {{ $box->name }} | Box {{ $box->number }} - {{ $box->location }}
                                     @if($box->monthly_price)
                                         (R$ {{ number_format($box->monthly_price, 2, ',', '.') }}/mês)
                                     @endif
@@ -159,11 +158,10 @@
 
                 let html = '';
                 activeVendors.forEach(entry => {
-                    html += `
-                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                    html += `                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                             <div>
                                 <div class="fw-bold">${entry.vendor.name}</div>
-                                <small class="text-muted">Box ${entry.box.number} - desde ${new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</small>
+                                <small class="text-muted">${entry.box.name ? entry.box.name + ' | ' : ''}Box ${entry.box.number} - desde ${new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</small>
                             </div>
                             <button class="btn btn-sm btn-warning" onclick="checkOut(${entry.id})">
                                 <i class="bi bi-box-arrow-right"></i>

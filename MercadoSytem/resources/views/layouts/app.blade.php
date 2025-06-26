@@ -7,12 +7,11 @@
     <title>@yield('title', 'Sistema de Controle - Mercado')</title>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        .sidebar {
+    <style>        .sidebar {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             transition: transform 0.3s ease-in-out;
-        }          @media (max-width: 767.98px) {            .sidebar {
+        }@media (max-width: 767.98px) {            .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
@@ -33,7 +32,7 @@
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(102, 126, 234, 0.3));
+                background: linear-gradient(45deg, rgba(0, 0, 0, 0.7), rgba(44, 62, 80, 0.3));
                 z-index: 999;
                 opacity: 0;
                 visibility: hidden;
@@ -52,10 +51,9 @@
                 padding-left: 15px !important;
                 padding-right: 15px !important;
                 width: 100% !important;
-            }
-              .mobile-header {
+            }              .mobile-header {
                 display: flex !important;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
                 padding: 1rem 1.25rem;
                 margin: -15px -15px 20px -15px;
                 border-radius: 0 0 1rem 1rem;

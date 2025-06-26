@@ -16,11 +16,10 @@
     <div class="col-lg-4 col-md-6 col-12">
         <div class="card h-100 border-0 shadow-sm {{ $box->available ? '' : 'border-warning border-2' }}">
             <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-start mb-3">
-                    <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start mb-3">                    <div class="flex-grow-1">
                         <h5 class="card-title mb-1">
                             <i class="bi bi-grid-3x3-gap me-2"></i>
-                            Box {{ $box->number }}
+                            {{ $box->name }} | Box {{ $box->number }}
                         </h5>
                         <p class="text-muted mb-0 small">{{ $box->location }}</p>
                     </div>
@@ -184,29 +183,43 @@
 @section('scripts')
 <script>
     // Configurar CSRF token
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-    function editBox(boxId) {
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');    function editBox(boxId) {
+        console.log('Editando box ID:', boxId);
         axios.get(`/api/boxes/${boxId}`)
             .then(response => {
                 const box = response.data;
+                console.log('Dados recebidos da API:', box);
                 
+                // Limpar formulário primeiro
+                document.getElementById('boxForm').reset();
+                
+                // Popular campos com os dados do box
                 document.getElementById('box_id').value = box.id;
-                document.getElementById('number').value = box.number;
-                document.getElementById('location').value = box.location;
+                document.getElementById('name').value = box.name || '';
+                document.getElementById('number').value = box.number || '';
+                document.getElementById('location').value = box.location || '';
                 document.getElementById('monthly_price').value = box.monthly_price || '';
                 document.getElementById('box_description').value = box.description || '';
                 document.getElementById('available').checked = box.available;
                 
+                console.log('Campos populados:');
+                console.log('- Name:', document.getElementById('name').value);
+                console.log('- Number:', document.getElementById('number').value);
+                console.log('- Location:', document.getElementById('location').value);
+                
+                // Alterar título do modal
                 document.querySelector('#boxModal .modal-title').textContent = 'Editar Box';
-                new bootstrap.Modal(document.getElementById('boxModal')).show();
+                
+                // Aguardar um pouco antes de mostrar o modal para garantir que os campos foram populados
+                setTimeout(() => {
+                    new bootstrap.Modal(document.getElementById('boxModal')).show();
+                }, 100);
             })
             .catch(error => {
                 alert('Erro ao carregar dados do box');
+                console.error('Erro na API:', error);
             });
-    }
-
-    function saveBox() {
+    }function saveBox() {
         const form = document.getElementById('boxForm');
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
@@ -220,16 +233,22 @@
         const boxId = document.getElementById('box_id').value;
         const isEditing = boxId !== '';
         
+        console.log('Dados sendo enviados:', data);
+        console.log('Box ID:', boxId);
+        console.log('Is Editing:', isEditing);
+        
         const request = isEditing 
             ? axios.put(`/api/boxes/${boxId}`, data)
             : axios.post('/api/boxes', data);
             
         request
             .then(response => {
+                console.log('Resposta da API:', response.data);
                 alert(isEditing ? 'Box atualizado com sucesso!' : 'Box criado com sucesso!');
                 location.reload();
             })
             .catch(error => {
+                console.error('Erro completo:', error);
                 if (error.response && error.response.data.errors) {
                     let errorMessage = 'Erro de validação:\n';
                     Object.values(error.response.data.errors).forEach(errors => {
@@ -239,7 +258,7 @@
                     });
                     alert(errorMessage);
                 } else {
-                    alert('Erro ao salvar box');
+                    alert('Erro ao salvar box: ' + (error.response?.data?.message || error.message));
                 }
             });
     }
