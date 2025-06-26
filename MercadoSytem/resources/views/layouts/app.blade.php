@@ -312,9 +312,8 @@
                         <h5 class="text-white">
                             <i class="bi bi-shop"></i>
                             {{ auth()->user()->getDashboardName() }}
-                        </h5>
-                        <small class="text-white-50">
-                            Bem-vindo, {{ auth()->user()->name }}
+                        </h5>                        <small class="text-white-50">
+                            Bem-vindo, {{ auth()->user()->getDashboardName() }}
                         </small>
                     </div>
                     
@@ -366,10 +365,9 @@
                     <div class="d-flex justify-content-between align-items-center w-100">
                         <button class="hamburger-btn" id="toggleSidebar">
                             <i class="bi bi-list"></i>
-                        </button>
-                        <div class="mobile-brand">
+                        </button>                        <div class="mobile-brand">
                             <i class="bi bi-shop"></i>
-                            Mercado N. S. Fátima
+                            {{ auth()->user()->getDashboardName() }}
                         </div>
                         <div style="width: 40px;"></div>
                     </div>
