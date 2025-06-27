@@ -640,13 +640,13 @@ php artisan serve
 #### **Administrador do Sistema**
 
 - **Email**: `admin@admin.com`
-- **Senha**: `password`
+- **Senha**: `admin123`
 - **Acesso**: Painel administrativo completo
 
-#### **Usuário de ADMIN**
+#### **Usuário de teste**
 
-- **Email**: `admin@admin.com`
-- **Senha**: `admin123`
+- **Email**: `contato@mercadofatima.com`
+- **Senha**: `12345678`
 
 ### **🗂 Dados de Exemplo Incluídos**
 
