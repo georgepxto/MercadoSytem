@@ -10,10 +10,7 @@ use App\Models\DashboardManager;
 
 class DashboardManagerController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:dashboard_manager');
-    }
+    // Middleware removido - será aplicado nas rotas
 
     /**
      * Show admin dashboard

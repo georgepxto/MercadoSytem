@@ -111,6 +111,13 @@
                     </button>
                 </div>
             </form>
+            
+            <div class="text-center mt-3">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Administradores também fazem login aqui
+                </small>
+            </div>
         </div>
     </div>
 

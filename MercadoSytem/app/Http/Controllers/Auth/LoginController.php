@@ -33,7 +33,13 @@ class LoginController extends Controller
 
         // Try to authenticate as dashboard manager first
         if (Auth::guard('dashboard_manager')->attempt($credentials, $request->filled('remember'))) {
-            return redirect()->intended('/admin/dashboard');
+            // Debug: log que admin fez login
+            \Log::info('Admin login successful for: ' . $credentials['email']);
+            
+            // Regenerate session to prevent session fixation
+            $request->session()->regenerate();
+            
+            return redirect('/admin/dashboard');
         }
 
         // Try to authenticate as regular user
@@ -48,6 +54,9 @@ class LoginController extends Controller
                 ]);
             }
 
+            // Regenerate session to prevent session fixation
+            $request->session()->regenerate();
+            
             return redirect()->intended('/dashboard');
         }
 
