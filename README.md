@@ -5,20 +5,20 @@
 [![Laravel](https://img.shields.io/badge/Laravel-9.x-FF2D20?style=flat-square&logo=laravel)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php)](https://php.net)
 [![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-7952B3?style=flat-square&logo=bootstrap)](https://getbootstrap.com)
-[![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite)](https://sqlite.org)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql)](https://mysql.com)
 
 ## 📋 **Visão Geral do Sistema**
 
 O **MercadoSystem** é uma plataforma web completa e responsiva que oferece gestão integrada para feiras alimentares, incluindo:
 
--   🏪 **Gestão de Vendedores** com suporte a CNPJ condicional
--   📦 **Controle de Boxes** com alocação dinâmica
--   ⏰ **Sistema de Horários** com cronogramas semanais
--   🚪 **Check-in/Check-out** em tempo real
--   🛒 **Catálogo de Produtos** por vendedor
--   📋 **Sistema de Pedidos** completo
--   👥 **Gestão Multi-tenant** com autenticação separada
--   📊 **Dashboard Analytics** com métricas em tempo real
+- 🏪 **Gestão de Vendedores** com suporte a CNPJ condicional
+- 📦 **Controle de Boxes** com alocação dinâmica
+- ⏰ **Sistema de Horários** com cronogramas semanais
+- 🚪 **Check-in/Check-out** em tempo real
+- 🛒 **Catálogo de Produtos** por vendedor
+- 📋 **Sistema de Pedidos** completo
+- 👥 **Gestão Multi-tenant** com autenticação separada
+- 📊 **Dashboard Analytics** com métricas em tempo real
 
 Desenvolvido com foco na **usabilidade**, **escalabilidade** e **eficiência operacional**.
 
@@ -26,29 +26,29 @@ Desenvolvido com foco na **usabilidade**, **escalabilidade** e **eficiência ope
 
 ### ✅ **Sistema Multi-tenant Avançado**
 
--   **Isolamento de Dados**: Cada usuário possui seu próprio banco de dados
--   **Autenticação Dupla**: Sistema separado para administradores e usuários finais
--   **Gestão Granular**: Controle de acesso individual por usuário
+- **Isolamento de Dados**: Cada usuário possui seu próprio banco de dados
+- **Autenticação Dupla**: Sistema separado para administradores e usuários finais
+- **Gestão Granular**: Controle de acesso individual por usuário
 
 ### ✅ **Funcionalidades de E-commerce**
 
--   **Catálogo de Produtos**: Sistema completo de produtos por vendedor
--   **Categorização**: Organização hierárquica de produtos
--   **Gestão de Pedidos**: Fluxo completo de pedidos com status tracking
--   **Preços Dinâmicos**: Controle flexível de preços por produto
+- **Catálogo de Produtos**: Sistema completo de produtos por vendedor
+- **Categorização**: Organização hierárquica de produtos
+- **Gestão de Pedidos**: Fluxo completo de pedidos com status tracking
+- **Preços Dinâmicos**: Controle flexível de preços por produto
 
 ### ✅ **Interface Moderna e Responsiva**
 
--   **Design Mobile-First**: Otimizado para dispositivos móveis
--   **Tema Adaptativo**: Suporte a modo claro/escuro
--   **UX Intuitiva**: Interface clean com foco na produtividade
--   **Atualizações em Tempo Real**: Dados sempre sincronizados
+- **Design Mobile-First**: Otimizado para dispositivos móveis
+- **Tema Adaptativo**: Suporte a modo claro/escuro
+- **UX Intuitiva**: Interface clean com foco na produtividade
+- **Atualizações em Tempo Real**: Dados sempre sincronizados
 
 ### ✅ **Correção de Timezone Recente**
 
--   **Problema Resolvido**: Horários de entrada/saída alinhados com fuso brasileiro
--   **Configuração**: Timezone setado para `America/Sao_Paulo` (UTC-3)
--   **Impacto**: Todos os registros de horário agora são precisos
+- **Problema Resolvido**: Horários de entrada/saída alinhados com fuso brasileiro
+- **Configuração**: Timezone setado para `America/Sao_Paulo` (UTC-3)
+- **Impacto**: Todos os registros de horário agora são precisos
 
 ## 🚀 **Início Rápido**
 
@@ -64,7 +64,15 @@ composer install
 cp .env.example .env
 php artisan key:generate
 
-# 4. Configure banco de dados (SQLite incluído)
+# 4. Configure banco de dados MySQL no arquivo .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=mercado_system
+# DB_USERNAME=seu_usuario
+# DB_PASSWORD=sua_senha
+
+# 5. Execute migrações e seeders
 php artisan migrate --seed
 
 # 5. Inicie o servidor
@@ -79,25 +87,25 @@ php artisan serve
 
 ### 🏪 **Sistema de Vendedores Avançado**
 
--   ✅ **Cadastro Completo**: Nome, email, telefone, especialidade culinária
--   ✅ **CNPJ Inteligente**: Sistema condicional com formatação automática
--   ✅ **Validação Dupla**: Frontend (JavaScript) + Backend (Laravel)
--   ✅ **Status Management**: Controle de vendedores ativos/inativos
--   ✅ **Relacionamentos**: Integração com produtos, horários e pedidos
+- ✅ **Cadastro Completo**: Nome, email, telefone, especialidade culinária
+- ✅ **CNPJ Inteligente**: Sistema condicional com formatação automática
+- ✅ **Validação Dupla**: Frontend (JavaScript) + Backend (Laravel)
+- ✅ **Status Management**: Controle de vendedores ativos/inativos
+- ✅ **Relacionamentos**: Integração com produtos, horários e pedidos
 
 ### 📦 **Gestão de Boxes Dinâmica**
 
--   ✅ **Cadastro Flexível**: Numeração, localização, preços mensais
--   ✅ **Alocação Inteligente**: Atribuição automática baseada em disponibilidade
--   ✅ **Monitoramento Real-time**: Status de ocupação em tempo real
--   ✅ **Histórico Completo**: Rastreamento de uso e ocupação
+- ✅ **Cadastro Flexível**: Numeração, localização, preços mensais
+- ✅ **Alocação Inteligente**: Atribuição automática baseada em disponibilidade
+- ✅ **Monitoramento Real-time**: Status de ocupação em tempo real
+- ✅ **Histórico Completo**: Rastreamento de uso e ocupação
 
 ### 🛒 **E-commerce Integrado**
 
--   ✅ **Catálogo de Produtos**: Sistema completo por vendedor
--   ✅ **Categorização**: Organização hierárquica de produtos
--   ✅ **Gestão de Estoque**: Controle de disponibilidade
--   ✅ **Sistema de Pedidos**: Fluxo completo com status tracking
+- ✅ **Catálogo de Produtos**: Sistema completo por vendedor
+- ✅ **Categorização**: Organização hierárquica de produtos
+- ✅ **Gestão de Estoque**: Controle de disponibilidade
+- ✅ **Sistema de Pedidos**: Fluxo completo com status tracking
 
 ## 📖 **Navegação do Documento**
 
@@ -116,63 +124,63 @@ php artisan serve
 
 ### 🏪 **Gestão de Vendedores**
 
--   **Cadastro Completo**: Nome, email, telefone com validação e formatação automática
--   **CNPJ Opcional**: Sistema de CNPJ condicional com validação e formatação automática (XX.XXX.XXX/XXXX-XX)
--   **Tipos de Comida**: Categorização por especialidade culinária
--   **Status de Atividade**: Controle de vendedores ativos/inativos
--   **Descrição Personalizada**: Campo livre para informações adicionais
--   **Operações CRUD**: Criar, visualizar, editar e excluir vendedores
+- **Cadastro Completo**: Nome, email, telefone com validação e formatação automática
+- **CNPJ Opcional**: Sistema de CNPJ condicional com validação e formatação automática (XX.XXX.XXX/XXXX-XX)
+- **Tipos de Comida**: Categorização por especialidade culinária
+- **Status de Atividade**: Controle de vendedores ativos/inativos
+- **Descrição Personalizada**: Campo livre para informações adicionais
+- **Operações CRUD**: Criar, visualizar, editar e excluir vendedores
 
 ### ⏰ **Sistema de Horários Inteligente**
 
--   ✅ **Cronograma Semanal**: Definição de horários por dia da semana
--   ✅ **Validação de Conflitos**: Prevenção automática de sobreposições
--   ✅ **Flexibilidade Total**: Horários customizáveis por vendedor/box
--   ✅ **Integração com Check-in**: Sincronização com controle de entrada
+- ✅ **Cronograma Semanal**: Definição de horários por dia da semana
+- ✅ **Validação de Conflitos**: Prevenção automática de sobreposições
+- ✅ **Flexibilidade Total**: Horários customizáveis por vendedor/box
+- ✅ **Integração com Check-in**: Sincronização com controle de entrada
 
 ### 🚪 **Controle de Entrada/Saída Premium**
 
--   ✅ **Check-in Rápido**: Interface otimizada para registro de entrada
--   ✅ **Auto Check-out**: Sistema automático de saída
--   ✅ **Histórico Detalhado**: Registro completo de movimentações
--   ✅ **Filtros Avançados**: Busca por múltiplos critérios
+- ✅ **Check-in Rápido**: Interface otimizada para registro de entrada
+- ✅ **Auto Check-out**: Sistema automático de saída
+- ✅ **Histórico Detalhado**: Registro completo de movimentações
+- ✅ **Filtros Avançados**: Busca por múltiplos critérios
 
 ### 👥 **Sistema Multi-tenant**
 
--   ✅ **Isolamento Completo**: Cada usuário possui dados isolados
--   ✅ **Autenticação Dupla**: Admin + usuários com permissões específicas
--   ✅ **Gestão Centralizada**: Painel administrativo dedicado
--   ✅ **Escalabilidade**: Suporte a múltiplos mercados/feiras
+- ✅ **Isolamento Completo**: Cada usuário possui dados isolados
+- ✅ **Autenticação Dupla**: Admin + usuários com permissões específicas
+- ✅ **Gestão Centralizada**: Painel administrativo dedicado
+- ✅ **Escalabilidade**: Suporte a múltiplos mercados/feiras
 
 ### 📊 **Dashboard e Analytics**
 
--   ✅ **Métricas em Tempo Real**: Dados atualizados automaticamente
--   ✅ **Visualizações Interativas**: Cards e gráficos informativos
--   ✅ **Relatórios Customizados**: Filtros por período e critérios
--   ✅ **Exportação de Dados**: Relatórios em múltiplos formatos
+- ✅ **Métricas em Tempo Real**: Dados atualizados automaticamente
+- ✅ **Visualizações Interativas**: Cards e gráficos informativos
+- ✅ **Relatórios Customizados**: Filtros por período e critérios
+- ✅ **Exportação de Dados**: Relatórios em múltiplos formatos
 
 ## 🔧 **Características Técnicas**
 
 ### **Validações e Formatações Automáticas**
 
--   **Telefone**: Formatação automática para (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
--   **CNPJ**: Formatação automática para XX.XXX.XXX/XXXX-XX com validação de formato
--   **Email**: Validação de formato e unicidade
--   **Horários**: Validação de conflitos e sobreposições
+- **Telefone**: Formatação automática para (XX) XXXXX-XXXX ou (XX) XXXX-XXXX
+- **CNPJ**: Formatação automática para XX.XXX.XXX/XXXX-XX com validação de formato
+- **Email**: Validação de formato e unicidade
+- **Horários**: Validação de conflitos e sobreposições
 
 ### **Interface do Usuário**
 
--   **Design Responsivo**: Funciona perfeitamente em desktop, tablet e mobile
--   **Bootstrap 5.3**: Interface moderna e intuitiva
--   **Ícones Bootstrap**: Iconografia consistente e profissional
--   **Feedback Visual**: Mensagens de sucesso, erro e validação em tempo real
+- **Design Responsivo**: Funciona perfeitamente em desktop, tablet e mobile
+- **Bootstrap 5.3**: Interface moderna e intuitiva
+- **Ícones Bootstrap**: Iconografia consistente e profissional
+- **Feedback Visual**: Mensagens de sucesso, erro e validação em tempo real
 
 ### **API RESTful**
 
--   **Endpoints Completos**: Operações CRUD para todas as entidades
--   **Validação de Dados**: Validação robusta em todas as requisições
--   **Respostas JSON**: Comunicação padronizada entre frontend e backend
--   **Códigos HTTP**: Uso correto de status codes (200, 201, 422, 404, etc.)
+- **Endpoints Completos**: Operações CRUD para todas as entidades
+- **Validação de Dados**: Validação robusta em todas as requisições
+- **Respostas JSON**: Comunicação padronizada entre frontend e backend
+- **Códigos HTTP**: Uso correto de status codes (200, 201, 422, 404, etc.)
 
 ## 💻 **Como o Sistema Funciona**
 
@@ -180,27 +188,27 @@ php artisan serve
 
 1. **Cadastro de Vendedores**
 
-    - Administrador cadastra vendedores com suas informações
-    - Sistema valida e formata automaticamente telefone e CNPJ
-    - Vendedor fica disponível para alocação em boxes
+   - Administrador cadastra vendedores com suas informações
+   - Sistema valida e formata automaticamente telefone e CNPJ
+   - Vendedor fica disponível para alocação em boxes
 
 2. **Definição de Horários**
 
-    - Administrador define horários semanais para cada vendedor
-    - Especifica dias da semana, horários e boxes correspondentes
-    - Sistema valida conflitos automaticamente
+   - Administrador define horários semanais para cada vendedor
+   - Especifica dias da semana, horários e boxes correspondentes
+   - Sistema valida conflitos automaticamente
 
 3. **Operação Diária**
 
-    - Vendedores fazem check-in ao chegar à feira
-    - Sistema registra entrada com horário e box
-    - Durante o dia, é possível visualizar quem está presente
-    - Ao final, vendedores fazem check-out
+   - Vendedores fazem check-in ao chegar à feira
+   - Sistema registra entrada com horário e box
+   - Durante o dia, é possível visualizar quem está presente
+   - Ao final, vendedores fazem check-out
 
 4. **Monitoramento e Relatórios**
-    - Dashboard mostra situação atual da feira
-    - Histórico permite análise de padrões de uso
-    - Relatórios ajudam na gestão e planejamento
+   - Dashboard mostra situação atual da feira
+   - Histórico permite análise de padrões de uso
+   - Relatórios ajudam na gestão e planejamento
 
 ### **Cenários de Uso Específicos:**
 
@@ -232,38 +240,37 @@ php artisan serve
 
 ### **Backend Framework**
 
--   **Laravel 9.x** - Framework PHP robusto e moderno
--   **PHP 8.0+** - Linguagem de programação de alta performance
--   **Eloquent ORM** - Mapeamento objeto-relacional elegante
--   **Laravel Sanctum** - Autenticação API segura
+- **Laravel 9.x** - Framework PHP robusto e moderno
+- **PHP 8.0+** - Linguagem de programação de alta performance
+- **Eloquent ORM** - Mapeamento objeto-relacional elegante
+- **Laravel Sanctum** - Autenticação API segura
 
 ### **Frontend & UI**
 
--   **Bootstrap 5.3** - Framework CSS responsivo
--   **Blade Templates** - Sistema de templates do Laravel
--   **Bootstrap Icons** - Biblioteca de ícones consistente
--   **JavaScript Vanilla** - JS puro para interatividade
+- **Bootstrap 5.3** - Framework CSS responsivo
+- **Blade Templates** - Sistema de templates do Laravel
+- **Bootstrap Icons** - Biblioteca de ícones consistente
+- **JavaScript Vanilla** - JS puro para interatividade
 
 ### **Base de Dados**
 
--   **SQLite** - Banco padrão (desenvolvimento)
--   **MySQL/PostgreSQL** - Suporte completo para produção
--   **Laravel Migrations** - Controle de versão do banco
--   **Database Seeders** - Dados de exemplo e teste
+- **MySQL 8.0+** - Sistema de banco de dados principal
+- **Laravel Migrations** - Controle de versão do banco
+- **Database Seeders** - Dados de exemplo e teste
 
 ### **Recursos Avançados**
 
--   **Multi-tenancy** - Isolamento de dados por usuário
--   **API RESTful** - Comunicação padronizada
--   **Real-time Updates** - Atualizações automáticas
--   **Mobile Responsive** - Design adaptativo
+- **Multi-tenancy** - Isolamento de dados por usuário
+- **API RESTful** - Comunicação padronizada
+- **Real-time Updates** - Atualizações automáticas
+- **Mobile Responsive** - Design adaptativo
 
 ### **Ferramentas de Desenvolvimento**
 
--   **Composer** - Gerenciador de dependências PHP
--   **Artisan CLI** - Interface de linha de comando
--   **Laravel Tinker** - REPL interativo
--   **Laravel Pint** - Code formatting
+- **Composer** - Gerenciador de dependências PHP
+- **Artisan CLI** - Interface de linha de comando
+- **Laravel Tinker** - REPL interativo
+- **Laravel Pint** - Code formatting
 
 ## 🏗 **Arquitetura do Sistema**
 
@@ -321,7 +328,7 @@ MercadoSytem/
 │   │   ├── OrderSeeder.php
 │   │   ├── ScheduleSeeder.php
 │   │   └── EntrySeeder.php
-│   └── database.sqlite               # Banco SQLite
+│   └── 📁 factories/                 # Model Factories
 ├── 📁 resources/views/               # Templates Blade
 │   ├── 📁 layouts/
 │   │   ├── app.blade.php             # Layout principal
@@ -354,28 +361,28 @@ MercadoSytem/
 
 #### **🏛 MVC (Model-View-Controller)**
 
--   **Models**: Camada de dados com Eloquent ORM
--   **Views**: Templates Blade com componentes reutilizáveis
--   **Controllers**: Lógica de negócio separada por domínio
+- **Models**: Camada de dados com Eloquent ORM
+- **Views**: Templates Blade com componentes reutilizáveis
+- **Controllers**: Lógica de negócio separada por domínio
 
 #### **🔌 API RESTful**
 
--   **Recursos CRUD**: Operações padronizadas para todas as entidades
--   **Status Codes**: Códigos HTTP apropriados (200, 201, 422, 404)
--   **Response Format**: JSON estruturado e consistente
--   **Validation**: Validação robusta em todas as requisições
+- **Recursos CRUD**: Operações padronizadas para todas as entidades
+- **Status Codes**: Códigos HTTP apropriados (200, 201, 422, 404)
+- **Response Format**: JSON estruturado e consistente
+- **Validation**: Validação robusta em todas as requisições
 
 #### **🏢 Multi-tenancy**
 
--   **Database per Tenant**: Isolamento completo de dados
--   **Dynamic Connection**: Troca automática de conexão por usuário
--   **Middleware Integration**: Seleção transparente de tenant
+- **Database per Tenant**: Isolamento completo de dados
+- **Dynamic Connection**: Troca automática de conexão por usuário
+- **Middleware Integration**: Seleção transparente de tenant
 
 #### **🎯 Service Layer Pattern**
 
--   **Business Logic**: Lógica de negócio centralizada
--   **Reusability**: Código reutilizável entre controllers
--   **Testability**: Facilita testes unitários e de integração
+- **Business Logic**: Lógica de negócio centralizada
+- **Reusability**: Código reutilizável entre controllers
+- **Testability**: Facilita testes unitários e de integração
 
 ## 🗄 **Estrutura do Banco de Dados**
 
@@ -514,14 +521,14 @@ entries (
 
 #### **Relacionamentos Principais**
 
--   `User` → **has_dashboard_access** (controle de acesso)
--   `Vendor` → **hasMany** `Products`, `Orders`, `Schedules`, `Entries`
--   `Box` → **hasMany** `Schedules`, `Entries`
--   `Category` → **hasMany** `Products`
--   `Order` → **hasMany** `OrderItems`, **belongsTo** `Vendor`
--   `Product` → **belongsTo** `Vendor`, `Category`
--   `Schedule` → **belongsTo** `Vendor`, `Box`
--   `Entry` → **belongsTo** `Vendor`, `Box`
+- `User` → **has_dashboard_access** (controle de acesso)
+- `Vendor` → **hasMany** `Products`, `Orders`, `Schedules`, `Entries`
+- `Box` → **hasMany** `Schedules`, `Entries`
+- `Category` → **hasMany** `Products`
+- `Order` → **hasMany** `OrderItems`, **belongsTo** `Vendor`
+- `Product` → **belongsTo** `Vendor`, `Category`
+- `Schedule` → **belongsTo** `Vendor`, `Box`
+- `Entry` → **belongsTo** `Vendor`, `Box`
 
 #### **Índices para Performance**
 
@@ -545,10 +552,11 @@ CREATE INDEX idx_schedules_vendor ON schedules(vendor_id, day_of_week);
 
 #### **Software Necessário**
 
--   ✅ **PHP 8.0+** com extensões: `pdo`, `sqlite3`, `mbstring`, `openssl`
--   ✅ **Composer** (gerenciador de dependências PHP)
--   ✅ **Git** (controle de versão)
--   ✅ **Node.js & NPM** (opcional, para assets)
+- ✅ **PHP 8.0+** com extensões: `pdo`, `mysql`, `mbstring`, `openssl`
+- ✅ **MySQL 8.0+** - Banco de dados principal
+- ✅ **Composer** (gerenciador de dependências PHP)
+- ✅ **Git** (controle de versão)
+- ✅ **Node.js & NPM** (opcional, para assets)
 
 #### **Verificação do Ambiente**
 
@@ -557,7 +565,7 @@ CREATE INDEX idx_schedules_vendor ON schedules(vendor_id, day_of_week);
 php --version
 
 # Verificar extensões necessárias
-php -m | grep -E "(pdo|sqlite|mbstring|openssl)"
+php -m | grep -E "(pdo|mysql|mbstring|openssl)"
 
 # Verificar Composer
 composer --version
@@ -585,12 +593,19 @@ php artisan key:generate
 #### **2. Configuração do Banco de Dados**
 
 ```bash
-# O projeto usa SQLite por padrão - arquivo já incluído
-# Para verificar se existe:
-ls -la database/database.sqlite
+# Crie o banco de dados MySQL
+mysql -u root -p
+CREATE DATABASE mercado_system;
+exit
 
-# Se não existir, criar:
-touch database/database.sqlite
+# Configure o arquivo .env
+# Edite as configurações do MySQL no arquivo .env:
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=mercado_system
+# DB_USERNAME=seu_usuario
+# DB_PASSWORD=sua_senha
 
 # Executar migrações e seeders
 php artisan migrate --seed
@@ -598,19 +613,7 @@ php artisan migrate --seed
 
 #### **3. Configuração Avançada (Opcional)**
 
-**Para usar MySQL/PostgreSQL:**
-
-```env
-# Editar .env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=mercado_system
-DB_USERNAME=seu_usuario
-DB_PASSWORD=sua_senha
-```
-
-**Para configuração de timezone:**
+**Configuração de timezone:**
 
 ```env
 # Já configurado para Brasil
@@ -636,27 +639,26 @@ php artisan serve
 
 #### **Administrador do Sistema**
 
--   **Email**: `admin@admin.com`
--   **Senha**: `password`
--   **Acesso**: Painel administrativo completo
+- **Email**: `admin@admin.com`
+- **Senha**: `password`
+- **Acesso**: Painel administrativo completo
 
-#### **Usuário de Demonstração**
+#### **Usuário de ADMIN**
 
--   **Email**: `user@user.com`
--   **Senha**: `password`
--   **Acesso**: Dashboard de feira específica
+- **Email**: `admin@admin.com`
+- **Senha**: `admin123`
 
 ### **🗂 Dados de Exemplo Incluídos**
 
 O sistema vem pré-carregado com:
 
--   ✅ **6 Vendedores** (alguns com CNPJ, outros sem)
--   ✅ **8 Boxes** com diferentes características
--   ✅ **15+ Produtos** distribuídos por categorias
--   ✅ **Horários** pré-configurados para a semana
--   ✅ **Entradas de Exemplo** para demonstração
--   ✅ **Categorias** de alimentos organizadas
--   ✅ **Pedidos de Teste** com diferentes status
+- ✅ **6 Vendedores** (alguns com CNPJ, outros sem)
+- ✅ **8 Boxes** com diferentes características
+- ✅ **15+ Produtos** distribuídos por categorias
+- ✅ **Horários** pré-configurados para a semana
+- ✅ **Entradas de Exemplo** para demonstração
+- ✅ **Categorias** de alimentos organizadas
+- ✅ **Pedidos de Teste** com diferentes status
 
 ### **🧪 Teste Rápido do Sistema**
 
@@ -698,9 +700,11 @@ icacls bootstrap\cache /grant Everyone:F /t
 #### **Erro de Banco de Dados**
 
 ```bash
-# Recriar banco SQLite
-rm database/database.sqlite
-touch database/database.sqlite
+# Verificar conexão MySQL
+php artisan tinker
+DB::connection()->getPdo();
+
+# Recriar migrações se necessário
 php artisan migrate:fresh --seed
 ```
 
@@ -875,22 +879,22 @@ GET /api/categories/{category_id}/products  # Por categoria
 
 ```json
 [
-    {
-        "id": 1,
-        "name": "Temaki de Salmão",
-        "description": "Temaki fresco com salmão grelhado",
-        "price": "15.90",
-        "vendor_id": 1,
-        "category_id": 3,
-        "available": true,
-        "vendor": {
-            "name": "João Silva",
-            "food_type": "Comida Japonesa"
-        },
-        "category": {
-            "name": "Comida Oriental"
-        }
+  {
+    "id": 1,
+    "name": "Temaki de Salmão",
+    "description": "Temaki fresco com salmão grelhado",
+    "price": "15.90",
+    "vendor_id": 1,
+    "category_id": 3,
+    "available": true,
+    "vendor": {
+      "name": "João Silva",
+      "food_type": "Comida Japonesa"
+    },
+    "category": {
+      "name": "Comida Oriental"
     }
+  }
 ]
 ```
 
@@ -1083,26 +1087,26 @@ curl -X POST \
 
 ### **Telefone**
 
--   **Formato**: `(XX) XXXXX-XXXX` para celular ou `(XX) XXXX-XXXX` para fixo
--   **Validação**: Regex `/^\(\d{2}\) \d{4,5}-\d{4}$/`
--   **Formatação**: Automática durante digitação
+- **Formato**: `(XX) XXXXX-XXXX` para celular ou `(XX) XXXX-XXXX` para fixo
+- **Validação**: Regex `/^\(\d{2}\) \d{4,5}-\d{4}$/`
+- **Formatação**: Automática durante digitação
 
 ### **CNPJ**
 
--   **Formato**: `XX.XXX.XXX/XXXX-XX`
--   **Validação**: Regex `/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/`
--   **Formatação**: Automática durante digitação
--   **Condicional**: Obrigatório apenas se "Possui CNPJ" estiver marcado
+- **Formato**: `XX.XXX.XXX/XXXX-XX`
+- **Validação**: Regex `/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/`
+- **Formatação**: Automática durante digitação
+- **Condicional**: Obrigatório apenas se "Possui CNPJ" estiver marcado
 
 ### **Email**
 
--   **Validação**: Formato válido de email
--   **Unicidade**: Não permite emails duplicados
+- **Validação**: Formato válido de email
+- **Unicidade**: Não permite emails duplicados
 
 ### **Horários**
 
--   **Conflitos**: Impede sobreposição de horários no mesmo box
--   **Formato**: Validação de horário válido (HH:MM)
+- **Conflitos**: Impede sobreposição de horários no mesmo box
+- **Formato**: Validação de horário válido (HH:MM)
 
 ## 🖥 **Interface e Funcionalidades Web**
 
@@ -1110,28 +1114,28 @@ curl -X POST \
 
 **Visão Geral em Tempo Real**
 
--   📊 **Métricas Dinâmicas**: Total de vendedores ativos, boxes ocupados, entradas do dia
--   📈 **Cards Informativos**: Estatísticas atualizadas automaticamente
--   ⚡ **Auto-refresh**: Atualização a cada 30 segundos
--   🎯 **Resumo de Atividades**: Movimentações recentes do dia
--   📱 **Layout Responsivo**: Adaptado para mobile e desktop
+- 📊 **Métricas Dinâmicas**: Total de vendedores ativos, boxes ocupados, entradas do dia
+- 📈 **Cards Informativos**: Estatísticas atualizadas automaticamente
+- ⚡ **Auto-refresh**: Atualização a cada 30 segundos
+- 🎯 **Resumo de Atividades**: Movimentações recentes do dia
+- 📱 **Layout Responsivo**: Adaptado para mobile e desktop
 
 **Funcionalidades Disponíveis:**
 
--   ✅ Contadores em tempo real de vendedores ativos
--   ✅ Status de ocupação de boxes
--   ✅ Lista das últimas entradas/saídas
--   ✅ Navegação rápida para outras seções
+- ✅ Contadores em tempo real de vendedores ativos
+- ✅ Status de ocupação de boxes
+- ✅ Lista das últimas entradas/saídas
+- ✅ Navegação rápida para outras seções
 
 ### **🚪 Check-in/Check-out (`/checkin`)**
 
 **Interface de Controle de Acesso**
 
--   ⚡ **Check-in Rápido**: Formulário otimizado para registro de entrada
--   📋 **Seleção Inteligente**: Dropdowns com vendedores ativos e boxes disponíveis
--   👥 **Lista de Presentes**: Vendedores atualmente na feira com botão de check-out
--   🔄 **Atualizações Automáticas**: Refresh a cada 15 segundos
--   ⏰ **Registro Automático**: Horários capturados automaticamente
+- ⚡ **Check-in Rápido**: Formulário otimizado para registro de entrada
+- 📋 **Seleção Inteligente**: Dropdowns com vendedores ativos e boxes disponíveis
+- 👥 **Lista de Presentes**: Vendedores atualmente na feira com botão de check-out
+- 🔄 **Atualizações Automáticas**: Refresh a cada 15 segundos
+- ⏰ **Registro Automático**: Horários capturados automaticamente
 
 **Fluxo de Uso:**
 
@@ -1143,109 +1147,109 @@ curl -X POST \
 
 **Interface Completa de Administração**
 
--   🎴 **Cards Visuais**: Cada vendedor em card individual com foto/avatar
--   📝 **Informações Completas**: Nome, email, telefone, CNPJ (quando aplicável)
--   🏷 **Badges Informativos**: Status ativo/inativo, tipo de comida
--   ⚙ **Ações Rápidas**: Editar, adicionar horário, gerenciar produtos, excluir
--   📅 **Cronogramas**: Exibição dos horários semanais de cada vendedor
+- 🎴 **Cards Visuais**: Cada vendedor em card individual com foto/avatar
+- 📝 **Informações Completas**: Nome, email, telefone, CNPJ (quando aplicável)
+- 🏷 **Badges Informativos**: Status ativo/inativo, tipo de comida
+- ⚙ **Ações Rápidas**: Editar, adicionar horário, gerenciar produtos, excluir
+- 📅 **Cronogramas**: Exibição dos horários semanais de cada vendedor
 
 **Recursos Especiais:**
 
--   ✅ **CNPJ Condicional**: Campo aparece apenas quando necessário
--   ✅ **Formatação Automática**: Telefone e CNPJ formatados em tempo real
--   ✅ **Validação Dupla**: Frontend + Backend para máxima segurança
--   ✅ **Filtros Avançados**: Busca por nome, tipo de comida, status
+- ✅ **CNPJ Condicional**: Campo aparece apenas quando necessário
+- ✅ **Formatação Automática**: Telefone e CNPJ formatados em tempo real
+- ✅ **Validação Dupla**: Frontend + Backend para máxima segurança
+- ✅ **Filtros Avançados**: Busca por nome, tipo de comida, status
 
 ### **📦 Gestão de Boxes (`/boxes`)**
 
 **Administração de Espaços**
 
--   📋 **Lista Organizada**: Todos os boxes com informações detalhadas
--   🏷 **Identificação Clara**: Número, nome, localização
--   💰 **Preços**: Valores mensais de aluguel quando aplicável
--   🔴🟢 **Status Visual**: Indicadores de ocupação em tempo real
--   📊 **Métricas**: Histórico de uso e ocupação
+- 📋 **Lista Organizada**: Todos os boxes com informações detalhadas
+- 🏷 **Identificação Clara**: Número, nome, localização
+- 💰 **Preços**: Valores mensais de aluguel quando aplicável
+- 🔴🟢 **Status Visual**: Indicadores de ocupação em tempo real
+- 📊 **Métricas**: Histórico de uso e ocupação
 
 **Funcionalidades:**
 
--   ✅ **Cadastro Flexível**: Nome, número, localização, preço
--   ✅ **Status de Disponibilidade**: Controle ativo/inativo
--   ✅ **Associação com Vendedores**: Visualização de horários e ocupação
--   ✅ **Histórico Completo**: Acesso ao histórico de uso
+- ✅ **Cadastro Flexível**: Nome, número, localização, preço
+- ✅ **Status de Disponibilidade**: Controle ativo/inativo
+- ✅ **Associação com Vendedores**: Visualização de horários e ocupação
+- ✅ **Histórico Completo**: Acesso ao histórico de uso
 
 ### **📊 Histórico de Entradas (`/entries`)**
 
 **Central de Relatórios e Consultas**
 
--   🔍 **Filtros Avançados**: Por data, vendedor, box, período
--   📅 **Período Customizado**: Seleção de datas início e fim
--   📋 **Tabela Detalhada**: Horários de entrada/saída, tempo de permanência
--   📤 **Exportação**: Capacidade de exportar dados (CSV, PDF)
--   🔎 **Busca Inteligente**: Sistema de busca por múltiplos critérios
+- 🔍 **Filtros Avançados**: Por data, vendedor, box, período
+- 📅 **Período Customizado**: Seleção de datas início e fim
+- 📋 **Tabela Detalhada**: Horários de entrada/saída, tempo de permanência
+- 📤 **Exportação**: Capacidade de exportar dados (CSV, PDF)
+- 🔎 **Busca Inteligente**: Sistema de busca por múltiplos critérios
 
 **Informações Exibidas:**
 
--   ✅ Nome do vendedor e box utilizado
--   ✅ Data e horário de entrada
--   ✅ Data e horário de saída (quando aplicável)
--   ✅ Tempo total de permanência
--   ✅ Observações e notas adicionais
+- ✅ Nome do vendedor e box utilizado
+- ✅ Data e horário de entrada
+- ✅ Data e horário de saída (quando aplicável)
+- ✅ Tempo total de permanência
+- ✅ Observações e notas adicionais
 
 ### **🏪 Catálogo de Produtos (Integrado)**
 
 **Gestão de Produtos por Vendedor**
 
--   🛒 **Catálogo Completo**: Produtos organizados por vendedor
--   🏷 **Categorização**: Sistema hierárquico de categorias
--   💰 **Controle de Preços**: Gestão flexível de valores
--   📦 **Status de Estoque**: Disponível/Indisponível
--   📸 **Suporte a Imagens**: Upload de fotos dos produtos
+- 🛒 **Catálogo Completo**: Produtos organizados por vendedor
+- 🏷 **Categorização**: Sistema hierárquico de categorias
+- 💰 **Controle de Preços**: Gestão flexível de valores
+- 📦 **Status de Estoque**: Disponível/Indisponível
+- 📸 **Suporte a Imagens**: Upload de fotos dos produtos
 
 ### **👑 Painel Administrativo (`/admin`)**
 
 **Gestão Multi-tenant**
 
--   👥 **Gestão de Usuários**: Criar, editar, ativar/desativar usuários
--   🔐 **Controle de Acesso**: Gerenciar permissões de dashboard
--   📊 **Métricas Globais**: Estatísticas de todos os usuários
--   ⚙ **Configurações**: Parâmetros globais do sistema
+- 👥 **Gestão de Usuários**: Criar, editar, ativar/desativar usuários
+- 🔐 **Controle de Acesso**: Gerenciar permissões de dashboard
+- 📊 **Métricas Globais**: Estatísticas de todos os usuários
+- ⚙ **Configurações**: Parâmetros globais do sistema
 
 **Funcionalidades Administrativas:**
 
--   ✅ **Criação de Usuários**: Cadastro de novos usuários do sistema
--   ✅ **Gestão de Acesso**: Conceder/revogar acesso ao dashboard
--   ✅ **Personalização**: Definir nomes personalizados para o dashboard
--   ✅ **Monitoramento**: Acompanhar uso e atividade dos usuários
+- ✅ **Criação de Usuários**: Cadastro de novos usuários do sistema
+- ✅ **Gestão de Acesso**: Conceder/revogar acesso ao dashboard
+- ✅ **Personalização**: Definir nomes personalizados para o dashboard
+- ✅ **Monitoramento**: Acompanhar uso e atividade dos usuários
 
 ### **🎨 Características da Interface**
 
 #### **Design System**
 
--   🎨 **Bootstrap 5.3**: Framework CSS moderno e responsivo
--   🖼 **Bootstrap Icons**: Iconografia consistente e profissional
--   🎯 **Design Clean**: Interface limpa focada na usabilidade
--   📱 **Mobile First**: Otimizado para dispositivos móveis
+- 🎨 **Bootstrap 5.3**: Framework CSS moderno e responsivo
+- 🖼 **Bootstrap Icons**: Iconografia consistente e profissional
+- 🎯 **Design Clean**: Interface limpa focada na usabilidade
+- 📱 **Mobile First**: Otimizado para dispositivos móveis
 
 #### **Experiência do Usuário**
 
--   ⚡ **Performance**: Carregamento rápido e otimizado
--   🔄 **Feedback Visual**: Mensagens de sucesso/erro em tempo real
--   🎭 **Animations**: Transições suaves e profissionais
--   🖱 **Interatividade**: Elementos responsivos ao hover/click
+- ⚡ **Performance**: Carregamento rápido e otimizado
+- 🔄 **Feedback Visual**: Mensagens de sucesso/erro em tempo real
+- 🎭 **Animations**: Transições suaves e profissionais
+- 🖱 **Interatividade**: Elementos responsivos ao hover/click
 
 #### **Acessibilidade**
 
--   ♿ **WCAG Compliance**: Seguindo diretrizes de acessibilidade
--   ⌨ **Navegação por Teclado**: Suporte completo
--   🔍 **Alto Contraste**: Cores adequadas para visibilidade
--   📱 **Touch Friendly**: Elementos otimizados para touch
+- ♿ **WCAG Compliance**: Seguindo diretrizes de acessibilidade
+- ⌨ **Navegação por Teclado**: Suporte completo
+- 🔍 **Alto Contraste**: Cores adequadas para visibilidade
+- 📱 **Touch Friendly**: Elementos otimizados para touch
 
 #### **Temas e Personalização**
 
--   🌓 **Modo Claro/Escuro**: Suporte a temas adaptativos
--   🎨 **Cores Customizáveis**: Esquema de cores personalizável
--   📐 **Layout Flexível**: Adaptação automática ao conteúdo
--   🖼 **Branding**: Espaço para logotipos e identidade visual
+- 🌓 **Modo Claro/Escuro**: Suporte a temas adaptativos
+- 🎨 **Cores Customizáveis**: Esquema de cores personalizável
+- 📐 **Layout Flexível**: Adaptação automática ao conteúdo
+- 🖼 **Branding**: Espaço para logotipos e identidade visual
 
 ## 🔐 **Segurança e Autenticação**
 
@@ -1253,10 +1257,10 @@ curl -X POST \
 
 #### **Autenticação Dupla**
 
--   👑 **Dashboard Managers**: Administradores com acesso completo ao sistema
--   👤 **Users**: Usuários finais com acesso a dashboards específicos
--   🔐 **Guards Separados**: Isolamento completo entre níveis de acesso
--   🎫 **Laravel Sanctum**: Tokens seguros para API
+- 👑 **Dashboard Managers**: Administradores com acesso completo ao sistema
+- 👤 **Users**: Usuários finais com acesso a dashboards específicos
+- 🔐 **Guards Separados**: Isolamento completo entre níveis de acesso
+- 🎫 **Laravel Sanctum**: Tokens seguros para API
 
 #### **Controle de Acesso Granular**
 
@@ -1271,10 +1275,10 @@ curl -X POST \
 
 #### **Isolamento de Dados**
 
--   📊 **Database per Tenant**: Cada usuário possui banco isolado
--   🔄 **Dynamic Connection**: Troca automática de conexão
--   🛡 **Data Security**: Impossibilidade de acesso a dados de outros usuários
--   🎯 **Tenant Resolution**: Identificação automática do tenant
+- 📊 **Database per Tenant**: Cada usuário possui banco isolado
+- 🔄 **Dynamic Connection**: Troca automática de conexão
+- 🛡 **Data Security**: Impossibilidade de acesso a dados de outros usuários
+- 🎯 **Tenant Resolution**: Identificação automática do tenant
 
 #### **Fluxo de Multi-tenancy**
 
@@ -1287,16 +1291,16 @@ curl -X POST \
 
 #### **Proteção CSRF**
 
--   🛡 **Todos os Formulários**: Proteção automática contra CSRF
--   🎫 **Tokens Únicos**: Geração automática de tokens por sessão
--   ⏰ **Expiração**: Tokens com tempo de vida limitado
+- 🛡 **Todos os Formulários**: Proteção automática contra CSRF
+- 🎫 **Tokens Únicos**: Geração automática de tokens por sessão
+- ⏰ **Expiração**: Tokens com tempo de vida limitado
 
 #### **Validação de Dados**
 
--   🔍 **Input Validation**: Sanitização rigorosa de entradas
--   📝 **Form Requests**: Validação estruturada no backend
--   🚫 **SQL Injection**: Proteção via Eloquent ORM
--   🔐 **XSS Protection**: Escape automático de output
+- 🔍 **Input Validation**: Sanitização rigorosa de entradas
+- 📝 **Form Requests**: Validação estruturada no backend
+- 🚫 **SQL Injection**: Proteção via Eloquent ORM
+- 🔐 **XSS Protection**: Escape automático de output
 
 #### **Proteção de Senhas**
 
@@ -1312,16 +1316,16 @@ Hash::check($input, $hashedPassword)
 
 #### **Configuração Segura**
 
--   ⏰ **Tempo de Vida**: Sessões com expiração configurável
--   🍪 **Cookies Seguros**: HttpOnly e Secure flags
--   🔄 **Regeneração**: IDs de sessão regenerados no login
--   🚫 **Logout Seguro**: Invalidação completa da sessão
+- ⏰ **Tempo de Vida**: Sessões com expiração configurável
+- 🍪 **Cookies Seguros**: HttpOnly e Secure flags
+- 🔄 **Regeneração**: IDs de sessão regenerados no login
+- 🚫 **Logout Seguro**: Invalidação completa da sessão
 
 #### **Prevenção de Ataques**
 
--   🔒 **Session Fixation**: Regeneração automática de ID
--   ⏰ **Session Timeout**: Logout automático por inatividade
--   🔄 **Concurrent Sessions**: Controle de sessões múltiplas
+- 🔒 **Session Fixation**: Regeneração automática de ID
+- ⏰ **Session Timeout**: Logout automático por inatividade
+- 🔄 **Concurrent Sessions**: Controle de sessões múltiplas
 
 ### **🛡 Middleware de Segurança**
 
@@ -1350,10 +1354,10 @@ class CheckDashboardAccess {
 
 #### **Laravel Sanctum**
 
--   🎫 **Token-based**: Autenticação por tokens pessoais
--   ⏰ **Expiração**: Tokens com tempo de vida configurável
--   🔄 **Revogação**: Possibilidade de revogar tokens
--   📱 **SPA Support**: Suporte para Single Page Applications
+- 🎫 **Token-based**: Autenticação por tokens pessoais
+- ⏰ **Expiração**: Tokens com tempo de vida configurável
+- 🔄 **Revogação**: Possibilidade de revogar tokens
+- 📱 **SPA Support**: Suporte para Single Page Applications
 
 #### **Exemplo de Uso**
 
@@ -1369,10 +1373,10 @@ curl -H "Authorization: Bearer {token}" /api/vendors
 
 #### **Logs de Segurança**
 
--   📝 **Login Attempts**: Registro de tentativas de login
--   🚫 **Failed Logins**: Log de falhas de autenticação
--   🔄 **Tenant Switches**: Registro de trocas de tenant
--   📊 **API Calls**: Log de chamadas da API
+- 📝 **Login Attempts**: Registro de tentativas de login
+- 🚫 **Failed Logins**: Log de falhas de autenticação
+- 🔄 **Tenant Switches**: Registro de trocas de tenant
+- 📊 **API Calls**: Log de chamadas da API
 
 #### **Monitoramento**
 
@@ -1408,31 +1412,31 @@ DB_SSL_CERT=path/to/cert.pem
 
 #### **Desenvolvimento Seguro**
 
--   ✅ **Principle of Least Privilege**: Usuários com mínimo acesso necessário
--   ✅ **Defense in Depth**: Múltiplas camadas de proteção
--   ✅ **Input Validation**: Validação em todas as camadas
--   ✅ **Output Encoding**: Escape adequado de saídas
+- ✅ **Principle of Least Privilege**: Usuários com mínimo acesso necessário
+- ✅ **Defense in Depth**: Múltiplas camadas de proteção
+- ✅ **Input Validation**: Validação em todas as camadas
+- ✅ **Output Encoding**: Escape adequado de saídas
 
 #### **Operacional**
 
--   ✅ **Regular Updates**: Manutenção de dependências atualizada
--   ✅ **Security Patches**: Aplicação regular de patches
--   ✅ **Backup Strategy**: Backups seguros e regulares
--   ✅ **Access Reviews**: Revisão periódica de acessos
+- ✅ **Regular Updates**: Manutenção de dependências atualizada
+- ✅ **Security Patches**: Aplicação regular de patches
+- ✅ **Backup Strategy**: Backups seguros e regulares
+- ✅ **Access Reviews**: Revisão periódica de acessos
 
 ### **🚨 Resposta a Incidentes**
 
 #### **Detecção**
 
--   🔍 **Monitoring**: Monitoramento ativo de logs
--   🚨 **Alertas**: Notificações automáticas de eventos suspeitos
--   📊 **Analytics**: Análise de padrões de acesso
+- 🔍 **Monitoring**: Monitoramento ativo de logs
+- 🚨 **Alertas**: Notificações automáticas de eventos suspeitos
+- 📊 **Analytics**: Análise de padrões de acesso
 
 #### **Resposta**
 
--   🔒 **Account Lockout**: Bloqueio automático de contas suspeitas
--   🔄 **Token Revocation**: Revogação imediata de tokens comprometidos
--   📝 **Incident Logging**: Registro detalhado de incidentes
+- 🔒 **Account Lockout**: Bloqueio automático de contas suspeitas
+- 🔄 **Token Revocation**: Revogação imediata de tokens comprometidos
+- 📝 **Incident Logging**: Registro detalhado de incidentes
 
 ## ⚡ **Performance e Otimização**
 
@@ -1440,10 +1444,10 @@ DB_SSL_CERT=path/to/cert.pem
 
 #### **Database Performance**
 
--   📊 **Índices Estratégicos**: Índices otimizados para consultas frequentes
--   🔄 **Eager Loading**: Carregamento otimizado de relacionamentos
--   📝 **Query Optimization**: Consultas SQL eficientes com Eloquent
--   💾 **Connection Pooling**: Gerenciamento eficiente de conexões
+- 📊 **Índices Estratégicos**: Índices otimizados para consultas frequentes
+- 🔄 **Eager Loading**: Carregamento otimizado de relacionamentos
+- 📝 **Query Optimization**: Consultas SQL eficientes com Eloquent
+- 💾 **Connection Pooling**: Gerenciamento eficiente de conexões
 
 ```php
 // Exemplo de eager loading otimizado
@@ -1454,10 +1458,10 @@ $vendors = Vendor::with(['schedules.box', 'entries', 'products.category'])
 
 #### **Caching Strategy**
 
--   🗄 **Route Caching**: Cache de rotas para produção
--   🖼 **View Caching**: Compilação de templates Blade
--   ⚙ **Config Caching**: Cache de configurações
--   📊 **Query Caching**: Cache de consultas frequentes
+- 🗄 **Route Caching**: Cache de rotas para produção
+- 🖼 **View Caching**: Compilação de templates Blade
+- ⚙ **Config Caching**: Cache de configurações
+- 📊 **Query Caching**: Cache de consultas frequentes
 
 ```bash
 # Comandos de otimização para produção
@@ -1471,65 +1475,65 @@ php artisan optimize
 
 #### **Asset Optimization**
 
--   📦 **Bootstrap CDN**: Carregamento otimizado do Bootstrap
--   🖼 **Icon Optimization**: Bootstrap Icons otimizados
--   ⚡ **Lazy Loading**: Carregamento sob demanda de componentes
--   🗜 **CSS/JS Minification**: Assets minificados em produção
+- 📦 **Bootstrap CDN**: Carregamento otimizado do Bootstrap
+- 🖼 **Icon Optimization**: Bootstrap Icons otimizados
+- ⚡ **Lazy Loading**: Carregamento sob demanda de componentes
+- 🗜 **CSS/JS Minification**: Assets minificados em produção
 
 #### **JavaScript Performance**
 
--   🚫 **Minimal Dependencies**: JavaScript vanilla para máxima performance
--   🔄 **Async Operations**: Operações assíncronas com fetch/axios
--   ⏰ **Debounced Updates**: Throttling de atualizações em tempo real
--   💾 **Local Caching**: Cache local de dados frequentes
+- 🚫 **Minimal Dependencies**: JavaScript vanilla para máxima performance
+- 🔄 **Async Operations**: Operações assíncronas com fetch/axios
+- ⏰ **Debounced Updates**: Throttling de atualizações em tempo real
+- 💾 **Local Caching**: Cache local de dados frequentes
 
 ### **📱 Responsividade e Mobile**
 
 #### **Mobile-First Design**
 
--   📱 **Touch Optimization**: Elementos otimizados para touch
--   🖼 **Responsive Images**: Imagens adaptativas por device
--   ⚡ **Fast Loading**: Carregamento otimizado para mobile
--   📐 **Flexible Layouts**: Layouts que se adaptam ao conteúdo
+- 📱 **Touch Optimization**: Elementos otimizados para touch
+- 🖼 **Responsive Images**: Imagens adaptativas por device
+- ⚡ **Fast Loading**: Carregamento otimizado para mobile
+- 📐 **Flexible Layouts**: Layouts que se adaptam ao conteúdo
 
 #### **Progressive Enhancement**
 
--   🔧 **Core Functionality**: Funcionalidade básica sem JavaScript
--   ⚡ **Enhanced Experience**: Recursos avançados com JavaScript
--   📶 **Offline Capability**: Funcionalidade básica offline
--   🔄 **Graceful Degradation**: Degradação elegante em dispositivos limitados
+- 🔧 **Core Functionality**: Funcionalidade básica sem JavaScript
+- ⚡ **Enhanced Experience**: Recursos avançados com JavaScript
+- 📶 **Offline Capability**: Funcionalidade básica offline
+- 🔄 **Graceful Degradation**: Degradação elegante em dispositivos limitados
 
 ### **🏗 Arquitetura Escalável**
 
 #### **Code Organization**
 
--   📁 **Modular Structure**: Código organizado em módulos
--   🔧 **Service Layer**: Lógica de negócio centralizada
--   🎯 **Single Responsibility**: Classes com responsabilidade única
--   🔄 **Dependency Injection**: Injeção de dependência para testabilidade
+- 📁 **Modular Structure**: Código organizado em módulos
+- 🔧 **Service Layer**: Lógica de negócio centralizada
+- 🎯 **Single Responsibility**: Classes com responsabilidade única
+- 🔄 **Dependency Injection**: Injeção de dependência para testabilidade
 
 #### **Multi-tenant Optimization**
 
--   💾 **Efficient Connection Switching**: Troca eficiente de conexões
--   📊 **Shared Resources**: Recursos compartilhados quando possível
--   🔐 **Isolated Processing**: Processamento isolado por tenant
--   ⚡ **Optimized Queries**: Consultas otimizadas por tenant
+- 💾 **Efficient Connection Switching**: Troca eficiente de conexões
+- 📊 **Shared Resources**: Recursos compartilhados quando possível
+- 🔐 **Isolated Processing**: Processamento isolado por tenant
+- ⚡ **Optimized Queries**: Consultas otimizadas por tenant
 
 ### **📊 Monitoramento e Métricas**
 
 #### **Performance Monitoring**
 
--   ⏱ **Response Time Tracking**: Monitoramento de tempo de resposta
--   💾 **Memory Usage**: Monitoramento de uso de memória
--   📊 **Database Performance**: Métricas de performance do banco
--   🔍 **Error Tracking**: Rastreamento de erros e exceções
+- ⏱ **Response Time Tracking**: Monitoramento de tempo de resposta
+- 💾 **Memory Usage**: Monitoramento de uso de memória
+- 📊 **Database Performance**: Métricas de performance do banco
+- 🔍 **Error Tracking**: Rastreamento de erros e exceções
 
 #### **Real-time Updates**
 
--   🔄 **Efficient Polling**: Polling otimizado para atualizações
--   ⚡ **Minimal Payload**: Transferência mínima de dados
--   📡 **Smart Refresh**: Atualização inteligente apenas quando necessário
--   💾 **Client-side Caching**: Cache no lado do cliente
+- 🔄 **Efficient Polling**: Polling otimizado para atualizações
+- ⚡ **Minimal Payload**: Transferência mínima de dados
+- 📡 **Smart Refresh**: Atualização inteligente apenas quando necessário
+- 💾 **Client-side Caching**: Cache no lado do cliente
 
 ### **🛠 Configurações de Produção**
 
@@ -1583,17 +1587,17 @@ server {
 
 #### **Benchmarks Típicos**
 
--   ⚡ **Página Inicial**: < 500ms tempo de carregamento
--   📊 **API Responses**: < 200ms tempo médio de resposta
--   💾 **Database Queries**: < 50ms por consulta otimizada
--   🔄 **Real-time Updates**: < 2s intervalo de atualização
+- ⚡ **Página Inicial**: < 500ms tempo de carregamento
+- 📊 **API Responses**: < 200ms tempo médio de resposta
+- 💾 **Database Queries**: < 50ms por consulta otimizada
+- 🔄 **Real-time Updates**: < 2s intervalo de atualização
 
 #### **Otimizações Específicas**
 
--   🎯 **Dashboard**: Lazy loading de widgets não críticos
--   👥 **Vendedores**: Paginação otimizada para listas grandes
--   📦 **Produtos**: Cache de categorias e filtros
--   📊 **Relatórios**: Processamento assíncrono para grandes volumes
+- 🎯 **Dashboard**: Lazy loading de widgets não críticos
+- 👥 **Vendedores**: Paginação otimizada para listas grandes
+- 📦 **Produtos**: Cache de categorias e filtros
+- 📊 **Relatórios**: Processamento assíncrono para grandes volumes
 
 ### **🔧 Ferramentas de Desenvolvimento**
 
@@ -1613,10 +1617,10 @@ composer require phpunit/phpunit --dev
 
 #### **Monitoring Tools**
 
--   📊 **Laravel Horizon**: Monitoramento de filas
--   🔍 **Laravel Telescope**: Debug e profiling
--   📈 **New Relic**: APM em produção
--   🔍 **Sentry**: Error tracking e performance
+- 📊 **Laravel Horizon**: Monitoramento de filas
+- 🔍 **Laravel Telescope**: Debug e profiling
+- 📈 **New Relic**: APM em produção
+- 🔍 **Sentry**: Error tracking e performance
 
 ## 📱 **Compatibilidade e Suporte**
 
@@ -1624,18 +1628,18 @@ composer require phpunit/phpunit --dev
 
 #### **Desktop**
 
--   ✅ **Chrome 90+** - Suporte completo e otimizado
--   ✅ **Firefox 88+** - Funcionalidade completa
--   ✅ **Safari 14+** - Compatibilidade total
--   ✅ **Edge 90+** - Suporte moderno
--   ⚠️ **Internet Explorer** - Não suportado (descontinuado)
+- ✅ **Chrome 90+** - Suporte completo e otimizado
+- ✅ **Firefox 88+** - Funcionalidade completa
+- ✅ **Safari 14+** - Compatibilidade total
+- ✅ **Edge 90+** - Suporte moderno
+- ⚠️ **Internet Explorer** - Não suportado (descontinuado)
 
 #### **Mobile**
 
--   ✅ **Chrome Mobile** - Performance otimizada
--   ✅ **Safari iOS** - Totalmente compatível
--   ✅ **Samsung Internet** - Suporte completo
--   ✅ **Firefox Mobile** - Funcionalidade completa
+- ✅ **Chrome Mobile** - Performance otimizada
+- ✅ **Safari iOS** - Totalmente compatível
+- ✅ **Samsung Internet** - Suporte completo
+- ✅ **Firefox Mobile** - Funcionalidade completa
 
 ### **📱 Dispositivos e Resoluções**
 
@@ -1653,10 +1657,10 @@ composer require phpunit/phpunit --dev
 
 #### **Dispositivos Testados**
 
--   📱 **Smartphones**: iPhone 12+, Samsung Galaxy S21+, Google Pixel
--   📟 **Tablets**: iPad Air, Samsung Galaxy Tab, Surface Pro
--   💻 **Laptops**: 13" - 17" (1366x768 até 1920x1080)
--   🖥 **Desktops**: Full HD até 4K (3840x2160)
+- 📱 **Smartphones**: iPhone 12+, Samsung Galaxy S21+, Google Pixel
+- 📟 **Tablets**: iPad Air, Samsung Galaxy Tab, Surface Pro
+- 💻 **Laptops**: 13" - 17" (1366x768 até 1920x1080)
+- 🖥 **Desktops**: Full HD até 4K (3840x2160)
 
 ### **⚙ Requisitos de Sistema**
 
@@ -1664,42 +1668,42 @@ composer require phpunit/phpunit --dev
 
 ```yaml
 Minimum Requirements:
-    - PHP: 8.0+
-    - Memory: 512MB RAM
-    - Storage: 1GB disk space
-    - Database: MySQL 5.7+ / PostgreSQL 12+ / SQLite 3.8+
+  - PHP: 8.0+
+  - Memory: 512MB RAM
+  - Storage: 1GB disk space
+  - Database: MySQL 5.7+ / PostgreSQL 12+ / SQLite 3.8+
 
 Recommended:
-    - PHP: 8.1+
-    - Memory: 2GB RAM
-    - Storage: 5GB SSD
-    - Database: MySQL 8.0+ / PostgreSQL 14+
-    - Web Server: Nginx 1.18+ / Apache 2.4+
+  - PHP: 8.1+
+  - Memory: 2GB RAM
+  - Storage: 5GB SSD
+  - Database: MySQL 8.0+ / PostgreSQL 14+
+  - Web Server: Nginx 1.18+ / Apache 2.4+
 ```
 
 #### **Cliente (Browser)**
 
 ```yaml
 Minimum:
-    - JavaScript: ES6 (ES2015)
-    - CSS: CSS3 support
-    - Storage: 50MB local storage
-    - Network: 1Mbps connection
+  - JavaScript: ES6 (ES2015)
+  - CSS: CSS3 support
+  - Storage: 50MB local storage
+  - Network: 1Mbps connection
 
 Optimal:
-    - Modern browser (2+ years old)
-    - Broadband connection (10+ Mbps)
-    - Hardware acceleration enabled
+  - Modern browser (2+ years old)
+  - Broadband connection (10+ Mbps)
+  - Hardware acceleration enabled
 ```
 
 ### **🔧 Extensibilidade e Customização**
 
 #### **Temas e Personalização**
 
--   🎨 **CSS Variables**: Customização via variáveis CSS
--   🖼 **Bootstrap Themes**: Suporte a temas personalizados
--   🏷 **Brand Colors**: Cores da marca configuráveis
--   📐 **Layout Options**: Layouts flexíveis e configuráveis
+- 🎨 **CSS Variables**: Customização via variáveis CSS
+- 🖼 **Bootstrap Themes**: Suporte a temas personalizados
+- 🏷 **Brand Colors**: Cores da marca configuráveis
+- 📐 **Layout Options**: Layouts flexíveis e configuráveis
 
 #### **Módulos Extensíveis**
 
@@ -1781,10 +1785,10 @@ php artisan optimize
 
 #### **Versionamento**
 
--   📦 **Semantic Versioning**: Seguindo padrão SemVer
--   🔄 **Migration Scripts**: Scripts automáticos de migração
--   💾 **Backup Strategy**: Backups automáticos antes de upgrades
--   📝 **Changelog**: Documentação detalhada de mudanças
+- 📦 **Semantic Versioning**: Seguindo padrão SemVer
+- 🔄 **Migration Scripts**: Scripts automáticos de migração
+- 💾 **Backup Strategy**: Backups automáticos antes de upgrades
+- 📝 **Changelog**: Documentação detalhada de mudanças
 
 ### **🐛 Debugging e Troubleshooting**
 
@@ -1836,28 +1840,28 @@ php artisan config:cache
 
 #### **Recursos de Suporte**
 
--   📚 **Documentação**: Documentação completa e atualizada
--   🐛 **Issue Tracking**: Sistema de tickets para bugs
--   💬 **Fórum**: Comunidade ativa de desenvolvedores
--   📧 **Email Support**: Suporte direto para problemas críticos
+- 📚 **Documentação**: Documentação completa e atualizada
+- 🐛 **Issue Tracking**: Sistema de tickets para bugs
+- 💬 **Fórum**: Comunidade ativa de desenvolvedores
+- 📧 **Email Support**: Suporte direto para problemas críticos
 
 #### **Links Úteis**
 
--   🔗 **Laravel Docs**: https://laravel.com/docs
--   🔗 **Bootstrap Docs**: https://getbootstrap.com/docs
--   🔗 **PHP Manual**: https://php.net/manual
--   🔗 **Composer Docs**: https://getcomposer.org/doc
+- 🔗 **Laravel Docs**: https://laravel.com/docs
+- 🔗 **Bootstrap Docs**: https://getbootstrap.com/docs
+- 🔗 **PHP Manual**: https://php.net/manual
+- 🔗 **Composer Docs**: https://getcomposer.org/doc
 
 ### **🚀 Roadmap e Futuras Funcionalidades**
 
 #### **Próximas Versões**
 
--   📱 **App Mobile**: Aplicativo móvel nativo
--   📊 **Analytics Avançado**: Dashboard com mais métricas
--   🔔 **Notificações**: Sistema de notificações em tempo real
--   💳 **Pagamentos**: Integração com gateways de pagamento
--   📤 **Exportação Avançada**: Relatórios em mais formatos
--   🌐 **Multi-idioma**: Suporte a múltiplos idiomas
+- 📱 **App Mobile**: Aplicativo móvel nativo
+- 📊 **Analytics Avançado**: Dashboard com mais métricas
+- 🔔 **Notificações**: Sistema de notificações em tempo real
+- 💳 **Pagamentos**: Integração com gateways de pagamento
+- 📤 **Exportação Avançada**: Relatórios em mais formatos
+- 🌐 **Multi-idioma**: Suporte a múltiplos idiomas
 
 ---
 
@@ -1879,63 +1883,63 @@ php artisan config:cache
 
 #### **🆕 Novidades Implementadas**
 
--   ✅ **Sistema Multi-tenant Completo**: Isolamento total de dados por usuário
--   ✅ **E-commerce Integrado**: Catálogo de produtos + sistema de pedidos
--   ✅ **Autenticação Dupla**: Admin managers + usuários com permissões granulares
--   ✅ **CNPJ Inteligente**: Sistema condicional com formatação automática
--   ✅ **API RESTful Robusta**: Endpoints completos para todas as funcionalidades
--   ✅ **Dashboard Analytics**: Métricas em tempo real com auto-refresh
--   ✅ **Interface Moderna**: Design responsivo com Bootstrap 5.3
--   ✅ **Timezone Brasil**: Correção completa para fuso horário brasileiro
+- ✅ **Sistema Multi-tenant Completo**: Isolamento total de dados por usuário
+- ✅ **E-commerce Integrado**: Catálogo de produtos + sistema de pedidos
+- ✅ **Autenticação Dupla**: Admin managers + usuários com permissões granulares
+- ✅ **CNPJ Inteligente**: Sistema condicional com formatação automática
+- ✅ **API RESTful Robusta**: Endpoints completos para todas as funcionalidades
+- ✅ **Dashboard Analytics**: Métricas em tempo real com auto-refresh
+- ✅ **Interface Moderna**: Design responsivo com Bootstrap 5.3
+- ✅ **Timezone Brasil**: Correção completa para fuso horário brasileiro
 
 #### **🔧 Melhorias Técnicas**
 
--   ✅ **Performance Otimizada**: Consultas eficientes + caching strategy
--   ✅ **Segurança Reforçada**: CSRF, XSS, SQL Injection protection
--   ✅ **Validação Dupla**: Frontend + Backend para máxima confiabilidade
--   ✅ **Mobile-First**: Design otimizado para dispositivos móveis
--   ✅ **Escalabilidade**: Arquitetura preparada para crescimento
+- ✅ **Performance Otimizada**: Consultas eficientes + caching strategy
+- ✅ **Segurança Reforçada**: CSRF, XSS, SQL Injection protection
+- ✅ **Validação Dupla**: Frontend + Backend para máxima confiabilidade
+- ✅ **Mobile-First**: Design otimizado para dispositivos móveis
+- ✅ **Escalabilidade**: Arquitetura preparada para crescimento
 
 ### **🏆 Casos de Uso Ideais**
 
 #### **Feira Alimentar Tradicional**
 
--   👥 **50-200 Vendedores**: Gestão eficiente de vendedores
--   📦 **30-100 Boxes**: Controle de alocação e ocupação
--   ⏰ **Horários Flexíveis**: Cronogramas personalizados
--   📊 **Relatórios Diários**: Controle de movimentação
+- 👥 **50-200 Vendedores**: Gestão eficiente de vendedores
+- 📦 **30-100 Boxes**: Controle de alocação e ocupação
+- ⏰ **Horários Flexíveis**: Cronogramas personalizados
+- 📊 **Relatórios Diários**: Controle de movimentação
 
 #### **Food Court / Praça de Alimentação**
 
--   🏪 **Múltiplas Lojas**: Cada vendedor com catálogo próprio
--   🛒 **Sistema de Pedidos**: Clientes fazem pedidos online
--   💳 **Controle Financeiro**: Gestão de preços e vendas
--   📱 **Acesso Mobile**: Interface otimizada para tablets
+- 🏪 **Múltiplas Lojas**: Cada vendedor com catálogo próprio
+- 🛒 **Sistema de Pedidos**: Clientes fazem pedidos online
+- 💳 **Controle Financeiro**: Gestão de preços e vendas
+- 📱 **Acesso Mobile**: Interface otimizada para tablets
 
 #### **Mercado Municipal**
 
--   🏢 **Gestão Centralizada**: Administração única para múltiplos vendedores
--   📈 **Analytics Avançado**: Métricas de performance e ocupação
--   🔐 **Multi-usuário**: Diferentes níveis de acesso
--   📋 **Conformidade**: Registros detalhados para auditorias
+- 🏢 **Gestão Centralizada**: Administração única para múltiplos vendedores
+- 📈 **Analytics Avançado**: Métricas de performance e ocupação
+- 🔐 **Multi-usuário**: Diferentes níveis de acesso
+- 📋 **Conformidade**: Registros detalhados para auditorias
 
 ### **💡 Filosofia de Desenvolvimento**
 
 #### **Princípios Aplicados**
 
--   🎯 **User-Centric Design**: Interface focada na experiência do usuário
--   🔧 **Clean Code**: Código limpo, organizado e bem documentado
--   🛡 **Security First**: Segurança como prioridade desde o design
--   📱 **Mobile Ready**: Desenvolvido pensando em dispositivos móveis
--   ⚡ **Performance Matters**: Otimização constante de performance
--   🔄 **Maintainable**: Código fácil de manter e estender
+- 🎯 **User-Centric Design**: Interface focada na experiência do usuário
+- 🔧 **Clean Code**: Código limpo, organizado e bem documentado
+- 🛡 **Security First**: Segurança como prioridade desde o design
+- 📱 **Mobile Ready**: Desenvolvido pensando em dispositivos móveis
+- ⚡ **Performance Matters**: Otimização constante de performance
+- 🔄 **Maintainable**: Código fácil de manter e estender
 
 #### **Padrões Seguidos**
 
--   📐 **PSR Standards**: Seguindo padrões PSR-4, PSR-12
--   🏗 **SOLID Principles**: Aplicação dos princípios SOLID
--   🔄 **DRY (Don't Repeat Yourself)**: Evitando duplicação de código
--   🎯 **KISS (Keep It Simple, Stupid)**: Simplicidade na implementação
+- 📐 **PSR Standards**: Seguindo padrões PSR-4, PSR-12
+- 🏗 **SOLID Principles**: Aplicação dos princípios SOLID
+- 🔄 **DRY (Don't Repeat Yourself)**: Evitando duplicação de código
+- 🎯 **KISS (Keep It Simple, Stupid)**: Simplicidade na implementação
 
 ### **🤝 Contribuição e Desenvolvimento**
 
@@ -1957,10 +1961,10 @@ git push origin feature/nova-funcionalidade
 
 #### **Guidelines de Contribuição**
 
--   📝 **Code Standards**: Seguir PSR-12 e Laravel conventions
--   🧪 **Tests**: Incluir testes para novas funcionalidades
--   📚 **Documentation**: Atualizar documentação quando necessário
--   🐛 **Bug Reports**: Usar template de issue para reportar bugs
+- 📝 **Code Standards**: Seguir PSR-12 e Laravel conventions
+- 🧪 **Tests**: Incluir testes para novas funcionalidades
+- 📚 **Documentation**: Atualizar documentação quando necessário
+- 🐛 **Bug Reports**: Usar template de issue para reportar bugs
 
 ### **📜 Licença e Termos**
 
