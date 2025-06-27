@@ -102,4 +102,32 @@ class DashboardManagerController extends Controller
 
         return back()->with('success', "Usuário {$userName} removido com sucesso!");
     }
+
+    /**
+     * Update user information
+     */
+    public function updateUser(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'dashboard_name' => 'nullable|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed',
+        ]);
+
+        $updateData = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'dashboard_name' => $request->dashboard_name ?? $request->name,
+        ];
+
+        // Só atualiza a senha se uma nova foi fornecida
+        if ($request->filled('password')) {
+            $updateData['password'] = bcrypt($request->password);
+        }
+
+        $user->update($updateData);
+
+        return back()->with('success', "Usuário {$user->name} atualizado com sucesso!");
+    }
 }

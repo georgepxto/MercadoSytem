@@ -40,7 +40,7 @@ Route::prefix('admin')->middleware('auth:dashboard_manager')->group(function () 
     Route::get('/dashboard', [DashboardManagerController::class, 'dashboard'])->name('admin.dashboard');
     Route::get('/users', [DashboardManagerController::class, 'manageUsers'])->name('admin.users');
     Route::post('/users', [DashboardManagerController::class, 'createUser'])->name('admin.users.create');
-    Route::patch('/users/{user}/toggle-access', [DashboardManagerController::class, 'toggleUserAccess'])->name('admin.users.toggle-access');
-    Route::patch('/users/{user}/dashboard-name', [DashboardManagerController::class, 'updateDashboardName'])->name('admin.users.update-dashboard-name');
+    Route::patch('/users/{user}/toggle-access', [DashboardManagerController::class, 'toggleUserAccess'])->name('admin.users.toggle-access');    Route::patch('/users/{user}/dashboard-name', [DashboardManagerController::class, 'updateDashboardName'])->name('admin.users.update-dashboard-name');
+    Route::patch('/users/{user}', [DashboardManagerController::class, 'updateUser'])->name('admin.users.update');
     Route::delete('/users/{user}', [DashboardManagerController::class, 'deleteUser'])->name('admin.users.delete');
 });

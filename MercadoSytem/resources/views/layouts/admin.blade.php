@@ -926,9 +926,57 @@
             warning(message, title = null, duration = 3000) {
                 return this.show(message, 'warning', title, duration);
             }
-            
-            info(message, title = null, duration = 3000) {
+              info(message, title = null, duration = 3000) {
                 return this.show(message, 'info', title, duration);
+            }
+            
+            // Método para confirmação
+            confirm(message, title = 'Confirmação', onConfirm = null, onCancel = null) {
+                const modalId = 'confirmModal_' + Date.now();
+                
+                const modalHtml = `
+                    <div class="modal fade" id="${modalId}" tabindex="-1" data-bs-backdrop="static">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">${title}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>${message}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="${modalId}_cancel">Cancelar</button>
+                                    <button type="button" class="btn btn-danger" id="${modalId}_confirm">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Adicionar modal ao body
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                const modalElement = document.getElementById(modalId);
+                const modal = new bootstrap.Modal(modalElement);
+                
+                // Event listeners
+                document.getElementById(modalId + '_confirm').addEventListener('click', () => {
+                    modal.hide();
+                    if (onConfirm) onConfirm();
+                });
+                
+                document.getElementById(modalId + '_cancel').addEventListener('click', () => {
+                    modal.hide();
+                    if (onCancel) onCancel();
+                });
+                
+                // Remover modal do DOM quando fechado
+                modalElement.addEventListener('hidden.bs.modal', () => {
+                    modalElement.remove();
+                });
+                
+                modal.show();
+                return modalId;
             }
         }
         
@@ -975,8 +1023,9 @@
                         window.modernToast.show(message, type);
                     }, 100);
                 }
-            });
-        });
+            });        });
     </script>
+
+    @yield('scripts')
 </body>
 </html>
