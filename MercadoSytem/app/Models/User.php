@@ -13,10 +13,15 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The connection name for the model.
+     */
+    protected $connection = 'main';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
-     */    protected $fillable = [
+     */protected $fillable = [
         'name',
         'email',
         'password',

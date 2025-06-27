@@ -27,7 +27,7 @@ Route::get('/', function() {
 });
 
 // User dashboard routes (protected by auth middleware)
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'tenant.database'])->group(function () {
     Route::get('/dashboard', [WebController::class, 'index'])->name('dashboard');
     Route::get('/vendors', [WebController::class, 'vendors'])->name('vendors');
     Route::get('/boxes', [WebController::class, 'boxes'])->name('boxes');

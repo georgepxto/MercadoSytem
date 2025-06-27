@@ -11,6 +11,11 @@ class DashboardManager extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    /**
+     * The connection name for the model.
+     */
+    protected $connection = 'main';
+
     protected $fillable = [
         'name',
         'email',
