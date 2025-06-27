@@ -399,18 +399,17 @@
             background-color: #0d6efd !important;
             color: white !important;
         }
-        
-        /* Sidebar sempre mantém suas cores originais */
-        .sidebar,
-        .sidebar *,
-        .sidebar .nav-link,
-        .sidebar .text-white,
-        .sidebar .text-white-50,
-        .mobile-header,
-        .mobile-header *,
-        .mobile-brand,
-        .theme-toggle,
-        .theme-toggle * {
+          /* Sidebar sempre mantém suas cores originais no modo escuro */
+        [data-theme="dark"] .sidebar,
+        [data-theme="dark"] .sidebar *,
+        [data-theme="dark"] .sidebar .nav-link,
+        [data-theme="dark"] .sidebar .text-white,
+        [data-theme="dark"] .sidebar .text-white-50,
+        [data-theme="dark"] .mobile-header,
+        [data-theme="dark"] .mobile-header *,
+        [data-theme="dark"] .mobile-brand,
+        [data-theme="dark"] .theme-toggle,
+        [data-theme="dark"] .theme-toggle * {
             color: inherit !important;
         }
         
@@ -447,11 +446,54 @@
         [data-theme="light"] .sidebar .text-white-50 {
             color: rgba(255,255,255,0.5) !important;
         }
+          [data-theme="light"] .mobile-brand {
+            color: white !important;
+        }
+
+        /* Correções específicas para elementos mobile no modo claro */
+        [data-theme="light"] .hamburger-btn {
+            background: rgba(255,255,255,0.2) !important;
+            border: 1px solid rgba(255,255,255,0.3) !important;
+            color: white !important;
+        }
         
-        [data-theme="light"] .mobile-brand {
+        [data-theme="light"] .hamburger-btn:hover,
+        [data-theme="light"] .hamburger-btn:focus {
+            background: rgba(255,255,255,0.3) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            color: white !important;
+        }
+        
+        [data-theme="light"] .hamburger-btn i {
+            color: white !important;
+        }
+        
+        [data-theme="light"] .mobile-brand i {
             color: white !important;
         }        [data-theme="light"] .theme-toggle-text {
             color: rgba(255, 255, 255, 0.8) !important;
+        }
+        
+        /* === CORREÇÕES ESPECÍFICAS PARA MODO CLARO RESPONSIVO === */
+        /* Garantir que elementos mobile sejam sempre visíveis no modo claro */
+        [data-theme="light"] .mobile-header .mobile-brand,
+        [data-theme="light"] .mobile-header .mobile-brand * {
+            color: white !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+        }
+        
+        [data-theme="light"] .mobile-header .hamburger-btn,
+        [data-theme="light"] .mobile-header .hamburger-btn * {
+            color: white !important;
+            background: rgba(255,255,255,0.2) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+        }
+        
+        [data-theme="light"] .mobile-header .hamburger-btn:hover,
+        [data-theme="light"] .mobile-header .hamburger-btn:focus {
+            background: rgba(255,255,255,0.3) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            color: white !important;
         }
         
         /* Correções específicas para o texto e ícone do botão de tema no modo claro */
@@ -784,14 +826,12 @@
                 width: 100% !important;
                 height: 100vh !important;
                 overflow-y: auto !important;
-            }
-            
-            .mobile-header {
+            }            .mobile-header {
                 display: flex !important;
                 background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
                 padding: 1rem 1.25rem;
                 margin: -15px -15px 20px -15px;
-                border-radius: 0 0 1rem 1rem;
+                border-radius: 0 !important;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
                 position: sticky;
                 top: 0;
@@ -1238,14 +1278,7 @@
     <div class="toast-container" id="toastContainer"></div>
       <div class="sidebar-overlay" id="sidebar-overlay"></div>
     
-    <nav class="col-md-3 col-lg-2 sidebar" id="sidebar">
-        <div class="position-sticky pt-3">
-            <div class="d-md-none text-end mb-3">
-                <button class="btn btn-outline-light btn-sm" id="closeSidebar">
-                    <i class="bi bi-x-lg"></i>
-                </button>
-            </div>
-            
+    <nav class="col-md-3 col-lg-2 sidebar" id="sidebar">        <div class="position-sticky pt-3">
             <div class="text-center mb-4">
                 <h5 class="text-white">
                     <i class="bi bi-shop"></i>
@@ -1367,10 +1400,8 @@
             }
             
             // Sistema de Sidebar
-            const sidebar = document.getElementById('sidebar');
-            const overlay = document.getElementById('sidebar-overlay');
+            const sidebar = document.getElementById('sidebar');            const overlay = document.getElementById('sidebar-overlay');
             const toggleBtn = document.getElementById('toggleSidebar');
-            const closeBtn = document.getElementById('closeSidebar');
             
             function openSidebar() {
                 sidebar.classList.add('show');
@@ -1383,17 +1414,13 @@
                 overlay.classList.remove('show');
                 document.body.style.overflow = '';
             }
-            
-            if (toggleBtn) {
+              if (toggleBtn) {
                 toggleBtn.addEventListener('click', openSidebar);
             }
             
-            if (closeBtn) {
-                closeBtn.addEventListener('click', closeSidebar);
-            }
-            
             if (overlay) {
-                overlay.addEventListener('click', closeSidebar);            }
+                overlay.addEventListener('click', closeSidebar);
+            }
             
             const navLinks = sidebar.querySelectorAll('.nav-link');
             navLinks.forEach(link => {

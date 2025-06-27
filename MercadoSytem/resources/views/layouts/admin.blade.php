@@ -317,18 +317,17 @@
         [data-theme="dark"] .card-body .text-muted {
             color: var(--text-muted) !important;
         }
-        
-        /* Sidebar sempre mantém suas cores originais */
-        .sidebar,
-        .sidebar *,
-        .sidebar .nav-link,
-        .sidebar .text-white,
-        .sidebar .text-white-50,
-        .mobile-header,
-        .mobile-header *,
-        .mobile-brand,
-        .theme-toggle,
-        .theme-toggle * {
+          /* Sidebar sempre mantém suas cores originais no modo escuro */
+        [data-theme="dark"] .sidebar,
+        [data-theme="dark"] .sidebar *,
+        [data-theme="dark"] .sidebar .nav-link,
+        [data-theme="dark"] .sidebar .text-white,
+        [data-theme="dark"] .sidebar .text-white-50,
+        [data-theme="dark"] .mobile-header,
+        [data-theme="dark"] .mobile-header *,
+        [data-theme="dark"] .mobile-brand,
+        [data-theme="dark"] .theme-toggle,
+        [data-theme="dark"] .theme-toggle * {
             color: inherit !important;
         }
         
@@ -366,10 +365,33 @@
         [data-theme="light"] .sidebar .text-white-50 {
             color: rgba(255,255,255,0.5) !important;
         }
-        
-        [data-theme="light"] .mobile-brand {
+          [data-theme="light"] .mobile-brand {
             color: white !important;
-        }        [data-theme="light"] .theme-toggle-text {
+        }
+
+        /* === CORREÇÕES ESPECÍFICAS PARA MODO CLARO RESPONSIVO === */
+        /* Garantir que elementos mobile sejam sempre visíveis no modo claro */
+        [data-theme="light"] .mobile-header .mobile-brand,
+        [data-theme="light"] .mobile-header .mobile-brand * {
+            color: white !important;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
+        }
+        
+        [data-theme="light"] .mobile-header .hamburger-btn,
+        [data-theme="light"] .mobile-header .hamburger-btn * {
+            color: white !important;
+            background: rgba(255,255,255,0.2) !important;
+            border-color: rgba(255,255,255,0.3) !important;
+        }
+        
+        [data-theme="light"] .mobile-header .hamburger-btn:hover,
+        [data-theme="light"] .mobile-header .hamburger-btn:focus {
+            background: rgba(255,255,255,0.3) !important;
+            border-color: rgba(255,255,255,0.5) !important;
+            color: white !important;
+        }
+
+        [data-theme="light"] .theme-toggle-text {
             color: rgba(255, 255, 255, 0.8) !important;
         }
         
@@ -391,9 +413,10 @@
             gap: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            margin: 1rem 0.5rem; /* Ajustar margem para evitar overflow */
-            margin-top: auto;
+            margin: 1rem 0.5rem 1.5rem 0.5rem; /* Margem inferior maior */
+            margin-top: auto; /* Empurra para o fim do container */
             max-width: calc(100% - 1rem); /* Limitar largura máxima */
+            flex-shrink: 0; /* Impede que encolha */
         }
         
         .theme-toggle:hover {
@@ -420,7 +443,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             white-space: nowrap; /* Evita quebra de linha */
-        }.sidebar {
+        }        .sidebar {
             width: 280px; /* Largura fixa da sidebar - aumentada */
             height: 100vh;
             position: fixed;
@@ -434,42 +457,320 @@
             z-index: 1000;
         }
         
-        .sidebar .position-sticky {
+        /* Estilos do cabeçalho da sidebar no desktop */
+        .sidebar .text-center {
+            display: block;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar .text-center i {
+            display: block;
+            margin-bottom: 0.75rem;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .sidebar .text-center h4 {
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+        
+        .sidebar .text-center small {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.875rem;
+            display: block;
+            line-height: 1.2;
+        }
+          .sidebar .position-sticky {
             flex: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden; /* Contenção de overflow */
+            height: 100%; /* Garantir altura completa */
+            min-height: 100vh; /* Altura mínima do viewport */
         }
         
         .sidebar .nav {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden; /* Evita overflow horizontal */
+            padding-bottom: 1rem; /* Espaçamento inferior */
         }
-        
-        /* Ajustar margem do conteúdo principal para compensar sidebar fixa */
+          /* Ajustar margem do conteúdo principal para compensar sidebar fixa */
         .main-content {
             margin-left: 280px; /* Mesma largura da sidebar */
             height: 100vh;
             overflow-y: auto;
             padding: 0 1.5rem; /* Adicionar padding interno */
-        }        .sidebar .nav-item .nav-link {
+        }        /* Mobile Header */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--sidebar-bg);
+            z-index: 1000; /* Z-index menor que a sidebar */
+            align-items: center;
+            padding: 0 1rem;
+            border-bottom: 1px solid var(--border-color);
+            border-radius: 0 !important;
+        }
+        
+        .mobile-brand {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 0.5rem;
+        }        .hamburger-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            padding: 0.5rem;
+            cursor: pointer;
+            border-radius: 0.25rem;
+            transition: background-color 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+          /* Remove hover effect on mobile devices */
+        @media (hover: hover) and (pointer: fine) {
+            .hamburger-btn:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }.hamburger-btn i {
+            transition: none;
+            transform-origin: center;
+        }
+          /* Animação do hamburger quando sidebar está aberta */
+        .mobile-header .hamburger-btn.active i {
+            transform: rotate(90deg);
+        }        /* Sidebar Overlay for Mobile */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001; /* Entre o header e a sidebar */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                       visibility 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+        
+        .sidebar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }        /* Mobile Styles */
+        @media (max-width: 768px) {
+            .mobile-header {
+                display: flex;
+            }              .sidebar {
+                transform: translateX(-100%) !important;
+                transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important, 
+                           box-shadow 0.4s ease !important;
+                z-index: 1002 !important; /* Z-index mais alto - acima do overlay e header */
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0);
+                will-change: transform;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                bottom: 0 !important;
+                width: 280px !important;
+                height: 100vh !important;
+                height: 100dvh !important; /* Altura dinâmica do viewport */
+                min-height: 100vh !important;
+                max-height: 100vh !important;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                transform-style: preserve-3d;
+                -webkit-transform-style: preserve-3d;
+            }
+            
+            .sidebar.show {
+                transform: translateX(0) !important;
+                box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
+            }
+            
+            /* Remove Bootstrap collapse behavior on mobile */
+            .sidebar.collapse {
+                display: block !important;
+                visibility: visible !important;
+            }
+            
+            .sidebar.collapse.show {
+                display: block !important;
+            }
+              /* Animação dos itens da sidebar */
+            .sidebar .nav-item {
+                opacity: 0;
+                transform: translateX(-20px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
+                transition-delay: 0.1s;
+            }
+            
+            .sidebar.show .nav-item {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            
+            .sidebar .nav-item:nth-child(1) { transition-delay: 0.15s; }
+            .sidebar .nav-item:nth-child(2) { transition-delay: 0.2s; }
+            .sidebar .nav-item:nth-child(3) { transition-delay: 0.25s; }
+            .sidebar .nav-item:nth-child(4) { transition-delay: 0.3s; }
+            
+            /* Animação do cabeçalho da sidebar no mobile */
+            .sidebar .text-center {
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                transition-delay: 0.05s;
+            }
+            
+            .sidebar.show .text-center {
+                opacity: 1;
+                transform: translateY(0);
+            }/* Mostrar cabeçalho da sidebar no mobile com estilos otimizados */
+            .sidebar .text-center {
+                display: block !important;
+                text-align: center !important;
+                padding: 1rem 1rem 1.5rem 1rem !important;
+                margin-bottom: 1rem !important;
+                margin-top: 0 !important;
+            }
+            
+            .sidebar .text-center i {
+                display: block !important;
+                margin-bottom: 0.75rem !important;
+                color: white !important;
+                font-size: 2.5rem !important;
+            }
+            
+            .sidebar .text-center h4 {
+                color: white !important;
+                font-size: 1.1rem !important;
+                font-weight: 600 !important;
+                margin-bottom: 0.5rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            .sidebar .text-center small {
+                color: rgba(255, 255, 255, 0.7) !important;
+                font-size: 0.8rem !important;
+                display: block !important;
+                line-height: 1.2 !important;
+            }
+            
+            /* Garantir altura completa da sidebar no mobile */
+            .sidebar .position-sticky {
+                height: 100vh !important;
+                height: 100dvh !important; /* Altura dinâmica do viewport */
+                min-height: 100vh !important;
+                position: relative !important;
+                top: auto !important;
+                padding-top: 1rem !important;
+                padding-bottom: 0 !important;
+            }
+            
+            /* Ajustar distribuição do espaço na sidebar mobile */
+            .sidebar .nav {
+                flex: 1 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                padding-top: 0.5rem !important;
+                padding-bottom: 0.5rem !important;
+            }
+            
+            /* Animação do botão de tema */
+            .sidebar .theme-toggle {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.4s ease, transform 0.4s ease;
+                transition-delay: 0.3s;
+            }
+            
+            .sidebar.show .theme-toggle {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .sidebar.show .theme-toggle {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding-top: 60px; /* Account for mobile header */
+            }            .sidebar-overlay {
+                display: block;
+            }
+            
+            /* Ensure all sidebar text is visible on mobile */
+            .sidebar .text-white,
+            .sidebar .text-white-50 {
+                display: block !important;
+                visibility: visible !important;
+                color: white !important;
+            }
+        }.sidebar .nav-item .nav-link {
             color: rgba(255,255,255,.8);
             padding: 1rem;
             border-radius: 0.35rem;
             margin: 0.25rem 0.5rem; /* Ajustar margem para evitar overflow */
             overflow: hidden; /* Evita que o hover ultrapasse os limites */
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             display: flex;
             align-items: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+            position: relative;
         }
         
-        /* Espaçamento entre ícones e texto na sidebar admin */
+        /* Efeito de slide nos links */
+        .sidebar .nav-item .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -100%;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .sidebar .nav-item .nav-link:hover::before {
+            left: 100%;
+        }
+          /* Espaçamento entre ícones e texto na sidebar admin */
         .sidebar .nav-item .nav-link i {
             margin-right: 0.75rem; /* Espaçamento adequado entre ícone e texto */
             width: 20px; /* Largura fixa para alinhamento consistente */
             text-align: center; /* Centralizar ícones */
             flex-shrink: 0; /* Impedir que o ícone encolha */
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        
+        .sidebar .nav-item .nav-link:hover i {
+            transform: translateX(3px) scale(1.1);
+        }
+        
+        .sidebar .nav-item .nav-link.active i {
+            transform: scale(1.1);
         }
         
         .sidebar .nav-item .nav-link:hover {
@@ -696,18 +997,30 @@
             document.body.setAttribute('data-theme', savedTheme);
         })();
     </script>
-    
-    <!-- Container para Notificações Modernas -->
+      <!-- Container para Notificações Modernas -->
     <div class="toast-container" id="toastContainer"></div>
     
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="hamburger-btn" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+        <a href="{{ route('admin.dashboard') }}" class="mobile-brand">
+            <i class="fas fa-user-shield me-2"></i>
+            Admin Painel
+        </a>
+    </div>
+    
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    
     <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-3 col-lg-2 d-md-block sidebar collapse">
+        <div class="row">            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block sidebar" id="sidebar">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
                         <i class="fas fa-user-shield fa-3x text-white mb-2"></i>
-                        <h4 class="text-white">Admin Panel</h4>
+                        <h4 class="text-white">Admin Painel</h4>
                         <small class="text-white-50">{{ auth('dashboard_manager')->user()->name }}</small>
                     </div>
                     
@@ -744,10 +1057,8 @@
                         <span class="theme-toggle-text" id="themeText">Escuro</span>
                     </div>
                 </div>
-            </nav>
-
-            <!-- Main content -->
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            </nav>            <!-- Main content -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">@yield('title')</h1>
                 </div>
@@ -1005,8 +1316,7 @@
             @if(session('info'))
                 window.modernToast.info('{{ session('info') }}');
             @endif
-            
-            // Converter alerts Bootstrap existentes
+                  // Converter alerts Bootstrap existentes
             const alerts = document.querySelectorAll('.alert');
             alerts.forEach(alert => {
                 const message = alert.textContent.trim();
@@ -1023,7 +1333,66 @@
                         window.modernToast.show(message, type);
                     }, 100);
                 }
-            });        });
+            });            // Mobile Sidebar Controls
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebarToggle && sidebar && sidebarOverlay) {
+                // Toggle sidebar on button click
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const isCurrentlyOpen = sidebar.classList.contains('show');
+                    
+                    if (isCurrentlyOpen) {
+                        // Closing sidebar
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                    } else {
+                        // Opening sidebar
+                        // Force a reflow to ensure starting position is set
+                        sidebar.offsetHeight;
+                        
+                        // Add classes with a tiny delay to ensure animation is visible
+                        requestAnimationFrame(() => {
+                            sidebar.classList.add('show');
+                            sidebarOverlay.classList.add('show');
+                        });
+                    }
+                });
+                
+                // Close sidebar when clicking overlay
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('show');
+                    sidebarOverlay.classList.remove('show');
+                });
+                
+                // Close sidebar on window resize if moving to desktop
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) {
+                        sidebar.classList.remove('show');
+                        sidebarOverlay.classList.remove('show');
+                    }
+                });
+                
+                // Close sidebar when clicking on navigation links on mobile
+                const navLinks = sidebar.querySelectorAll('.nav-link');
+                navLinks.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            sidebar.classList.remove('show');
+                            sidebarOverlay.classList.remove('show');
+                        }
+                    });
+                });
+                
+                // Prevent sidebar from closing when clicking inside it
+                sidebar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }});
     </script>
 
     @yield('scripts')
