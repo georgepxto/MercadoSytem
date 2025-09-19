@@ -18,13 +18,15 @@ class BoxSeeder extends Seeder
         $boxes = [
             [
                 'number' => 'A',
+                'name' => 'Box A - Entrada Principal',
                 'location' => 'Entrada Principal',
                 'description' => 'Box localizado na entrada principal do estabelecimento',
                 'available' => true,
                 'monthly_price' => 800.00,
             ],
             [
-                'number' => 'B', 
+                'number' => 'B',
+                'name' => 'Box B - Área Central', 
                 'location' => 'Área Central',
                 'description' => 'Box na área central com boa visibilidade',
                 'available' => true,
@@ -32,6 +34,7 @@ class BoxSeeder extends Seeder
             ],
             [
                 'number' => 'C',
+                'name' => 'Box C - Lateral Direita',
                 'location' => 'Lateral Direita',
                 'description' => 'Box na lateral direita do espaço',
                 'available' => true,
@@ -39,6 +42,7 @@ class BoxSeeder extends Seeder
             ],
             [
                 'number' => 'D',
+                'name' => 'Box D - Área dos Fundos',
                 'location' => 'Área dos Fundos',
                 'description' => 'Box nos fundos, área mais reservada',
                 'available' => true,
@@ -46,6 +50,7 @@ class BoxSeeder extends Seeder
             ],
             [
                 'number' => 'E',
+                'name' => 'Box E - Lateral Esquerda',
                 'location' => 'Lateral Esquerda',
                 'description' => 'Box na lateral esquerda com acesso facilitado',
                 'available' => false,
