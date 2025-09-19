@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
         body {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: white;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -15,13 +15,13 @@
         }
         .login-card {
             background: white;
-            border-radius: 20px;
+            border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             max-width: 400px;
             width: 100%;
         }        .login-header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: #1a1d23;
             color: white;
             padding: 2rem;
             text-align: center;
@@ -29,9 +29,8 @@
         .login-body {
             padding: 2rem;
         }        .btn-primary {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            background: #1a1d23;
             border: none;
-            border-radius: 25px;
             padding: 12px 30px;
         }
         .form-control {
@@ -80,23 +79,23 @@
 
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 25px 0 0 25px; border-color: #e9ecef;">
+                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 15px 0 0 15px; border-color: #e9ecef;">
                             <i class="fas fa-envelope text-muted"></i>
                         </span>
                         <input type="email" class="form-control border-start-0" name="email" 
                                value="{{ old('email') }}" required autocomplete="email" autofocus
-                               placeholder="Seu e-mail" style="border-radius: 0 25px 25px 0;">
+                               placeholder="Seu e-mail" style="border-radius: 0 15px 15px 0;">
                     </div>
                 </div>
 
                 <div class="mb-3">
                     <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 25px 0 0 25px; border-color: #e9ecef;">
+                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 15px 0 0 15px; border-color: #e9ecef;">
                             <i class="fas fa-lock text-muted"></i>
                         </span>
                         <input type="password" class="form-control border-start-0" name="password" 
                                required autocomplete="current-password"
-                               placeholder="Sua senha" style="border-radius: 0 25px 25px 0;">
+                               placeholder="Sua senha" style="border-radius: 0 15px 15px 0;">
                     </div>
                 </div>
 
@@ -112,12 +111,6 @@
                 </div>
             </form>
             
-            <div class="text-center mt-3">
-                <small class="text-muted">
-                    <i class="fas fa-info-circle me-1"></i>
-                    Administradores também fazem login aqui
-                </small>
-            </div>
         </div>
     </div>
 
