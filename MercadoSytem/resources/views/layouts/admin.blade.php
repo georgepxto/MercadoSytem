@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"><style>
-        /* Variáveis CSS para Sistema de Temas */
+        /* Variáveis CSS para Tema Escuro */
         :root {
             --bg-primary: #1a1d23;
             --bg-secondary: #2d3748;
@@ -21,7 +21,7 @@
             --text-muted: #a0aec0;
             --border-color: #4a5568;
             --card-bg: #2d3748;
-            --sidebar-bg: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            --sidebar-bg: #1a1a1a;
             --btn-primary: #4299e1;
             --btn-primary-hover: #3182ce;
             --accent-color: #81e6d9;
@@ -29,23 +29,6 @@
             --toast-text: #e2e8f0;
         }
         
-        /* Tema Claro */
-        [data-theme="light"] {
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-tertiary: #e9ecef;
-            --text-primary: #212529;
-            --text-secondary: #495057;
-            --text-muted: #6c757d;
-            --border-color: #dee2e6;
-            --card-bg: #ffffff;
-            --sidebar-bg: linear-gradient(135deg, #000000 0%, #2d3748 100%);
-            --btn-primary: #0d6efd;
-            --btn-primary-hover: #0b5ed7;
-            --accent-color: #20c997;
-            --toast-bg: #ffffff;
-            --toast-text: #212529;
-        }
           /* Estilos base com variáveis */
         body {
             background-color: var(--bg-primary);
@@ -348,102 +331,7 @@
             color: inherit !important;
         }
         
-        /* Correções específicas para MODO CLARO */
-        [data-theme="light"] .sidebar .nav-link {
-            color: rgba(255,255,255,0.8) !important;
-        }
-        
-        [data-theme="light"] .sidebar .nav-link:hover,
-        [data-theme="light"] .sidebar .nav-link.active {
-            color: white !important;
-        }
-        
-        [data-theme="light"] .sidebar .text-white {
-            color: white !important;
-        }
-        
-        [data-theme="light"] .sidebar .text-white-50 {
-            color: rgba(255,255,255,0.5) !important;
-        }
-          [data-theme="light"] .mobile-brand {
-            color: white !important;
-        }
-
-        /* === CORREÇÕES ESPECÍFICAS PARA MODO CLARO RESPONSIVO === */
-        /* Garantir que elementos mobile sejam sempre visíveis no modo claro */
-        [data-theme="light"] .mobile-header .mobile-brand,
-        [data-theme="light"] .mobile-header .mobile-brand * {
-            color: white !important;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
-        }
-        
-        [data-theme="light"] .mobile-header .hamburger-btn,
-        [data-theme="light"] .mobile-header .hamburger-btn * {
-            color: white !important;
-            background: rgba(255,255,255,0.2) !important;
-            border-color: rgba(255,255,255,0.3) !important;
-        }
-        
-        [data-theme="light"] .mobile-header .hamburger-btn:hover,
-        [data-theme="light"] .mobile-header .hamburger-btn:focus {
-            background: rgba(255,255,255,0.3) !important;
-            border-color: rgba(255,255,255,0.5) !important;
-            color: white !important;
-        }
-
-        [data-theme="light"] .theme-toggle-text {
-            color: rgba(255, 255, 255, 0.8) !important;
-        }
-        
-        /* Correções específicas para o texto e ícone do botão de tema no modo claro */
-        [data-theme="light"] .theme-toggle i {
-            color: white !important;
-        }
-        
-        [data-theme="light"] .theme-toggle-text {
-            color: white !important;
-        }
-          /* Toggle do Tema */        .theme-toggle {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 8px 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 1rem 0.5rem 1.5rem 0.5rem; /* Margem inferior maior */
-            margin-top: auto; /* Empurra para o fim do container */
-            max-width: calc(100% - 1rem); /* Limitar largura máxima */
-            flex-shrink: 0; /* Impede que encolha */
-        }
-        
-        .theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.3);
-            transform: none; /* Remover transform que pode causar overflow */
-        }
-        
-        .theme-toggle i {
-            font-size: 16px;
-            color: #81e6d9;
-            transition: transform 0.3s ease;
-            flex-shrink: 0; /* Impede que o ícone encolha */
-        }
-        
-        .theme-toggle:hover i {
-            transform: rotate(15deg);
-        }
-        
-        .theme-toggle-text {
-            font-size: 11px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.8);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap; /* Evita quebra de linha */
-        }        .sidebar {
+        .sidebar {
             width: 280px; /* Largura fixa da sidebar - aumentada */
             height: 100vh;
             position: fixed;
@@ -989,14 +877,7 @@
     </style>
 </head>
 
-<body>
-    <!-- Aplicar tema antes do carregamento da página -->
-    <script>
-        (function() {
-            const savedTheme = localStorage.getItem('theme') || 'dark';
-            document.body.setAttribute('data-theme', savedTheme);
-        })();
-    </script>
+<body data-theme="dark">
       <!-- Container para Notificações Modernas -->
     <div class="toast-container" id="toastContainer"></div>
     
@@ -1020,8 +901,7 @@
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
                         <i class="fas fa-user-shield fa-3x text-white mb-2"></i>
-                        <h4 class="text-white">Admin Painel</h4>
-                        <small class="text-white-50">{{ auth('dashboard_manager')->user()->name }}</small>
+                        <h4 class="text-white">{{ auth('dashboard_manager')->user()->name }}</h4>
                     </div>
                     
                     <ul class="nav flex-column">
@@ -1050,12 +930,6 @@
                             </form>
                         </li>
                     </ul>
-                    
-                    <!-- Toggle do Tema -->
-                    <div class="theme-toggle" id="themeToggle">
-                        <i class="bi bi-moon-fill" id="themeIcon"></i>
-                        <span class="theme-toggle-text" id="themeText">Escuro</span>
-                    </div>
                 </div>
             </nav>            <!-- Main content -->
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 main-content">
@@ -1068,41 +942,7 @@
         </div>
     </div>    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <script>        // Sistema de Tema Escuro/Claro
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeToggle = document.getElementById('themeToggle');
-            const themeIcon = document.getElementById('themeIcon');
-            const themeText = document.getElementById('themeText');
-            const body = document.body;
-            
-            // Verificar tema atual (já aplicado no início da página)
-            const currentTheme = body.getAttribute('data-theme') || 'dark';
-            updateThemeUI(currentTheme);
-            
-            // Toggle do tema
-            themeToggle.addEventListener('click', () => {
-                const currentTheme = body.getAttribute('data-theme') || 'dark';
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                setTheme(newTheme);
-                localStorage.setItem('theme', newTheme);
-            });
-            
-            function setTheme(theme) {
-                body.setAttribute('data-theme', theme);
-                updateThemeUI(theme);
-            }
-            
-            function updateThemeUI(theme) {
-                if (theme === 'light') {
-                    themeIcon.className = 'bi bi-sun-fill';
-                    themeText.textContent = 'Claro';
-                } else {
-                    themeIcon.className = 'bi bi-moon-fill';
-                    themeText.textContent = 'Escuro';
-                }
-            }
-        });
-        
+    <script>        
         // Sistema de Notificações Modernas
         class ModernToast {
             constructor() {

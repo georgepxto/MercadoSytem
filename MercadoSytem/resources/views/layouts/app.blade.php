@@ -1284,9 +1284,6 @@
                     <i class="bi bi-shop"></i>
                     {{ auth()->user()->getDashboardName() }}
                 </h5>
-                <small class="text-white-50">
-                    Bem-vindo, {{ auth()->user()->getDashboardName() }}
-                </small>
             </div>
             
             <ul class="nav flex-column">
