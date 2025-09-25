@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\DashboardManagerController;
+use App\Http\Controllers\CheckinController;
+use App\Http\Controllers\QrCodeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +23,10 @@ Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
+// Public check-in routes (no authentication required)
+Route::get('/checkin/box{boxNumber}', [CheckinController::class, 'showCheckinForm'])->name('checkin.form');
+Route::post('/checkin/box{boxNumber}', [CheckinController::class, 'processCheckin'])->name('checkin.process');
+
 // Redirect root to dashboard
 Route::get('/', function() {
     return redirect('/dashboard');
@@ -33,6 +39,11 @@ Route::middleware(['auth', 'tenant.database'])->group(function () {
     Route::get('/boxes', [WebController::class, 'boxes'])->name('boxes');
     Route::get('/entries', [WebController::class, 'entries'])->name('entries');
     Route::get('/checkin', [WebController::class, 'checkin'])->name('checkin');
+    
+    // QR Code routes for boxes
+    Route::get('/qr/box/{box}/generate', [QrCodeController::class, 'generateBoxQr'])->name('qr.box.generate');
+    Route::get('/qr/box/{box}/download', [QrCodeController::class, 'downloadBoxQr'])->name('qr.box.download');
+    Route::post('/qr/box/{box}/regenerate', [QrCodeController::class, 'regenerateBoxToken'])->name('qr.box.regenerate');
 });
 
 // Admin routes (protected by dashboard_manager guard)

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class VendorController extends Controller
 {
@@ -14,25 +15,15 @@ class VendorController extends Controller
      */
     public function index(Request $request)
     {
+        // Buscar vendedores do banco principal
+        $vendorsQuery = DB::connection('main')->table('vendors');
+        
         // Se a query string tiver ?available=1, retorna apenas ativos
         if ($request->has('available') && $request->available == 1) {
-            $vendors = Vendor::with(['schedules.box', 'entries'])
-                ->where('active', true)
-                ->get();
-        } else {
-            $vendors = Vendor::with(['schedules.box', 'entries'])->get();
+            $vendorsQuery->where('active', true);
         }
 
-        // "Achata" o box_number em cada schedule de cada vendor
-        $vendors = $vendors->map(function ($vendor) {
-            $array = $vendor->toArray();
-            $array['schedules'] = collect($vendor->schedules)->map(function ($schedule) {
-                $scheduleArray = is_array($schedule) ? $schedule : $schedule->toArray();
-                $scheduleArray['box_number'] = isset($schedule->box) && $schedule->box ? $schedule->box->number : (isset($schedule['box']['number']) ? $schedule['box']['number'] : null);
-                return $scheduleArray;
-            })->toArray();
-            return $array;
-        });
+        $vendors = $vendorsQuery->get();
 
         return response()->json($vendors);
     }

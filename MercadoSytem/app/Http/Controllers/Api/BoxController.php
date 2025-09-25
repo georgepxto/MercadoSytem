@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Box;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class BoxController extends Controller
 {
@@ -14,14 +15,15 @@ class BoxController extends Controller
      */
     public function index(Request $request)
     {
+        // Buscar boxes do banco principal
+        $boxesQuery = DB::connection('main')->table('boxes');
+        
         // Se receber ?available=1, retorna só os boxes disponíveis
         if ($request->has('available') && $request->available == 1) {
-            $boxes = Box::with(['schedules.vendor', 'entries.vendor'])
-                ->where('available', true)
-                ->get();
-        } else {
-            $boxes = Box::with(['schedules.vendor', 'entries.vendor'])->get();
+            $boxesQuery->where('available', true);
         }
+
+        $boxes = $boxesQuery->get();
         return response()->json($boxes);
     }
 

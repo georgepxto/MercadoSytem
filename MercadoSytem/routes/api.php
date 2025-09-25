@@ -25,20 +25,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// API Routes protected by multi-tenancy middleware
-Route::middleware(['auth', 'tenant.database'])->group(function () {
-    // Main System API Routes
-    Route::apiResource('boxes', BoxController::class);
-    Route::apiResource('schedules', ScheduleController::class);
-
-    // Entry specific routes (antes do resource)
+// Routes that use main database (without tenant middleware)
+Route::middleware(['auth'])->group(function () {
+    // Entry routes
     Route::put('entries/{id}/checkout', [EntryController::class, 'checkOut']);
     Route::post('entries/{id}/checkout', [EntryController::class, 'checkOut']);
     Route::get('entries/today', [EntryController::class, 'today']);
     Route::apiResource('entries', EntryController::class);
+    
+    // Vendor and Box routes for entries page filters
+    Route::apiResource('vendors', VendorController::class);
+    Route::apiResource('boxes', BoxController::class);
+});
+
+// API Routes protected by multi-tenancy middleware
+Route::middleware(['auth', 'tenant.database'])->group(function () {
+    // Main System API Routes
+    Route::apiResource('schedules', ScheduleController::class);
 
     // Food Market API Routes
-    Route::apiResource('vendors', VendorController::class);
     Route::apiResource('categories', CategoryController::class);
     Route::apiResource('products', ProductController::class);
     Route::apiResource('orders', OrderController::class);

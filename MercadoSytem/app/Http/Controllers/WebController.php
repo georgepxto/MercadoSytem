@@ -8,6 +8,7 @@ use App\Models\Box;
 use App\Models\Entry;
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class WebController extends Controller
 {
@@ -24,14 +25,39 @@ class WebController extends Controller
     }
     public function index()
     {
-        $todayEntries = Entry::with(['vendor', 'box'])
-            ->whereDate('entry_date', Carbon::today())
-            ->orderBy('entry_time', 'desc')
-            ->get();
+        // Buscar dados no banco principal para check-in público
+        $todayEntries = \DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->join('boxes', 'entries.box_id', '=', 'boxes.id')
+            ->whereDate('entries.entry_date', Carbon::today())
+            ->orderBy('entries.entry_time', 'desc')
+            ->select(
+                'entries.*',
+                'vendors.name as vendor_name',
+                'vendors.food_type as vendor_food_type',
+                'boxes.number as box_number',
+                'boxes.location as box_location'
+            )
+            ->get()
+            ->map(function($entry) {
+                // Converter para objeto com propriedades acessíveis
+                $entry->vendor = (object) [
+                    'name' => $entry->vendor_name,
+                    'food_type' => $entry->vendor_food_type
+                ];
+                $entry->box = (object) [
+                    'number' => $entry->box_number,
+                    'location' => $entry->box_location
+                ];
+                $entry->entry_time = Carbon::parse($entry->entry_time);
+                $entry->exit_time = $entry->exit_time ? Carbon::parse($entry->exit_time) : null;
+                return $entry;
+            });
             
-        $totalVendors = Vendor::where('active', true)->count();
-        $totalBoxes = Box::where('available', true)->count();
-        $activeEntries = Entry::whereDate('entry_date', Carbon::today())
+        $totalVendors = \DB::connection('main')->table('vendors')->where('active', true)->count();
+        $totalBoxes = \DB::connection('main')->table('boxes')->where('available', true)->count();
+        $activeEntries = \DB::connection('main')->table('entries')
+            ->whereDate('entry_date', Carbon::today())
             ->whereNull('exit_time')
             ->count();
             
@@ -52,10 +78,40 @@ class WebController extends Controller
 
     public function entries()
     {
-        $entries = Entry::with(['vendor', 'box'])
-            ->orderBy('entry_date', 'desc')
-            ->orderBy('entry_time', 'desc')
-            ->paginate(20);
+        // Buscar dados no banco principal para mostrar check-ins
+        $entriesQuery = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->join('boxes', 'entries.box_id', '=', 'boxes.id')
+            ->orderBy('entries.entry_date', 'desc')
+            ->orderBy('entries.entry_time', 'desc')
+            ->select(
+                'entries.*',
+                'vendors.name as vendor_name',
+                'vendors.food_type as vendor_food_type',
+                'boxes.number as box_number',
+                'boxes.location as box_location',
+                'boxes.name as box_name'
+            );
+
+        // Paginar os resultados
+        $entries = $entriesQuery->paginate(20);
+
+        // Converter dados para formato compatível com a view
+        foreach ($entries as $entry) {
+            $entry->vendor = (object) [
+                'name' => $entry->vendor_name,
+                'food_type' => $entry->vendor_food_type
+            ];
+            $entry->box = (object) [
+                'number' => $entry->box_number,
+                'location' => $entry->box_location,
+                'name' => $entry->box_name
+            ];
+            $entry->entry_time = Carbon::parse($entry->entry_time);
+            $entry->exit_time = $entry->exit_time ? Carbon::parse($entry->exit_time) : null;
+            $entry->entry_date = Carbon::parse($entry->entry_date);
+        }
+        
         return view('entries', compact('entries'));
     }
 
