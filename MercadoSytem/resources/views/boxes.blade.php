@@ -14,7 +14,7 @@
 <div class="row g-3">
     @foreach($boxes as $box)
     <div class="col-lg-4 col-md-6 col-12">
-        <div class="card h-100 border-0 shadow-sm {{ $box->available ? '' : 'border-warning border-2' }}">
+        <div class="card h-100 border-0 shadow-sm {{ $box->status === 'disponivel' ? '' : 'border-warning border-2' }}">
             <div class="card-body p-3">
                 <div class="d-flex justify-content-between align-items-start mb-3">                    <div class="flex-grow-1">
                         <h5 class="card-title mb-1">
@@ -24,11 +24,7 @@
                         <p class="text-muted mb-0 small">{{ $box->location }}</p>
                     </div>
                     <div class="ms-2">
-                        @if($box->available)
-                            <span class="badge bg-success">Disponível</span>
-                        @else
-                            <span class="badge bg-warning">Ocupado</span>
-                        @endif
+                        <span class="badge {{ $box->status_class }}">{{ $box->status_text }}</span>
                     </div>
                 </div>
 
@@ -285,7 +281,7 @@
                             <table class="table table-sm">
                                 <tr><td><strong>Número:</strong></td><td>Box ${box.number}</td></tr>
                                 <tr><td><strong>Localização:</strong></td><td>${box.location}</td></tr>
-                                <tr><td><strong>Status:</strong></td><td>${box.available ? '<span class="badge bg-success">Disponível</span>' : '<span class="badge bg-warning">Ocupado</span>'}</td></tr>
+                                <tr><td><strong>Status:</strong></td><td><span class="badge ${box.status_class}">${box.status_text}</span></td></tr>
                                 ${box.monthly_price ? `<tr><td><strong>Preço:</strong></td><td>R$ ${parseFloat(box.monthly_price).toLocaleString('pt-BR', {minimumFractionDigits: 2})}/mês</td></tr>` : ''}
                                 ${box.description ? `<tr><td><strong>Descrição:</strong></td><td>${box.description}</td></tr>` : ''}
                             </table>

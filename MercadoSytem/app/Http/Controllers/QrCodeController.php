@@ -4,17 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Box;
+use Illuminate\Support\Facades\DB;
 
 class QrCodeController extends Controller
 {
     /**
      * Generate QR code for a box
      *
-     * @param Box $box
+     * @param int $boxId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function generateBoxQr(Box $box)
+    public function generateBoxQr($boxId)
     {
+        // Buscar box no banco principal
+        $box = DB::connection('main')->table('boxes')->where('id', $boxId)->first();
+        
+        if (!$box) {
+            return response()->json(['error' => 'Box não encontrado'], 404);
+        }
+
         // URL para check-in do box
         $checkinUrl = route('checkin.form', $box->number);
         
@@ -34,11 +42,18 @@ class QrCodeController extends Controller
     /**
      * Download QR code for a box
      *
-     * @param Box $box
+     * @param int $boxId
      * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse
      */
-    public function downloadBoxQr(Box $box)
+    public function downloadBoxQr($boxId)
     {
+        // Buscar box no banco principal
+        $box = DB::connection('main')->table('boxes')->where('id', $boxId)->first();
+        
+        if (!$box) {
+            return response()->json(['error' => 'Box não encontrado'], 404);
+        }
+
         // URL para check-in do box
         $checkinUrl = route('checkin.form', $box->number);
         
@@ -62,17 +77,33 @@ class QrCodeController extends Controller
     /**
      * Regenerate QR token for a box
      *
-     * @param Box $box
+     * @param int $boxId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function regenerateBoxToken(Box $box)
+    public function regenerateBoxToken($boxId)
     {
-        $box->regenerateQrToken();
+        // Buscar box no banco principal
+        $box = DB::connection('main')->table('boxes')->where('id', $boxId)->first();
+        
+        if (!$box) {
+            return response()->json(['error' => 'Box não encontrado'], 404);
+        }
+
+        // Gerar novo token UUID
+        $newToken = \Str::uuid()->toString();
+        
+        // Atualizar token no banco principal
+        DB::connection('main')->table('boxes')
+            ->where('id', $boxId)
+            ->update([
+                'qr_token' => $newToken,
+                'updated_at' => now()
+            ]);
         
         return response()->json([
             'message' => 'Token regenerado com sucesso',
-            'box_id' => $box->id,
-            'new_token' => $box->qr_token
+            'box_id' => $boxId,
+            'new_token' => $newToken
         ]);
     }
 }

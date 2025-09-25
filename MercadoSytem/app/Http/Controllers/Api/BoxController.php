@@ -40,7 +40,21 @@ class BoxController extends Controller
             'monthly_price' => 'nullable|numeric|min:0'
         ]);
 
-        $box = Box::create($request->all());
+        // Criar box no banco principal
+        $boxId = DB::connection('main')->table('boxes')->insertGetId([
+            'name' => $request->name,
+            'number' => $request->number,
+            'location' => $request->location,
+            'description' => $request->description,
+            'available' => $request->boolean('available', true),
+            'monthly_price' => $request->monthly_price,
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+
+        // Buscar box criado para retornar
+        $box = DB::connection('main')->table('boxes')->where('id', $boxId)->first();
+        
         return response()->json($box, Response::HTTP_CREATED);
     }
 
@@ -49,7 +63,12 @@ class BoxController extends Controller
      */
     public function show($id)
     {
-        $box = Box::with(['schedules.vendor', 'entries.vendor'])->findOrFail($id);
+        $box = DB::connection('main')->table('boxes')->where('id', $id)->first();
+        
+        if (!$box) {
+            return response()->json(['message' => 'Box não encontrado'], 404);
+        }
+        
         return response()->json($box);
     }
 
@@ -58,17 +77,36 @@ class BoxController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $box = Box::findOrFail($id);        $request->validate([
+        // Verificar se box existe no banco principal
+        $existingBox = DB::connection('main')->table('boxes')->where('id', $id)->first();
+        if (!$existingBox) {
+            return response()->json(['message' => 'Box não encontrado'], 404);
+        }
+
+        $request->validate([
             'name' => 'required|string|max:255',
-            'number' => 'required|string|unique:boxes,number,' . $id,
+            'number' => 'required|string',
             'location' => 'required|string|max:255',
             'description' => 'nullable|string',
             'available' => 'boolean',
             'monthly_price' => 'nullable|numeric|min:0'
         ]);
 
-        $box->update($request->all());
-        return response()->json($box);
+        // Atualizar no banco principal
+        DB::connection('main')->table('boxes')->where('id', $id)->update([
+            'name' => $request->name,
+            'number' => $request->number,
+            'location' => $request->location,
+            'description' => $request->description,
+            'available' => $request->boolean('available', true),
+            'monthly_price' => $request->monthly_price,
+            'updated_at' => now()
+        ]);
+
+        // Buscar box atualizado
+        $updatedBox = DB::connection('main')->table('boxes')->where('id', $id)->first();
+        
+        return response()->json($updatedBox);
     }
 
     /**
@@ -76,17 +114,14 @@ class BoxController extends Controller
      */
     public function destroy($id)
     {
-        $box = Box::findOrFail($id);
-
-        $activeSchedules = $box->schedules()->where('active', true)->count();
-        if ($activeSchedules > 0) {
-            return response()->json([
-                'error' => 'Não é possível excluir este box pois ele possui agendamentos ativos.',
-                'active_schedules' => $activeSchedules
-            ], 422);
+        // Verificar se box existe no banco principal
+        $box = DB::connection('main')->table('boxes')->where('id', $id)->first();
+        if (!$box) {
+            return response()->json(['message' => 'Box não encontrado'], 404);
         }
 
-        $entriesCount = $box->entries()->count();
+        // Verificar se há entradas relacionadas
+        $entriesCount = DB::connection('main')->table('entries')->where('box_id', $id)->count();
         if ($entriesCount > 0) {
             return response()->json([
                 'error' => 'Não é possível excluir este box pois ele possui histórico de entradas.',
@@ -94,7 +129,9 @@ class BoxController extends Controller
             ], 422);
         }
 
-        $box->delete();
+        // Excluir box do banco principal
+        DB::connection('main')->table('boxes')->where('id', $id)->delete();
+        
         return response()->json(['message' => 'Box excluído com sucesso.'], Response::HTTP_OK);
     }
 }

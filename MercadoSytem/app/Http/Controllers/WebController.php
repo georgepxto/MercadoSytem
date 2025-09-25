@@ -72,7 +72,43 @@ class WebController extends Controller
 
     public function boxes()
     {
-        $boxes = Box::with(['schedules.vendor'])->get();
+        // Buscar boxes do banco principal
+        $boxesData = DB::connection('main')->table('boxes')
+            ->orderBy('number')
+            ->get();
+
+        // Converter para formato compatível com a view e verificar status
+        $boxes = $boxesData->map(function($box) {
+            // Verificar se há entradas ativas (check-in sem check-out) para este box
+            $activeEntry = DB::connection('main')->table('entries')
+                ->where('box_id', $box->id)
+                ->whereNull('exit_time')
+                ->whereDate('entry_date', Carbon::today())
+                ->first();
+
+            // Determinar status real do box
+            if (!$box->available) {
+                // Se marcado como indisponível manualmente
+                $box->status = 'indisponivel';
+                $box->status_text = 'Indisponível';
+                $box->status_class = 'bg-secondary';
+            } elseif ($activeEntry) {
+                // Se há alguém usando (entrada ativa)
+                $box->status = 'ocupado';
+                $box->status_text = 'Ocupado';
+                $box->status_class = 'bg-warning';
+                $box->active_entry = $activeEntry; // Para mostrar quem está usando
+            } else {
+                // Disponível para uso
+                $box->status = 'disponivel';
+                $box->status_text = 'Disponível';
+                $box->status_class = 'bg-success';
+            }
+
+            $box->schedules = collect([]); // Para compatibilidade com a view
+            return $box;
+        });
+
         return view('boxes', compact('boxes'));
     }
 
