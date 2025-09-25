@@ -35,18 +35,51 @@ class CheckinController extends Controller
             ->first();
 
         if ($activeEntry) {
-            // Check-out - registrar saída
-            $activeEntry->update([
-                'exit_time' => Carbon::now()->toTimeString()
-            ]);
+            // Verificar se a entrada ativa é no mesmo box
+            if ($activeEntry->box_id == $box->id) {
+                // Check-out - registrar saída no mesmo box
+                $activeEntry->update([
+                    'exit_time' => Carbon::now()->toTimeString()
+                ]);
 
-            return view('checkin.success', [
-                'box' => $box,
-                'vendor' => $vendor,
-                'action' => 'checkout',
-                'entry' => $activeEntry
-            ]);
+                return view('checkin.success', [
+                    'box' => $box,
+                    'vendor' => $vendor,
+                    'action' => 'checkout',
+                    'entry' => $activeEntry
+                ]);
+            } else {
+                // Usuário tentando fazer check-in em box diferente - ERRO
+                $activeBox = Box::find($activeEntry->box_id);
+                
+                return view('checkin.error', [
+                    'box' => $box,
+                    'vendor' => $vendor,
+                    'activeBox' => $activeBox,
+                    'activeEntry' => $activeEntry,
+                    'message' => 'Você já possui check-in ativo em outro box. Realize o check-out primeiro.'
+                ]);
+            }
         } else {
+            // Verificar se o box já está ocupado por outro usuário
+            $boxOccupied = Entry::where('box_id', $box->id)
+                ->whereDate('entry_date', $today)
+                ->whereNull('exit_time')
+                ->first();
+
+            if ($boxOccupied) {
+                // Box já está ocupado por outro usuário
+                $occupyingVendor = Vendor::find($boxOccupied->vendor_id);
+                
+                return view('checkin.box-occupied', [
+                    'box' => $box,
+                    'vendor' => $vendor,
+                    'occupyingVendor' => $occupyingVendor,
+                    'occupyingEntry' => $boxOccupied,
+                    'message' => 'Este box está em uso por outro fornecedor.'
+                ]);
+            }
+
             // Check-in - criar nova entrada
             $entry = Entry::create([
                 'vendor_id' => $vendor->id,

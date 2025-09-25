@@ -94,15 +94,14 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="success-card">
-            <div class="success-icon">
-                @if($action == 'checkin')
-                    <i class="bi bi-box-arrow-in-right"></i>
-                @else
-                    <i class="bi bi-box-arrow-right"></i>
-                @endif
-            </div>
+    <div class="success-card">
+        <div class="success-icon">
+            @if($action == 'checkin')
+                <i class="bi bi-box-arrow-in-right"></i>
+            @else
+                <i class="bi bi-box-arrow-right"></i>
+            @endif
+        </div>
             
             <div class="status-badge mb-3">
                 {{ $action == 'checkin' ? 'Check-in Realizado' : 'Check-out Realizado' }}
@@ -152,7 +151,6 @@
                 </small>
             </div>
         </div>
-    </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
