@@ -66,10 +66,17 @@
                         </div>
                     </div>
                 @else
-                    <div class="text-center py-3">
-                        <i class="bi bi-calendar-x text-muted fs-4"></i>
-                        <p class="text-muted small mb-0">Nenhum horário agendado</p>
-                    </div>
+                    @if($box->status === 'ocupado' && isset($box->active_entry))
+                        <div class="text-center py-3">
+                            <i class="bi bi-person-fill text-warning fs-4"></i>
+                            <p class="text-muted small mb-1">Box em uso por:</p>
+                            <p class="fw-semibold small mb-1">{{ $box->active_entry->vendor_name }}</p>
+                            <p class="text-muted small mb-0">
+                                <i class="bi bi-clock me-1"></i>
+                                Entrada: {{ date('H:i', strtotime($box->active_entry->entry_time)) }}
+                            </p>
+                        </div>
+                    @endif
                 @endif
             </div>
             

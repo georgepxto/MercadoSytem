@@ -81,9 +81,11 @@ class WebController extends Controller
         $boxes = $boxesData->map(function($box) {
             // Verificar se há entradas ativas (check-in sem check-out) para este box
             $activeEntry = DB::connection('main')->table('entries')
-                ->where('box_id', $box->id)
-                ->whereNull('exit_time')
-                ->whereDate('entry_date', Carbon::today())
+                ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+                ->where('entries.box_id', $box->id)
+                ->whereNull('entries.exit_time')
+                ->whereDate('entries.entry_date', Carbon::today())
+                ->select('entries.*', 'vendors.name as vendor_name', 'vendors.email as vendor_email')
                 ->first();
 
             // Determinar status real do box
