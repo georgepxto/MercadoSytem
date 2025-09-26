@@ -14,6 +14,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1rem;
         }
         
         .checkin-card {
@@ -21,10 +22,123 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 3rem;
+            padding: 2.5rem;
             width: 100%;
             max-width: 400px;
             text-align: center;
+        }
+        
+        /* ===== MELHORIAS MOBILE ===== */
+        @media (max-width: 576px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .checkin-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin: 0;
+                max-width: 100%;
+                min-height: auto;
+            }
+            
+            .box-icon {
+                width: 70px !important;
+                height: 70px !important;
+                font-size: 1.8rem !important;
+                margin-bottom: 1.25rem !important;
+            }
+            
+            h1 {
+                font-size: 1.4rem !important;
+                margin-bottom: 0.5rem !important;
+                line-height: 1.3;
+            }
+            
+            .text-muted {
+                font-size: 0.9rem !important;
+                margin-bottom: 1.5rem !important;
+                line-height: 1.4;
+            }
+            
+            .form-control {
+                padding: 0.875rem 1rem !important;
+                font-size: 1rem !important;
+                border-radius: 10px !important;
+                border-width: 1px !important;
+            }
+            
+            .form-label {
+                font-size: 0.9rem;
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+                text-align: left;
+                display: block;
+            }
+            
+            .btn-checkin {
+                padding: 0.875rem 1.5rem !important;
+                font-size: 1rem !important;
+                border-radius: 10px !important;
+                margin-top: 0.5rem;
+            }
+            
+            .alert {
+                padding: 0.75rem !important;
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+                border-radius: 10px !important;
+                text-align: left;
+            }
+            
+            .mb-4 {
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .mt-4 {
+                margin-top: 1.5rem !important;
+            }
+            
+            .mt-4 small {
+                font-size: 0.8rem !important;
+                line-height: 1.4;
+            }
+        }
+        
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 375px) {
+            .checkin-card {
+                padding: 1.25rem;
+                border-radius: 12px;
+            }
+            
+            .box-icon {
+                width: 60px !important;
+                height: 60px !important;
+                font-size: 1.5rem !important;
+            }
+            
+            h1 {
+                font-size: 1.3rem !important;
+            }
+            
+            .form-control {
+                font-size: 16px !important; /* Previne zoom no iOS */
+            }
+        }
+        
+        /* Melhorar foco em dispositivos touch */
+        @media (max-width: 576px) {
+            .form-control:focus {
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(45, 55, 72, 0.15) !important;
+            }
+            
+            .btn-checkin:active {
+                transform: translateY(0) !important;
+            }
         }
         
         .box-icon {

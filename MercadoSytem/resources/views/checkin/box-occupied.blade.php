@@ -14,6 +14,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1rem;
         }
         
         .occupied-card {
@@ -21,10 +22,110 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(26, 29, 35, 0.3);
-            padding: 3rem;
+            padding: 2rem;
             width: 100%;
             max-width: 450px;
             text-align: center;
+        }
+        
+        /* ===== MELHORIAS MOBILE ===== */
+        @media (max-width: 576px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .occupied-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin: 0;
+                min-height: auto;
+                max-width: 100%;
+            }
+            
+            .occupied-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.3rem !important;
+                margin-bottom: 0.75rem !important;
+                line-height: 1.3;
+            }
+            
+            .status-badge {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .info-card {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-radius: 8px;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-bottom: 0.75rem;
+                gap: 0.25rem;
+            }
+            
+            .info-label {
+                font-size: 0.85rem;
+                font-weight: 600;
+            }
+            
+            .info-value {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+            
+            .alert-danger {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+                margin: 1rem 0;
+                border-radius: 8px;
+            }
+            
+            .btn-primary {
+                width: 100%;
+                padding: 0.75rem;
+                font-size: 0.9rem;
+                border-radius: 12px;
+                margin-top: 1rem;
+            }
+            
+            .text-muted.small {
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 375px) {
+            .occupied-card {
+                padding: 1rem;
+                border-radius: 12px;
+            }
+            
+            .occupied-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+            }
+            
+            .info-card {
+                padding: 0.75rem;
+            }
         }
         
         .occupied-icon {
@@ -47,8 +148,8 @@
         }
         
         .info-card {
-            background: #2d3748;
-            border: 1px solid #4a5568;
+            background: rgba(248, 249, 250, 0.9);
+            border: 1px solid #dee2e6;
             border-left: 4px solid #dc3545;
             border-radius: 10px;
             padding: 1.5rem;
@@ -69,11 +170,11 @@
         
         .info-label {
             font-weight: 600;
-            color: #a0aec0;
+            color: #6c757d;
         }
         
         .info-value {
-            color: #e2e8f0;
+            color: #2c3e50;
         }
         
         .btn-primary {
@@ -102,7 +203,7 @@
         }
         
         h2 {
-            color: #dc3545;
+            color: #dc3545 !important;
             font-weight: 700;
             margin-bottom: 1rem;
         }
@@ -118,6 +219,77 @@
             letter-spacing: 0.5px;
             margin-bottom: 1rem;
             display: inline-block;
+        }
+        
+        /* Garantir cores corretas em todos os dispositivos */
+        .occupied-card {
+            color: #2c3e50 !important;
+        }
+        
+        .occupied-card .text-muted {
+            color: #6c757d !important;
+        }
+        
+        .occupied-card .alert-danger {
+            color: #721c24 !important;
+            background: #f8d7da !important;
+        }
+        
+        .occupied-card .info-card {
+            background: rgba(248, 249, 250, 0.9) !important;
+            color: #2c3e50 !important;
+        }
+        
+        .occupied-card .info-card .info-label {
+            color: #6c757d !important;
+        }
+        
+        .occupied-card .info-card .info-value {
+            color: #2c3e50 !important;
+        }
+        
+        /* Regras adicionais para garantir as cores */
+        div.occupied-card div.info-card span.info-label {
+            color: #6c757d !important;
+            font-weight: 600 !important;
+        }
+        
+        div.occupied-card div.info-card span.info-value {
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
+        }
+        
+        /* Sobrescrever qualquer estilo Bootstrap */
+        .info-card span {
+            color: inherit !important;
+        }
+        
+        .info-card .info-label {
+            color: #6c757d !important;
+        }
+        
+        .info-card .info-value {
+            color: #2c3e50 !important;
+        }
+        
+        /* Reset completo para info-card */
+        .info-card * {
+            color: inherit !important;
+        }
+        
+        .info-card {
+            color: #2c3e50 !important;
+        }
+        
+        /* Forçar cores específicas com máxima especificidade */
+        body .occupied-card .info-card .info-label,
+        body .occupied-card .info-card span.info-label {
+            color: #6c757d !important;
+        }
+        
+        body .occupied-card .info-card .info-value,
+        body .occupied-card .info-card span.info-value {
+            color: #2c3e50 !important;
         }
     </style>
 </head>

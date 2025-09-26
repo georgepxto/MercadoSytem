@@ -14,6 +14,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1rem;
         }
         
         .success-card {
@@ -21,10 +22,128 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            padding: 3rem;
+            padding: 2.5rem;
             width: 100%;
             max-width: 450px;
             text-align: center;
+        }
+        
+        /* ===== MELHORIAS MOBILE ===== */
+        @media (max-width: 576px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .success-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin: 0;
+                max-width: 100%;
+                min-height: auto;
+            }
+            
+            .success-icon {
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 2.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            h1 {
+                font-size: 1.4rem !important;
+                margin-bottom: 0.75rem !important;
+                line-height: 1.3;
+            }
+            
+            .status-badge {
+                font-size: 0.8rem !important;
+                padding: 0.4rem 0.8rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .info-card {
+                padding: 1rem !important;
+                margin: 1.5rem 0 !important;
+                border-radius: 12px;
+                text-align: left;
+            }
+            
+            .info-card .row {
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .info-card .row:last-child {
+                margin-bottom: 0 !important;
+            }
+            
+            .info-card .col-4 {
+                font-size: 0.85rem;
+                font-weight: 500;
+                padding-right: 0.5rem;
+            }
+            
+            .info-card .col-8 {
+                font-size: 0.9rem;
+                font-weight: 600;
+                padding-left: 0.5rem;
+            }
+            
+            .btn-return {
+                width: 100%;
+                padding: 0.875rem 1.5rem !important;
+                font-size: 1rem !important;
+                border-radius: 12px !important;
+                margin-top: 0.5rem;
+            }
+            
+            .mt-4 {
+                margin-top: 1.5rem !important;
+            }
+            
+            .mt-4 small {
+                font-size: 0.8rem !important;
+                line-height: 1.4;
+            }
+        }
+        
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 375px) {
+            .success-card {
+                padding: 1.25rem;
+                border-radius: 12px;
+            }
+            
+            .success-icon {
+                width: 70px !important;
+                height: 70px !important;
+                font-size: 2rem !important;
+            }
+            
+            h1 {
+                font-size: 1.3rem !important;
+            }
+            
+            .info-card {
+                padding: 0.875rem !important;
+            }
+            
+            .info-card .col-4,
+            .info-card .col-8 {
+                font-size: 0.8rem !important;
+            }
+        }
+        
+        /* Melhorias de animação para mobile */
+        @media (max-width: 576px) {
+            .success-icon {
+                animation: pulse 2s infinite;
+            }
+            
+            .btn-return:active {
+                transform: translateY(0) !important;
+            }
         }
         
         .success-icon {

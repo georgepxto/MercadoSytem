@@ -74,6 +74,34 @@
         padding: 2px 4px;
         border-radius: 3px;
     }
+    
+    /* Melhorias para mobile */
+    @media (max-width: 768px) {
+        #activeVendors .d-flex {
+            flex-direction: column;
+            align-items: flex-start !important;
+            gap: 0.5rem;
+        }
+        
+        #activeVendors .flex-shrink-0 {
+            width: 100%;
+        }
+        
+        #activeVendors .btn {
+            width: 100%;
+            justify-content: center;
+        }
+        
+        .card-body {
+            padding: 1rem !important;
+        }
+    }
+    
+    /* Garantir que o container seja visível */
+    #activeVendors {
+        min-height: 60px;
+        position: relative;
+    }
 </style>
 @endpush
 
@@ -143,13 +171,22 @@
     <div class="col-lg-6 col-12">
         <div class="card border-0 shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-person-check me-2"></i>
-                    Vendedores Ativos
-                </h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-person-check me-2"></i>
+                        Vendedores Ativos
+                    </h5>
+                    <button class="btn btn-sm btn-outline-light" onclick="loadActiveVendors()" title="Recarregar">
+                        <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body p-3">
                 <div id="activeVendors">
+                    <div class="text-center py-3">
+                        <div class="loading-spinner"></div>
+                        <p class="text-muted mb-0 mt-2">Inicializando...</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -273,9 +310,57 @@
 
     // Carregar dados iniciais
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('Página carregada');
-        loadActiveVendors();
-        loadRecentEntries();
+        console.log('Página carregada, iniciando carregamento de dados...');
+        
+        // Verificar se axios está disponível
+        if (typeof axios === 'undefined') {
+            console.error('Axios não está carregado!');
+            document.getElementById('activeVendors').innerHTML = `
+                <div class="text-center py-3 text-danger">
+                    <i class="bi bi-exclamation-triangle fs-2"></i>
+                    <p class="mb-0">Erro: Biblioteca axios não carregada</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Verificar se o token CSRF está configurado
+        const csrfToken = document.querySelector('meta[name="csrf-token"]');
+        if (csrfToken) {
+            axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken.getAttribute('content');
+            console.log('Token CSRF configurado');
+        } else {
+            console.warn('Token CSRF não encontrado');
+        }
+        
+        // Testar conectividade básica
+        console.log('Testando conectividade...');
+        
+        // Teste de conectividade antes de carregar os dados
+        axios.get('/api/entries/today')
+            .then(response => {
+                console.log('Teste de conectividade bem-sucedido:', response.status);
+                console.log('Dados recebidos:', response.data.length, 'entradas');
+                
+                setTimeout(() => {
+                    loadActiveVendors();
+                    loadRecentEntries();
+                }, 100);
+            })
+            .catch(error => {
+                console.error('Erro no teste de conectividade:', error);
+                document.getElementById('activeVendors').innerHTML = `
+                    <div class="text-center py-3 text-danger">
+                        <i class="bi bi-wifi-off fs-2"></i>
+                        <p class="mb-1">Erro de conectividade</p>
+                        <small>Código: ${error.response?.status || 'N/A'}</small>
+                        <br>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="location.reload()">
+                            <i class="bi bi-arrow-clockwise"></i> Recarregar página
+                        </button>
+                    </div>
+                `;
+            });
         
         // Toggle dos filtros
         const toggleBtn = document.getElementById('toggleRecentFilters');
@@ -325,16 +410,35 @@
     });
 
     function loadActiveVendors() {
+        console.log('Carregando vendedores ativos...');
+        
+        const container = document.getElementById('activeVendors');
+        if (!container) {
+            console.error('Container activeVendors não encontrado!');
+            return;
+        }
+        
+        // Mostrar loading
+        container.innerHTML = `
+            <div class="text-center py-3">
+                <div class="loading-spinner"></div>
+                <p class="text-muted mb-0 mt-2">Carregando vendedores...</p>
+            </div>
+        `;
+        
         axios.get('/api/entries/today')
             .then(response => {
+                console.log('Resposta da API /api/entries/today:', response.data);
+                
                 const activeVendors = response.data.filter(entry => !entry.exit_time);
-                const container = document.getElementById('activeVendors');
+                console.log('Vendedores ativos filtrados:', activeVendors);
                 
                 if (activeVendors.length === 0) {
                     container.innerHTML = `
                         <div class="text-center py-3">
                             <i class="bi bi-person-x fs-2 text-muted"></i>
                             <p class="text-muted mb-0">Nenhum vendedor ativo</p>
+                            <small class="text-muted">Total de entradas hoje: ${response.data.length}</small>
                         </div>
                     `;
                     return;
@@ -342,23 +446,42 @@
 
                 let html = '';
                 activeVendors.forEach(entry => {
-                    html += `                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                            <div>
+                    const entryTime = entry.entry_time;
+                    const timeDisplay = entryTime ? new Date(`2000-01-01T${entryTime}`).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : 'N/A';
+                    
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                            <div class="flex-grow-1 pe-2">
                                 <div class="fw-bold">${entry.vendor.name}</div>
-                                <small class="text-muted">${entry.box.name ? entry.box.name + ' | ' : ''}Box ${entry.box.number} - desde ${new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})}</small>
+                                <small class="text-muted d-block">${entry.box.name ? entry.box.name + ' | ' : ''}Box ${entry.box.number}</small>
+                                <small class="text-info">desde ${timeDisplay}</small>
                             </div>
-                            <button class="btn btn-sm btn-warning" onclick="checkOut(${entry.id})">
-                                <i class="bi bi-box-arrow-right"></i>
-                                Check-out
-                            </button>
+                            <div class="flex-shrink-0">
+                                <button class="btn btn-sm btn-warning" onclick="checkOut(${entry.id})" data-entry-id="${entry.id}">
+                                    <i class="bi bi-box-arrow-right"></i>
+                                    <span class="d-none d-md-inline ms-1">Check-out</span>
+                                </button>
+                            </div>
                         </div>
                     `;
                 });
                 
                 container.innerHTML = html;
+                console.log('Vendedores ativos carregados com sucesso');
             })
             .catch(error => {
                 console.error('Erro ao carregar vendedores ativos:', error);
+                container.innerHTML = `
+                    <div class="text-center py-3 text-danger">
+                        <i class="bi bi-exclamation-triangle fs-2"></i>
+                        <p class="mb-0">Erro ao carregar vendedores</p>
+                        <small>Verifique a conexão</small>
+                        <br>
+                        <button class="btn btn-sm btn-outline-primary mt-2" onclick="loadActiveVendors()">
+                            <i class="bi bi-arrow-clockwise"></i> Tentar novamente
+                        </button>
+                    </div>
+                `;
             });
     }    function loadRecentEntries(filters = {}) {
         console.log('Carregando entradas com filtros:', filters);

@@ -55,7 +55,8 @@
     <div class="col-lg-4 col-md-6 col-12">
         <div class="card h-100 border-0 shadow-sm {{ $box->status === 'disponivel' ? '' : 'border-warning border-2' }}">
             <div class="card-body p-3">
-                <div class="d-flex justify-content-between align-items-start mb-3">                    <div class="flex-grow-1">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <div class="flex-grow-1">
                         <h5 class="card-title mb-1">
                             <i class="bi bi-grid-3x3-gap me-2"></i>
                             {{ $box->name }} | Box {{ $box->number }}
@@ -190,7 +191,8 @@
                 <h5 class="modal-title">Novo Box</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">                <form id="boxForm">
+            <div class="modal-body">
+                <form id="boxForm">
                     <input type="hidden" id="box_id" name="box_id">
                     
                     <div class="mb-3">

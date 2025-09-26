@@ -14,6 +14,7 @@
             align-items: center;
             justify-content: center;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 1rem;
         }
         
         .error-card {
@@ -21,10 +22,136 @@
             backdrop-filter: blur(10px);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(26, 29, 35, 0.3);
-            padding: 3rem;
+            padding: 2.5rem;
             width: 100%;
             max-width: 500px;
             text-align: center;
+        }
+        
+        /* ===== MELHORIAS MOBILE ===== */
+        @media (max-width: 576px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .error-card {
+                padding: 1.5rem;
+                border-radius: 16px;
+                margin: 0;
+                max-width: 100%;
+                min-height: auto;
+            }
+            
+            .error-icon {
+                width: 80px !important;
+                height: 80px !important;
+                font-size: 2.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            h2 {
+                font-size: 1.3rem !important;
+                margin-bottom: 0.75rem !important;
+                line-height: 1.3;
+            }
+            
+            .text-muted {
+                font-size: 0.9rem !important;
+                margin-bottom: 1.5rem !important;
+                line-height: 1.4;
+            }
+            
+            .alert-warning {
+                padding: 0.75rem !important;
+                font-size: 0.9rem;
+                margin: 1rem 0 !important;
+                border-radius: 8px !important;
+                text-align: left;
+            }
+            
+            .info-card {
+                padding: 1rem !important;
+                margin: 1.5rem 0 !important;
+                border-radius: 8px;
+                text-align: left;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start !important;
+                margin-bottom: 0.75rem !important;
+                gap: 0.25rem;
+            }
+            
+            .info-label {
+                font-size: 0.85rem;
+                font-weight: 500;
+            }
+            
+            .info-value {
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+            
+            .btn-primary {
+                width: 100%;
+                padding: 0.875rem 1.5rem !important;
+                font-size: 0.9rem !important;
+                border-radius: 12px !important;
+                margin-top: 0.5rem;
+                text-transform: none !important;
+                letter-spacing: normal !important;
+            }
+            
+            .mt-4 {
+                margin-top: 1.5rem !important;
+            }
+            
+            .mt-4 .text-muted.small {
+                font-size: 0.8rem !important;
+                margin-bottom: 1rem !important;
+                line-height: 1.4;
+            }
+        }
+        
+        /* Ajustes para telas muito pequenas */
+        @media (max-width: 375px) {
+            .error-card {
+                padding: 1.25rem;
+                border-radius: 12px;
+            }
+            
+            .error-icon {
+                width: 70px !important;
+                height: 70px !important;
+                font-size: 2rem !important;
+            }
+            
+            h2 {
+                font-size: 1.2rem !important;
+            }
+            
+            .info-card {
+                padding: 0.875rem !important;
+            }
+            
+            .alert-warning {
+                padding: 0.625rem !important;
+                font-size: 0.85rem !important;
+            }
+        }
+        
+        /* Melhorar animação para mobile */
+        @media (max-width: 576px) {
+            .error-icon {
+                animation: shake 0.5s ease-in-out;
+            }
+            
+            .btn-primary:active {
+                transform: translateY(0) !important;
+            }
         }
         
         .error-icon {

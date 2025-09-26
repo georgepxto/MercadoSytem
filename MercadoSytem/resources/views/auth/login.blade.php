@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Login - Sistema de Mercado</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
@@ -12,7 +12,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
+        
         .login-card {
             background: white;
             border-radius: 15px;
@@ -20,29 +22,60 @@
             overflow: hidden;
             max-width: 400px;
             width: 100%;
-        }        .login-header {
+            margin: auto;
+        }
+        
+        .login-header {
             background: #1a1d23;
             color: white;
             padding: 2rem;
             text-align: center;
         }
+        
         .login-body {
             padding: 2rem;
-        }        .btn-primary {
+        }
+        
+        .btn-primary {
             background: #1a1d23;
             border: none;
             padding: 12px 30px;
+            transition: all 0.3s ease;
         }
+        
+        .btn-primary:hover {
+            background: #2d3748;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(26, 29, 35, 0.3);
+        }
+        
         .form-control {
             border-radius: 25px;
             padding: 12px 20px;
             border: 2px solid #e9ecef;
-        }        .form-control:focus {
+            transition: all 0.3s ease;
+            font-size: 16px; /* Previne zoom no iOS */
+        }
+        
+        .form-control:focus {
             border-color: #2c3e50;
             box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
-        }.user-type-tabs {
+            transform: translateY(-1px);
+        }
+        
+        .input-group-text {
+            transition: all 0.3s ease;
+        }
+        
+        .input-group:focus-within .input-group-text {
+            background-color: #f8f9fa !important;
+            border-color: #2c3e50;
+        }
+        
+        .user-type-tabs {
             display: none;
         }
+        
         .user-type-tab {
             flex: 1;
             text-align: center;
@@ -52,9 +85,143 @@
             transition: all 0.3s;
             border: none;
             background: transparent;
-        }        .user-type-tab.active {
+        }
+        
+        .user-type-tab.active {
             background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
             color: white;
+        }
+        
+        /* Melhorias específicas para mobile */
+        @media (max-width: 576px) {
+            body {
+                padding: 0.5rem;
+                align-items: flex-start;
+                padding-top: 2rem;
+            }
+            
+            .login-card {
+                margin-top: 1rem;
+                border-radius: 20px;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .login-header {
+                padding: 1.5rem 1rem;
+            }
+            
+            .login-header i {
+                font-size: 2.5rem !important;
+            }
+            
+            .login-header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .login-header p {
+                font-size: 0.9rem;
+            }
+            
+            .login-body {
+                padding: 1.5rem;
+            }
+            
+            .form-control {
+                padding: 14px 20px;
+                font-size: 16px;
+            }
+            
+            .input-group-text {
+                padding: 14px 15px;
+            }
+            
+            .btn-lg {
+                padding: 14px 30px;
+                font-size: 1.1rem;
+            }
+            
+            .form-check {
+                margin: 1.5rem 0;
+            }
+            
+            .form-check-label {
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Ultra mobile (telas muito pequenas) */
+        @media (max-width: 375px) {
+            .login-header {
+                padding: 1rem;
+            }
+            
+            .login-body {
+                padding: 1rem;
+            }
+            
+            .login-header h2 {
+                font-size: 1.3rem;
+            }
+        }
+        
+        /* Melhorias de acessibilidade e UX */
+        .form-control::placeholder {
+            color: #9ca3af;
+            opacity: 1;
+        }
+        
+        .alert {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+        }
+        
+        .btn:focus {
+            box-shadow: 0 0 0 0.2rem rgba(26, 29, 35, 0.25);
+        }
+        
+        /* Animações suaves */
+        .login-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Loading state para botão */
+        .btn-loading {
+            position: relative;
+            color: transparent !important;
+        }
+        
+        .btn-loading::after {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
     </style>
 </head>
@@ -117,8 +284,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Converter alerts Bootstrap em notificações modernas
+        // Melhorias de UX e mobile
         document.addEventListener('DOMContentLoaded', function() {
+            // Converter alerts Bootstrap em notificações modernas
             const alerts = document.querySelectorAll('.alert-danger');
             alerts.forEach(alert => {
                 const message = alert.textContent.trim();
@@ -131,6 +299,60 @@
                         showModernToast(message, 'error', 'Erro de Login');
                     }, 100);
                 }
+            });
+            
+            // Melhorar UX do formulário
+            const form = document.querySelector('form');
+            const submitBtn = document.querySelector('button[type="submit"]');
+            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
+            
+            // Estado de loading no botão
+            form.addEventListener('submit', function(e) {
+                submitBtn.classList.add('btn-loading');
+                submitBtn.disabled = true;
+                
+                // Timeout de segurança para reativar o botão
+                setTimeout(() => {
+                    submitBtn.classList.remove('btn-loading');
+                    submitBtn.disabled = false;
+                }, 10000);
+            });
+            
+            // Animações nos inputs
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'translateY(-2px)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'translateY(0)';
+                });
+                
+                // Prevenir zoom no iOS
+                input.addEventListener('touchstart', function() {
+                    if (window.innerWidth < 768) {
+                        document.querySelector('meta[name="viewport"]').setAttribute('content', 
+                            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
+                    }
+                });
+            });
+            
+            // Auto-focus no primeiro campo se não estiver em mobile
+            if (window.innerWidth > 768) {
+                const emailInput = document.querySelector('input[name="email"]');
+                if (emailInput && !emailInput.value) {
+                    setTimeout(() => emailInput.focus(), 500);
+                }
+            }
+            
+            // Melhorar navegação por teclado em mobile
+            inputs.forEach((input, index) => {
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' && index < inputs.length - 1) {
+                        e.preventDefault();
+                        inputs[index + 1].focus();
+                    }
+                });
             });
         });
         
@@ -218,15 +440,32 @@
         function createToastContainer() {
             const container = document.createElement('div');
             container.id = 'toastContainer';
+            
+            // Responsive positioning
+            const isMobile = window.innerWidth < 768;
             container.style.cssText = `
                 position: fixed;
-                top: 20px;
-                right: 20px;
+                ${isMobile ? 'top: 10px; left: 10px; right: 10px;' : 'top: 20px; right: 20px;'}
                 z-index: 9999;
-                max-width: 400px;
-                width: 100%;
+                max-width: ${isMobile ? 'none' : '400px'};
+                width: ${isMobile ? 'auto' : '100%'};
             `;
             document.body.appendChild(container);
+            
+            // Ajustar quando a orientação mudar
+            window.addEventListener('orientationchange', () => {
+                setTimeout(() => {
+                    const newIsMobile = window.innerWidth < 768;
+                    container.style.cssText = `
+                        position: fixed;
+                        ${newIsMobile ? 'top: 10px; left: 10px; right: 10px;' : 'top: 20px; right: 20px;'}
+                        z-index: 9999;
+                        max-width: ${newIsMobile ? 'none' : '400px'};
+                        width: ${newIsMobile ? 'auto' : '100%'};
+                    `;
+                }, 500);
+            });
+            
             return container;
         }
     </script>
