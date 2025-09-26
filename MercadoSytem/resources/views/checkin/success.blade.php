@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: {{ $action == 'checkin' ? 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' : 'linear-gradient(135deg, #fd7e14 0%, #e83e8c 100%)' }};
+            background: #1a1d23;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,7 +28,7 @@
         }
         
         .success-icon {
-            background: {{ $action == 'checkin' ? 'linear-gradient(135deg, #28a745 0%, #20c997 100%)' : 'linear-gradient(135deg, #fd7e14 0%, #e83e8c 100%)' }};
+            background: {{ $action == 'checkin' ? '#28a745' : '#fd7e14' }};
             color: white;
             width: 100px;
             height: 100px;
@@ -38,7 +38,6 @@
             justify-content: center;
             margin: 0 auto 2rem;
             font-size: 3rem;
-            animation: pulse 2s infinite;
         }
         
         @keyframes pulse {

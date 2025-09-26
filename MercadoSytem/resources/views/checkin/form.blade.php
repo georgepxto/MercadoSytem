@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1d23;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -28,7 +28,7 @@
         }
         
         .box-icon {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2d3748;
             color: white;
             width: 80px;
             height: 80px;
@@ -49,12 +49,12 @@
         }
         
         .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            border-color: #2d3748;
+            box-shadow: 0 0 0 0.2rem rgba(45, 55, 72, 0.25);
         }
         
         .btn-checkin {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2d3748;
             border: none;
             border-radius: 12px;
             padding: 0.875rem 2rem;
@@ -67,8 +67,9 @@
         
         .btn-checkin:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(45, 55, 72, 0.5);
             color: white;
+            background: #4a5568;
         }
         
         .alert {

@@ -8,7 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            background: #1a1d23;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -20,7 +20,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(26, 29, 35, 0.3);
             padding: 3rem;
             width: 100%;
             max-width: 450px;
@@ -28,7 +28,7 @@
         }
         
         .occupied-icon {
-            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+            background: #dc3545;
             color: white;
             width: 100px;
             height: 100px;
@@ -38,7 +38,6 @@
             justify-content: center;
             margin: 0 auto 2rem;
             font-size: 3rem;
-            animation: shake 0.6s ease-in-out;
         }
         
         @keyframes shake {
@@ -48,8 +47,8 @@
         }
         
         .info-card {
-            background: #f8f9fa;
-            border: 1px solid #dee2e6;
+            background: #2d3748;
+            border: 1px solid #4a5568;
             border-left: 4px solid #dc3545;
             border-radius: 10px;
             padding: 1.5rem;
@@ -70,11 +69,11 @@
         
         .info-label {
             font-weight: 600;
-            color: #495057;
+            color: #a0aec0;
         }
         
         .info-value {
-            color: #212529;
+            color: #e2e8f0;
         }
         
         .btn-primary {

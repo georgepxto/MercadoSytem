@@ -10,6 +10,45 @@
 </button>
 @endsection
 
+@push('styles')
+<style>
+    /* QR Code section - Dark mode compatible */
+    .qr-code-section {
+        background: var(--bs-gray-100);
+        border: 1px solid var(--bs-border-color);
+    }
+    
+    [data-bs-theme="dark"] .qr-code-section {
+        background: var(--bs-gray-800);
+        border-color: var(--bs-border-color);
+    }
+    
+    [data-bs-theme="dark"] .qr-code-section .text-muted {
+        color: var(--bs-gray-400) !important;
+    }
+    
+    /* QR Code modal - Dark mode compatible */
+    .qr-url-section {
+        background: var(--bs-gray-100);
+        border: 1px solid var(--bs-border-color);
+    }
+    
+    [data-bs-theme="dark"] .qr-url-section {
+        background: var(--bs-gray-800);
+        border-color: var(--bs-border-color);
+    }
+    
+    [data-bs-theme="dark"] .qr-url-section .text-muted {
+        color: var(--bs-gray-400) !important;
+    }
+    
+    [data-bs-theme="dark"] .qr-url-section code {
+        background: var(--bs-gray-700) !important;
+        color: var(--bs-gray-300) !important;
+    }
+</style>
+@endpush
+
 @section('content')
 <div class="row g-3">
     @foreach($boxes as $box)
@@ -81,6 +120,32 @@
             </div>
             
             <div class="card-footer bg-transparent p-3 pt-0">
+                <!-- Área de QR Code -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="qr-code-section rounded p-2 text-center">
+                            <small class="text-muted d-block mb-2">
+                                <i class="bi bi-qr-code me-1"></i>
+                                QR Code para Check-in
+                            </small>
+                            <div class="btn-group btn-group-sm w-100" role="group">
+                                <button class="btn btn-outline-success" onclick="generateQrCode({{ $box->id }})">
+                                    <i class="bi bi-eye me-1"></i>
+                                    Visualizar
+                                </button>
+                                <button class="btn btn-outline-primary" onclick="downloadQrCode({{ $box->id }})">
+                                    <i class="bi bi-download me-1"></i>
+                                    Baixar
+                                </button>
+                                <button class="btn btn-outline-warning" onclick="regenerateQrToken({{ $box->id }})">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>
+                                    Renovar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="d-none d-md-flex gap-2">
                     <button class="btn btn-sm btn-outline-primary" onclick="editBox({{ $box->id }})">
                         <i class="bi bi-pencil"></i>
@@ -177,6 +242,33 @@
             <div class="modal-body">
                 <div id="boxDetailsContent">
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para QR Code -->
+<div class="modal fade" id="qrCodeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR Code para Check-in</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center p-4">
+                <div id="qrCodeContent">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Carregando...</span>
+                    </div>
+                    <p class="mt-2 text-muted">Gerando QR Code...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" id="downloadQrBtn" style="display: none;">
+                    <i class="bi bi-download me-2"></i>
+                    Baixar QR Code
+                </button>
             </div>
         </div>
     </div>
@@ -417,6 +509,87 @@
                 console.error('Erro ao carregar dados do box:', error);
                 modernToast.error('Erro ao carregar dados do box.');
             });
+    }
+
+    // Funções para QR Code
+    function generateQrCode(boxId) {
+        // Mostrar modal com loading
+        const modal = new bootstrap.Modal(document.getElementById('qrCodeModal'));
+        document.getElementById('qrCodeContent').innerHTML = `
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Carregando...</span>
+            </div>
+            <p class="mt-2 text-muted">Gerando QR Code...</p>
+        `;
+        document.getElementById('downloadQrBtn').style.display = 'none';
+        modal.show();
+
+        // Gerar QR Code
+        axios.get(`/qr/box/${boxId}/generate`)
+            .then(response => {
+                const data = response.data;
+                
+                document.getElementById('qrCodeContent').innerHTML = `
+                    <div class="mb-3">
+                        <h6 class="text-primary">${data.box_name} (Box ${data.box_number})</h6>
+                    </div>
+                    <div class="mb-3">
+                        <img src="${data.qr_code_url}" alt="QR Code" class="img-fluid" style="max-width: 300px;">
+                    </div>
+                    <div class="qr-url-section rounded p-3 mb-3">
+                        <small class="text-muted d-block mb-1">URL de Check-in:</small>
+                        <code style="font-size: 0.8rem; word-break: break-all;">${data.checkin_url}</code>
+                    </div>
+                    <p class="text-muted small">
+                        <i class="bi bi-info-circle me-1"></i>
+                        Escaneie este QR Code para fazer check-in no box
+                    </p>
+                `;
+                
+                // Mostrar botão de download
+                const downloadBtn = document.getElementById('downloadQrBtn');
+                downloadBtn.style.display = 'inline-block';
+                downloadBtn.onclick = () => downloadQrCode(boxId);
+            })
+            .catch(error => {
+                document.getElementById('qrCodeContent').innerHTML = `
+                    <div class="text-danger">
+                        <i class="bi bi-exclamation-triangle fs-1"></i>
+                        <p class="mt-2">Erro ao gerar QR Code</p>
+                        <small>${error.response?.data?.error || 'Tente novamente'}</small>
+                    </div>
+                `;
+                console.error('Erro ao gerar QR Code:', error);
+            });
+    }
+
+    function downloadQrCode(boxId) {
+        // Criar elemento temporário para download
+        const link = document.createElement('a');
+        link.href = `/qr/box/${boxId}/download`;
+        link.download = `qr_code_box_${boxId}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        modernToast.success('QR Code baixado com sucesso!');
+    }
+
+    function regenerateQrToken(boxId) {
+        modernToast.confirm(
+            'Deseja regenerar o token de segurança do QR Code?\n\nIsso invalidará o QR Code atual e gerará um novo.',
+            'Confirmar Regeneração',
+            () => {
+                axios.post(`/qr/box/${boxId}/regenerate`)
+                    .then(response => {
+                        modernToast.success('Token regenerado com sucesso! O QR Code foi atualizado.');
+                    })
+                    .catch(error => {
+                        modernToast.error('Erro ao regenerar token: ' + (error.response?.data?.error || 'Tente novamente'));
+                        console.error('Erro ao regenerar token:', error);
+                    });
+            }
+        );
     }
 </script>
 @endsection
