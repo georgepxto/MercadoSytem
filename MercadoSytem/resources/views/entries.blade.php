@@ -6,53 +6,51 @@
 @section('content')
 <div class="row mb-3">
     <div class="col-12">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">
-                        <i class="bi bi-funnel me-2"></i>
-                        Filtros
-                    </h5>
-                    <button class="btn btn-outline-light btn-sm" onclick="clearFilters()">
-                        <i class="bi bi-x-circle me-1"></i>
-                        Limpar
-                    </button>
-                </div>
-            </div>            <div class="card-body p-3">
-                <form class="row g-3" id="filterForm">
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <label for="filter_vendor" class="form-label fw-semibold">Vendedor</label>
-                        <select class="form-select" id="filter_vendor">
-                            <option value="">Todos os vendedores</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <label for="filter_box" class="form-label fw-semibold">Box</label>
-                        <select class="form-select" id="filter_box">
-                            <option value="">Todos os boxes</option>
-                        </select>
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <label for="filter_date_from" class="form-label fw-semibold">Data Início</label>
-                        <input type="date" class="form-control" id="filter_date_from">
-                    </div>
-                    <div class="col-lg-3 col-md-6 col-12">
-                        <label for="filter_date_to" class="form-label fw-semibold">Data Fim</label>
-                        <input type="date" class="form-control" id="filter_date_to">
-                    </div>
-                    <div class="col-12">
-                        <div class="d-flex gap-2">
-                            <button type="button" class="btn btn-primary" onclick="applyFilters()">
-                                <i class="bi bi-funnel-fill me-1"></i>
-                                Filtrar
-                            </button>
-                            <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
-                                <i class="bi bi-x-circle me-1"></i>
-                                Limpar
-                            </button>
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">
+                <i class="bi bi-funnel me-1"></i>
+                Filtros
+            </button>
+        </div>
+        
+        <div class="collapse" id="filterCollapse">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body p-3">
+                    <form class="row g-3" id="filterForm">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filter_vendor" class="form-label fw-semibold">Vendedor</label>
+                            <select class="form-select" id="filter_vendor">
+                                <option value="">Todos os vendedores</option>
+                            </select>
                         </div>
-                    </div>
-                </form>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filter_box" class="form-label fw-semibold">Box</label>
+                            <select class="form-select" id="filter_box">
+                                <option value="">Todos os boxes</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filter_date_from" class="form-label fw-semibold">Data Início</label>
+                            <input type="date" class="form-control" id="filter_date_from" min="2025-01-01">
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filter_date_to" class="form-label fw-semibold">Data Fim</label>
+                            <input type="date" class="form-control" id="filter_date_to" min="2025-01-01">
+                        </div>
+                        <div class="col-12">
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-primary" onclick="applyFilters()">
+                                    <i class="bi bi-funnel-fill me-1"></i>
+                                    Filtrar
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" onclick="clearFilters()">
+                                    <i class="bi bi-x-circle me-1"></i>
+                                    Limpar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

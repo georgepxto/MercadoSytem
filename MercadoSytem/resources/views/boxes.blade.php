@@ -147,6 +147,20 @@
                     </div>
                 </div>
 
+                <!-- Botões compactos para mobile -->
+                <div class="d-flex d-md-none gap-1 justify-content-center">
+                    <button class="btn btn-sm btn-outline-primary px-2 py-1" onclick="editBox({{ $box->id }})" title="Editar">
+                        <i class="bi bi-pencil" style="font-size: 0.85rem;"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-info px-2 py-1" onclick="viewBoxDetails({{ $box->id }})" title="Detalhes">
+                        <i class="bi bi-eye" style="font-size: 0.85rem;"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger px-2 py-1" onclick="deleteBox({{ $box->id }})" title="Excluir">
+                        <i class="bi bi-trash" style="font-size: 0.85rem;"></i>
+                    </button>
+                </div>
+                
+                <!-- Botões normais para desktop -->
                 <div class="d-none d-md-flex gap-2">
                     <button class="btn btn-sm btn-outline-primary" onclick="editBox({{ $box->id }})">
                         <i class="bi bi-pencil"></i>
@@ -160,23 +174,6 @@
                         <i class="bi bi-trash"></i>
                         Excluir
                     </button>
-                </div>
-                
-                <div class="d-md-none">
-                    <div class="btn-group w-100" role="group">
-                        <button class="btn btn-outline-primary btn-sm" onclick="editBox({{ $box->id }})">
-                            <i class="bi bi-pencil"></i>
-                            Editar
-                        </button>
-                        <button class="btn btn-outline-info btn-sm" onclick="viewBoxDetails({{ $box->id }})">
-                            <i class="bi bi-eye"></i>
-                            Detalhes
-                        </button>
-                        <button class="btn btn-outline-danger btn-sm" onclick="deleteBox({{ $box->id }})">
-                            <i class="bi bi-trash"></i>
-                            Excluir
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

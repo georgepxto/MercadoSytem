@@ -66,7 +66,8 @@ class WebController extends Controller
 
     public function vendors()
     {
-        $vendors = Vendor::with(['schedules.box'])->get();
+        // Use the Vendor model but specify the connection
+        $vendors = \App\Models\Vendor::on('main')->with(['schedules.box'])->get();
         return view('vendors', compact('vendors'));
     }
 

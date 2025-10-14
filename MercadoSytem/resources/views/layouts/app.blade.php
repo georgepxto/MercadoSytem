@@ -4,9 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#3490dc">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mercado Fátima">
+    <meta name="description" content="Sistema de gerenciamento do Mercado N. S. Fátima">
+    
     <title>@yield('title', 'Sistema de Controle - Mercado')</title>
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">    <style>
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+   <style>
         /* Variáveis CSS para Sistema de Temas */
         :root {
             --bg-primary: #1a1d23;
@@ -782,17 +793,20 @@
             height: 100vh;
             overflow-y: auto;
             padding: 0 1.5rem; /* Adicionar padding interno */
-        }@media (max-width: 767.98px) {
+        }
+        
+        /* Responsivo para tablets e mobile (incluindo paisagem) */
+        @media (max-width: 991.98px) {
             .sidebar {
                 position: fixed;
                 top: 0;
                 left: 0;
-                z-index: 1000;
-                width: 300px;
+                z-index: 1050;
+                width: 280px;
                 height: 100vh;
                 transform: translateX(-100%);
                 box-shadow: 8px 0 32px rgba(0,0,0,0.2);
-                transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
                 overflow-y: auto;
             }
               .sidebar.show {
@@ -829,7 +843,7 @@
             }            .mobile-header {
                 display: flex !important;
                 background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-                padding: 1rem 1.25rem;
+                padding: 0.875rem 1rem;
                 margin: -15px -15px 20px -15px;
                 border-radius: 0 !important;
                 box-shadow: 0 2px 10px rgba(0,0,0,0.1);
@@ -838,13 +852,137 @@
                 z-index: 100;
             }
         }
-          @media (min-width: 768px) {
+          /* Desktop - esconder menu mobile */
+        @media (min-width: 992px) {
             .mobile-header {
                 display: none !important;
             }
             
             .sidebar-overlay {
                 display: none !important;
+            }
+            
+            .sidebar {
+                transform: translateX(0) !important;
+            }
+        }
+        
+        /* Ajustes específicos para modo paisagem em mobile */
+        @media (max-width: 991.98px) and (orientation: landscape) {
+            .sidebar {
+                width: 250px;
+            }
+            
+            .sidebar .nav-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .sidebar .brand-section {
+                padding: 0.75rem 1rem;
+            }
+            
+            .mobile-header {
+                padding: 0.5rem 1rem;
+            }
+        }
+        
+        /* Bottom Tab Bar - apenas para portrait mobile */
+        .bottom-tab-bar {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(44, 62, 80, 0.98) 0%, rgba(52, 73, 94, 0.98) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1040;
+            padding: 0.5rem 0 calc(0.5rem + env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .bottom-tab-bar .nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            max-width: 100%;
+            margin: 0;
+        }
+        
+        .bottom-tab-bar .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .bottom-tab-bar .nav-link {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 0.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .bottom-tab-bar .nav-link i {
+            font-size: 1.4rem;
+            margin-bottom: 0.25rem;
+            transition: all 0.3s ease;
+        }
+        
+        .bottom-tab-bar .nav-link span {
+            font-size: 0.7rem;
+            font-weight: 500;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .bottom-tab-bar .nav-link:hover,
+        .bottom-tab-bar .nav-link.active {
+            color: #ffffff;
+        }
+        
+        .bottom-tab-bar .nav-link.active i {
+            transform: scale(1.15);
+        }
+        
+        .bottom-tab-bar .nav-link.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, #4299e1, #81e6d9);
+            border-radius: 0 0 3px 3px;
+        }
+        
+        /* Mobile Portrait - Mostrar Tab Bar, esconder sidebar */
+        @media (max-width: 991.98px) and (orientation: portrait) {
+            .bottom-tab-bar {
+                display: block;
+            }
+            
+            .mobile-header {
+                display: flex !important;
+            }
+            
+            .sidebar {
+                display: none;
+            }
+            
+            .sidebar-overlay {
+                display: none !important;
+            }
+            
+            .main-content {
+                margin-left: 0 !important;
+                padding-bottom: calc(4.5rem + env(safe-area-inset-bottom)) !important;
             }
         }
         
@@ -1340,13 +1478,22 @@
     <main class="main-content">
         <div class="mobile-header d-none">
             <div class="d-flex justify-content-between align-items-center w-100">
-                <button class="hamburger-btn" id="toggleSidebar">
+                <!-- Landscape: Hamburger Menu -->
+                <button class="hamburger-btn d-none" id="toggleSidebar">
                     <i class="bi bi-list"></i>
                 </button>
+                
+                <!-- Portrait: Settings Button -->
+                <button class="hamburger-btn d-none" data-bs-toggle="modal" data-bs-target="#settingsModal">
+                    <i class="bi bi-gear"></i>
+                </button>
+                
                 <div class="mobile-brand">
                     <i class="bi bi-shop"></i>
                     {{ auth()->user()->getDashboardName() }}
                 </div>
+                
+                <!-- Spacer for alignment -->
                 <div style="width: 40px;"></div>
             </div>
         </div>
@@ -1422,15 +1569,59 @@
             const navLinks = sidebar.querySelectorAll('.nav-link');
             navLinks.forEach(link => {
                 link.addEventListener('click', () => {
-                    if (window.innerWidth < 768) {
+                    if (window.innerWidth < 992) {
                         closeSidebar();
                     }
                 });            });
             
+            // Control which button shows based on orientation
+            function updateMobileHeader() {
+                const hamburgerBtn = document.getElementById('toggleSidebar');
+                const settingsBtn = document.querySelector('[data-bs-target="#settingsModal"]');
+                const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+                const isMobile = window.innerWidth < 992;
+                
+                if (isMobile) {
+                    if (isPortrait) {
+                        // Portrait: Show settings button
+                        if (hamburgerBtn) hamburgerBtn.classList.add('d-none');
+                        if (settingsBtn) settingsBtn.classList.remove('d-none');
+                    } else {
+                        // Landscape: Show hamburger button
+                        if (hamburgerBtn) hamburgerBtn.classList.remove('d-none');
+                        if (settingsBtn) settingsBtn.classList.add('d-none');
+                    }
+                }
+            }
+            
+            updateMobileHeader();
+            
             window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) {
+                updateMobileHeader();
+                if (window.innerWidth >= 992) {
                     closeSidebar();
                 }
+            });
+            
+            window.addEventListener('orientationchange', function() {
+                setTimeout(updateMobileHeader, 100);
+            });
+            
+            // Bottom tab bar click feedback
+            const bottomTabLinks = document.querySelectorAll('.bottom-tab-bar .nav-link');
+            bottomTabLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    // Add haptic feedback on supported devices
+                    if ('vibrate' in navigator) {
+                        navigator.vibrate(10);
+                    }
+                    
+                    // Add visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
             });
         });
     </script>
@@ -1687,6 +1878,108 @@
         });
     </script>
     
+    <!-- Bottom Tab Bar - Mobile Portrait Only -->
+    <nav class="bottom-tab-bar">
+        <ul class="nav">
+            <li class="nav-item">
+                <a href="{{ route('checkin') }}" class="nav-link {{ request()->routeIs('checkin') ? 'active' : '' }}">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    <span>Check-in</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('vendors') }}" class="nav-link {{ request()->routeIs('vendors') ? 'active' : '' }}">
+                    <i class="bi bi-people"></i>
+                    <span>Vendedores</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    <i class="bi bi-house-door"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('boxes') }}" class="nav-link {{ request()->routeIs('boxes') ? 'active' : '' }}">
+                    <i class="bi bi-grid-3x3"></i>
+                    <span>Boxes</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('entries') }}" class="nav-link {{ request()->routeIs('entries') ? 'active' : '' }}">
+                    <i class="bi bi-clock-history"></i>
+                    <span>Histórico</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="settingsModalLabel">
+                        <i class="bi bi-gear me-2"></i>Configurações
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group list-group-flush">
+                        <a href="#" class="list-group-item list-group-item-action" id="themeToggleModal">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-moon-fill me-3 fs-5"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Tema</div>
+                                    <small class="text-muted" id="themeTextModal">Escuro</small>
+                                </div>
+                                <i class="bi bi-chevron-right"></i>
+                            </div>
+                        </a>
+                        
+                        <a href="{{ route('logout') }}" 
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();" 
+                           class="list-group-item list-group-item-action text-danger">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-box-arrow-right me-3 fs-5"></i>
+                                <div class="flex-grow-1">
+                                    <div class="fw-semibold">Sair</div>
+                                    <small class="text-muted">Encerrar sessão</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+
     @yield('scripts')
+    
+    <script>
+        // Settings Modal Theme Toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggleModal = document.getElementById('themeToggleModal');
+            const themeTextModal = document.getElementById('themeTextModal');
+            
+            if (themeToggleModal) {
+                themeToggleModal.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    // Trigger the existing theme toggle
+                    document.getElementById('themeToggle').click();
+                    
+                    // Update modal text
+                    setTimeout(() => {
+                        const currentTheme = document.body.getAttribute('data-theme') || 'dark';
+                        themeTextModal.textContent = currentTheme === 'dark' ? 'Escuro' : 'Claro';
+                    }, 100);
+                });
+            }
+        });
+    </script>
 </body>
 </html>

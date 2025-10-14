@@ -1,0 +1,41 @@
+Mudanças feitas
+
+=====================Dasboard usuário - gestão
+
+- cards responsivos
+- adicionada uma agenda do Mês onde pode ser clicado para ver os agendamentos da semana, do dia, e também ver o histórico do dia, quem logou, fez checkin/out e os proximos usuários agendados para o restante do dia
+^Possivel substituição para a aba de atividades de hoje ou apenas uma adição
+
+=====================Aba de checkin:
+
+App em geral:
+
+to do: deixar sem bordas no chrome(fullscreen)
+
+
+Aba de Vendedores:
+
+to do	- remover função que mostra os horários agendados do vendedor
+to do	- adicionar botão que mostra a agenda semanal do vendedor caso ele tenha feito algum agendamento e mostrar a mesma agenda diária mostrada na aba inicial(em menor escala) esse botão também servirá para criar um novo agendamento
+to do	- diminuir o tamnho dos icones de editar/horario/excluir
+to do	- alterar o método de criação de tipo de comida: atual - caixa de digitação - novo/comidas predefinidas
+to do 	- adicionar um filtro que possa filtrar os vendedores na aba de vendedores, filtro por ordem alfabetica/comida/ativados/desativados
+to do	- adicionar paginação no mobile a cada 15 vendedores(teste)
+to do	- foto de verificação e verificação de e-mail para os vendedores(teste)
+
+=====================Aba de Boxes:
+
+to do:	Botão anterior ao de novo Box: Agenda Mensal (calendário)
+to do:	Botão de filtragem de box: por disponível/agendado/indisponivel
+to do:	diminuir o tamanho dos icones de editar/horario/excluir e deixar o card mais organizado
+to do:	adicionar paginação a cada 10 itens
+to do:	aba de "Detalhes" mostra um calendario mensal e onde pode ser clicado para ver a semana e o dia, e nisso ver os horários agendados
+to do:	
+
+
+
+=====================Aba de histórico:
+
+to do:	alterar nome e ícone de filtros para um botão clicável em que faça a parte de filtragem ser mostrada para diminuir ocupação na tela(botão de limpar só aparece após os filtros aparecerem, mesmo que nenhum tenha sido marcado)
+to do:	
+ALL	- remover a função do calendario de acessar datas anteriores ao ano de 2025 para todos os calendarios

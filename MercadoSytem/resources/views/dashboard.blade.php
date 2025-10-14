@@ -4,65 +4,65 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
-<div class="row mb-4 g-3">
-    <div class="col-xl-3 col-lg-6 col-sm-6">
+<div class="row mb-4 g-2 g-sm-3">
+    <div class="col-6 col-md-6 col-lg-3">
         <div class="card bg-primary text-white h-100">
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1">Total Vendedores</div>
-                        <div class="fs-2 fw-bold">{{ $totalVendors }}</div>
+                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Total Vendedores</div>
+                        <div class="fs-3 fs-sm-2 fw-bold">{{ $totalVendors }}</div>
                     </div>
-                    <div class="ms-3">
-                        <i class="bi bi-people fs-1 opacity-75"></i>
+                    <div class="ms-2">
+                        <i class="bi bi-people fs-2 fs-sm-1 opacity-75"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 col-sm-6">
+    <div class="col-6 col-md-6 col-lg-3">
         <div class="card bg-success text-white h-100">
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1">Total Boxes</div>
-                        <div class="fs-2 fw-bold">{{ $totalBoxes }}</div>
+                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Total Boxes</div>
+                        <div class="fs-3 fs-sm-2 fw-bold">{{ $totalBoxes }}</div>
                     </div>
-                    <div class="ms-3">
-                        <i class="bi bi-grid-3x3 fs-1 opacity-75"></i>
+                    <div class="ms-2">
+                        <i class="bi bi-grid-3x3 fs-2 fs-sm-1 opacity-75"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 col-sm-6">
+    <div class="col-6 col-md-6 col-lg-3">
         <div class="card bg-warning text-white h-100">
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1">Ativos Hoje</div>
-                        <div class="fs-2 fw-bold">{{ $activeEntries }}</div>
+                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Ativos Hoje</div>
+                        <div class="fs-3 fs-sm-2 fw-bold">{{ $activeEntries }}</div>
                     </div>
-                    <div class="ms-3">
-                        <i class="bi bi-person-check fs-1 opacity-75"></i>
+                    <div class="ms-2">
+                        <i class="bi bi-person-check fs-2 fs-sm-1 opacity-75"></i>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 col-sm-6">
+    <div class="col-6 col-md-6 col-lg-3">
         <div class="card bg-info text-white h-100">
-            <div class="card-body">
+            <div class="card-body p-2 p-sm-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1">Entradas Hoje</div>
-                        <div class="fs-2 fw-bold">{{ $todayEntries->count() }}</div>
+                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Entradas Hoje</div>
+                        <div class="fs-3 fs-sm-2 fw-bold">{{ $todayEntries->count() }}</div>
                     </div>
-                    <div class="ms-3">
-                        <i class="bi bi-box-arrow-in-right fs-1 opacity-75"></i>
+                    <div class="ms-2">
+                        <i class="bi bi-box-arrow-in-right fs-2 fs-sm-1 opacity-75"></i>
                     </div>
                 </div>
             </div>

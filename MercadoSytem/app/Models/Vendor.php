@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     use HasFactory;
+    
+    protected $connection = 'main';
 
     protected $fillable = [
         'name',
