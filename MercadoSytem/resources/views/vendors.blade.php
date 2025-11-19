@@ -11,9 +11,58 @@
 @endsection
 
 @section('content')
-<div class="row g-3">
+<!-- Filtros -->
+<div class="row mb-3">
+    <div class="col-12">
+        <div class="d-flex gap-2 mb-3">
+            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vendorFilterCollapse" aria-expanded="false" aria-controls="vendorFilterCollapse">
+                <i class="bi bi-funnel me-1"></i>
+                Filtros
+            </button>
+        </div>
+        
+        <div class="collapse" id="vendorFilterCollapse">
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body p-3">
+                    <div class="row g-2 align-items-end">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filterSort" class="form-label fw-semibold small mb-1">Ordenar por</label>
+                            <select class="form-select form-select-sm" id="filterSort" onchange="filterVendors()">
+                                <option value="name-asc">Nome (A-Z)</option>
+                                <option value="name-desc">Nome (Z-A)</option>
+                                <option value="food-asc">Tipo de Comida (A-Z)</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filterFoodType" class="form-label fw-semibold small mb-1">Tipo de Comida</label>
+                            <select class="form-select form-select-sm" id="filterFoodType" onchange="filterVendors()">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <label for="filterStatus" class="form-label fw-semibold small mb-1">Status</label>
+                            <select class="form-select form-select-sm" id="filterStatus" onchange="filterVendors()">
+                                <option value="">Todos</option>
+                                <option value="active">Ativos</option>
+                                <option value="inactive">Inativos</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="clearVendorFilters()">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Limpar Filtros
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3" id="vendorsContainer">
     @foreach($vendors as $vendor)
-    <div class="col-lg-4 col-md-6 col-sm-12">
+    <div class="col-lg-4 col-md-6 col-sm-12 vendor-card" data-vendor-name="{{ strtolower($vendor->name) }}" data-food-type="{{ strtolower($vendor->food_type) }}" data-status="{{ $vendor->active ? 'active' : 'inactive' }}">
         <div class="card h-100 border-0 shadow-sm">
             <div class="card-body p-3">
                 <div class="d-flex align-items-center mb-3">
@@ -49,27 +98,23 @@
                         <p class="text-muted small mb-0 text-truncate">{{ $vendor->description }}</p>
                     @endif
                 </div>
-
-                                @if($vendor->schedules->count() > 0)
-                    <div class="mb-3">
-                        <h6 class="text-muted mb-2">
-                            <i class="bi bi-clock me-1"></i>
-                            Horários:
-                        </h6>
-                        <div class="d-flex flex-column gap-1">
-                            @foreach($vendor->schedules as $schedule)
-                                <div class="d-flex justify-content-between align-items-center small bg-light rounded p-2">
-                                    <span class="badge bg-secondary">{{ ucfirst($schedule->day_of_week) }}</span>
-                                    <span class="fw-semibold">{{ date('H:i', strtotime($schedule->start_time)) }} - {{ date('H:i', strtotime($schedule->end_time)) }}</span>
-                                    <small class="text-muted">Box {{ $schedule->box->number }}</small>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
             </div>
             
-            <div class="card-footer bg-transparent p-3 pt-0">
+            <div class="card-footer bg-transparent p-2 p-md-3">
+                <!-- Botões compactos para mobile -->
+                <div class="d-flex d-md-none gap-1 justify-content-center">
+                    <button class="btn btn-sm btn-outline-primary px-2 py-1" onclick="editVendor({{ $vendor->id }})" title="Editar">
+                        <i class="bi bi-pencil" style="font-size: 0.85rem;"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-success px-2 py-1" onclick="addSchedule({{ $vendor->id }})" title="Horário">
+                        <i class="bi bi-calendar-plus" style="font-size: 0.85rem;"></i>
+                    </button>
+                    <button class="btn btn-sm btn-outline-danger px-2 py-1" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')" title="Excluir">
+                        <i class="bi bi-trash" style="font-size: 0.85rem;"></i>
+                    </button>
+                </div>
+                
+                <!-- Botões normais para desktop -->
                 <div class="d-none d-md-flex gap-2">
                     <button class="btn btn-sm btn-outline-primary" onclick="editVendor({{ $vendor->id }})">
                         <i class="bi bi-pencil"></i>
@@ -83,25 +128,6 @@
                         <i class="bi bi-trash"></i>
                         Excluir
                     </button>
-                </div>
-                
-                <div class="d-md-none">
-                    <div class="d-grid gap-2">
-                        <div class="btn-group" role="group">
-                            <button class="btn btn-outline-primary btn-sm" onclick="editVendor({{ $vendor->id }})">
-                                <i class="bi bi-pencil"></i>
-                                Editar
-                            </button>
-                            <button class="btn btn-outline-success btn-sm" onclick="addSchedule({{ $vendor->id }})">
-                                <i class="bi bi-calendar-plus"></i>
-                                Horário
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')">
-                                <i class="bi bi-trash"></i>
-                                Excluir
-                            </button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -560,6 +586,80 @@
                 validateCnpj(this);
             });
         }
+        
+        // Populate food types filter
+        populateFoodTypesFilter();
     });
+    
+    // Filter functions
+    function populateFoodTypesFilter() {
+        const vendorCards = document.querySelectorAll('.vendor-card');
+        const foodTypes = new Set();
+        
+        vendorCards.forEach(card => {
+            const foodType = card.getAttribute('data-food-type');
+            if (foodType) {
+                foodTypes.add(foodType);
+            }
+        });
+        
+        const filterSelect = document.getElementById('filterFoodType');
+        foodTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+            filterSelect.appendChild(option);
+        });
+    }
+    
+    function filterVendors() {
+        const sortValue = document.getElementById('filterSort').value;
+        const foodTypeValue = document.getElementById('filterFoodType').value.toLowerCase();
+        const statusValue = document.getElementById('filterStatus').value;
+        
+        const vendorCards = Array.from(document.querySelectorAll('.vendor-card'));
+        
+        // Filter
+        vendorCards.forEach(card => {
+            let show = true;
+            
+            if (foodTypeValue && card.getAttribute('data-food-type') !== foodTypeValue) {
+                show = false;
+            }
+            
+            if (statusValue && card.getAttribute('data-status') !== statusValue) {
+                show = false;
+            }
+            
+            card.style.display = show ? '' : 'none';
+        });
+        
+        // Sort
+        const container = document.getElementById('vendorsContainer');
+        const visibleCards = vendorCards.filter(card => card.style.display !== 'none');
+        
+        visibleCards.sort((a, b) => {
+            if (sortValue === 'name-asc') {
+                return a.getAttribute('data-vendor-name').localeCompare(b.getAttribute('data-vendor-name'));
+            } else if (sortValue === 'name-desc') {
+                return b.getAttribute('data-vendor-name').localeCompare(a.getAttribute('data-vendor-name'));
+            } else if (sortValue === 'food-asc') {
+                return a.getAttribute('data-food-type').localeCompare(b.getAttribute('data-food-type'));
+            }
+            return 0;
+        });
+        
+        // Reorder
+        visibleCards.forEach(card => {
+            container.appendChild(card);
+        });
+    }
+    
+    function clearVendorFilters() {
+        document.getElementById('filterSort').value = 'name-asc';
+        document.getElementById('filterFoodType').value = '';
+        document.getElementById('filterStatus').value = '';
+        filterVendors();
+    }
 </script>
 @endsection
