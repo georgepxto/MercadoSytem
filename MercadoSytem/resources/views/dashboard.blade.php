@@ -381,8 +381,11 @@
                 if (cur) {
                     activeEntryForCheckout = cur.id;
                     document.getElementById('boxModalFooter').style.display = '';
-                    const mins = cur.entry_time ? Math.floor((Date.now() - new Date('1970-01-01T' + cur.entry_time)) / 60000) : null;
-                    const dur = mins !== null ? `${Math.floor(mins/60)}h ${mins%60}min` : '';
+                    const entryDt = (cur.entry_date && cur.entry_time)
+                        ? new Date(cur.entry_date + 'T' + cur.entry_time)
+                        : null;
+                    const mins = entryDt && !isNaN(entryDt) ? Math.floor((Date.now() - entryDt.getTime()) / 60000) : null;
+                    const dur = mins !== null && mins >= 0 ? `${Math.floor(mins/60)}h ${mins%60}min` : '';
                     html += `<div class="d-flex align-items-center gap-3 mb-3 p-3 rounded" style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.15);">
                         <div class="avatar-initials" style="width:42px;height:42px;font-size:1rem;">${cur.vendor_name.charAt(0)}</div>
                         <div>
