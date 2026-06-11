@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Check-in - {{ $box->name }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
         body {
-            background: #1a1d23;
+            background: #0F0E0A;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Rubik', sans-serif;
             padding: 1rem;
         }
         
@@ -142,8 +144,8 @@
         }
         
         .box-icon {
-            background: #2d3748;
-            color: white;
+            background: rgba(16,185,129,0.15);
+            color: #10B981;
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -163,12 +165,12 @@
         }
         
         .form-control:focus {
-            border-color: #2d3748;
-            box-shadow: 0 0 0 0.2rem rgba(45, 55, 72, 0.25);
+            border-color: #10B981;
+            box-shadow: 0 0 0 0.2rem rgba(16, 185, 129, 0.2);
         }
-        
+
         .btn-checkin {
-            background: #2d3748;
+            background: #10B981;
             border: none;
             border-radius: 12px;
             padding: 0.875rem 2rem;
@@ -178,12 +180,12 @@
             width: 100%;
             transition: all 0.3s ease;
         }
-        
+
         .btn-checkin:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(45, 55, 72, 0.5);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
             color: white;
-            background: #4a5568;
+            background: #059669;
         }
         
         .alert {

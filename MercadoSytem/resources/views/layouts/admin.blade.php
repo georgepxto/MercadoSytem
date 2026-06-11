@@ -7,26 +7,26 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title') - Administração</title>    <!-- Custom fonts for this template-->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet"><style>
         /* Variáveis CSS para Tema Escuro */
         :root {
-            --bg-primary: #1a1d23;
-            --bg-secondary: #2d3748;
-            --bg-tertiary: #4a5568;
-            --text-primary: #f7fafc;
-            --text-secondary: #e2e8f0;
-            --text-muted: #a0aec0;
-            --border-color: #4a5568;
-            --card-bg: #2d3748;
-            --sidebar-bg: #1a1a1a;
-            --btn-primary: #4299e1;
-            --btn-primary-hover: #3182ce;
-            --accent-color: #81e6d9;
-            --toast-bg: #2d3748;
-            --toast-text: #e2e8f0;
+            --bg-primary: #0F0E0A;
+            --bg-secondary: #171510;
+            --bg-tertiary: #201C12;
+            --text-primary: #E8E4D9;
+            --text-secondary: #B5B09E;
+            --text-muted: #6B6254;
+            --border-color: rgba(255,255,255,0.055);
+            --card-bg: #171510;
+            --sidebar-bg: #0A0908;
+            --btn-primary: #10B981;
+            --btn-primary-hover: #059669;
+            --accent-color: #10B981;
+            --toast-bg: #171510;
+            --toast-text: #E8E4D9;
         }
         
           /* Estilos base com variáveis */
@@ -34,7 +34,7 @@
             background-color: var(--bg-primary);
             color: var(--text-primary);
             transition: background-color 0.3s ease, color 0.3s ease;
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Rubik', sans-serif;
         }
         
         /* Aplicar cor de texto padrão para todos os elementos */
@@ -884,10 +884,10 @@
     <!-- Mobile Header -->
     <div class="mobile-header">
         <button class="hamburger-btn" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
+            <i class="bi bi-list"></i>
         </button>
         <a href="{{ route('admin.dashboard') }}" class="mobile-brand">
-            <i class="fas fa-user-shield me-2"></i>
+            <i class="bi bi-shield-check me-2"></i>
             Admin Painel
         </a>
     </div>
@@ -900,7 +900,7 @@
             <nav class="col-md-3 col-lg-2 d-md-block sidebar" id="sidebar">
                 <div class="position-sticky pt-3">
                     <div class="text-center mb-4">
-                        <i class="fas fa-user-shield fa-3x text-white mb-2"></i>
+                        <i class="bi bi-shield-check" style="font-size:2.5rem;color:#10B981;"></i>
                         <h4 class="text-white">{{ auth('dashboard_manager')->user()->name }}</h4>
                     </div>
                     
@@ -908,14 +908,14 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" 
                                href="{{ route('admin.dashboard') }}">
-                                <i class="fas fa-tachometer-alt me-2"></i>
+                                <i class="bi bi-speedometer2 me-2"></i>
                                 Dashboard
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->routeIs('admin.users*') ? 'active' : '' }}" 
                                href="{{ route('admin.users') }}">
-                                <i class="fas fa-users me-2"></i>
+                                <i class="bi bi-people me-2"></i>
                                 Gerenciar Usuários
                             </a>
                         </li>
@@ -924,7 +924,7 @@
                                 @csrf
                                 <button type="submit" class="nav-link btn btn-link text-start w-100" 
                                         style="color: rgba(255,255,255,.8); text-decoration: none;">
-                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    <i class="bi bi-box-arrow-right me-2"></i>
                                     Sair
                                 </button>
                             </form>

@@ -198,6 +198,26 @@ class EntryController extends Controller
     }
 
     /**
+     * Entry counts for the last 7 days.
+     */
+    public function statsWeek()
+    {
+        $days = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $count = DB::connection('main')->table('entries')
+                ->whereDate('entry_date', $date)
+                ->count();
+            $days[] = [
+                'date'  => $date->format('Y-m-d'),
+                'label' => $date->locale('pt_BR')->isoFormat('ddd'),
+                'count' => $count,
+            ];
+        }
+        return response()->json($days);
+    }
+
+    /**
      * Get today's entries.
      */
     public function today()

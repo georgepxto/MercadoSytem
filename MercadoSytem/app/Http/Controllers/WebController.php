@@ -60,8 +60,42 @@ class WebController extends Controller
             ->whereDate('entry_date', Carbon::today())
             ->whereNull('exit_time')
             ->count();
-            
-        return view('dashboard', compact('todayEntries', 'totalVendors', 'totalBoxes', 'activeEntries'));
+
+        $todayTotal = \DB::connection('main')->table('entries')
+            ->whereDate('entry_date', Carbon::today())
+            ->count();
+
+        $lastWeekTotal = \DB::connection('main')->table('entries')
+            ->whereDate('entry_date', Carbon::today()->subWeek())
+            ->count();
+
+        $weeklyStats = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $weeklyStats[] = [
+                'date'  => $date->format('Y-m-d'),
+                'label' => $date->locale('pt_BR')->isoFormat('ddd'),
+                'count' => \DB::connection('main')->table('entries')->whereDate('entry_date', $date)->count(),
+            ];
+        }
+
+        $allBoxes = \DB::connection('main')->table('boxes')->orderBy('number')->get()->map(function ($box) {
+            $active = \DB::connection('main')->table('entries')
+                ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+                ->where('entries.box_id', $box->id)
+                ->whereNull('entries.exit_time')
+                ->whereDate('entries.entry_date', \Carbon\Carbon::today())
+                ->select('vendors.name as vendor_name')
+                ->first();
+            $box->is_occupied = (bool) $active;
+            $box->active_vendor = $active ? $active->vendor_name : null;
+            return $box;
+        });
+
+        return view('dashboard', compact(
+            'todayEntries', 'totalVendors', 'totalBoxes', 'activeEntries',
+            'todayTotal', 'lastWeekTotal', 'weeklyStats', 'allBoxes'
+        ));
     }
 
     public function vendors()
@@ -159,5 +193,57 @@ class WebController extends Controller
         $vendors = Vendor::where('active', true)->get();
         $boxes = Box::where('available', true)->get();
         return view('checkin', compact('vendors', 'boxes'));
+    }
+
+    public function exportEntries(Request $request)
+    {
+        $request->validate([
+            'date_from' => 'nullable|date_format:Y-m-d',
+            'date_to'   => 'nullable|date_format:Y-m-d',
+            'vendor_id' => 'nullable|integer',
+            'box_id'    => 'nullable|integer',
+        ]);
+
+        $query = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->join('boxes', 'entries.box_id', '=', 'boxes.id')
+            ->select(
+                'vendors.name as vendor_name', 'vendors.food_type',
+                'boxes.number as box_number', 'boxes.location as box_location',
+                'entries.entry_date', 'entries.entry_time', 'entries.exit_time'
+            )
+            ->orderBy('entries.entry_date', 'desc')
+            ->orderBy('entries.entry_time', 'desc');
+
+        if ($request->vendor_id) $query->where('entries.vendor_id', (int) $request->vendor_id);
+        if ($request->box_id) $query->where('entries.box_id', (int) $request->box_id);
+        if ($request->date_from) $query->whereDate('entries.entry_date', '>=', $request->date_from);
+        if ($request->date_to) $query->whereDate('entries.entry_date', '<=', $request->date_to);
+
+        $rows = $query->get();
+        $filename = 'entradas_' . now()->format('Y-m-d') . '.csv';
+
+        return response()->streamDownload(function () use ($rows) {
+            $out = fopen('php://output', 'w');
+            fwrite($out, "\xEF\xBB\xBF");
+            fputcsv($out, ['Vendedor', 'Tipo', 'Box', 'Localização', 'Data', 'Entrada', 'Saída', 'Duração'], ';');
+            foreach ($rows as $row) {
+                $entry  = Carbon::parse($row->entry_time);
+                $exit   = $row->exit_time ? Carbon::parse($row->exit_time) : null;
+                $mins   = $exit ? $entry->diffInMinutes($exit) : null;
+                $dur    = $mins !== null ? floor($mins / 60) . 'h ' . ($mins % 60) . 'min' : '-';
+                fputcsv($out, [
+                    $row->vendor_name,
+                    $row->food_type,
+                    $row->box_number,
+                    $row->box_location,
+                    Carbon::parse($row->entry_date)->format('d/m/Y'),
+                    $entry->format('H:i'),
+                    $exit ? $exit->format('H:i') : '-',
+                    $dur,
+                ], ';');
+            }
+            fclose($out);
+        }, $filename, ['Content-Type' => 'text/csv; charset=UTF-8']);
     }
 }

@@ -786,7 +786,35 @@
         
         [data-theme="light"] .fw-semibold {
             color: #212529 !important;
-        }        /* Toggle do Tema */
+        }        /* Light mode sidebar */
+        [data-theme="light"] .sidebar {
+            background: #F8F7F3 !important;
+            border-right-color: rgba(0,0,0,0.07) !important;
+        }
+        [data-theme="light"] .sidebar-brand-area {
+            border-bottom-color: rgba(0,0,0,0.07) !important;
+        }
+        [data-theme="light"] .sidebar .brand-name { color: #1A1710 !important; }
+        [data-theme="light"] .sidebar-nav-label { color: rgba(0,0,0,0.25) !important; }
+        [data-theme="light"] .sidebar .nav-link { color: rgba(0,0,0,0.5) !important; }
+        [data-theme="light"] .sidebar .nav-link:hover { background: rgba(0,0,0,0.05) !important; color: rgba(0,0,0,0.8) !important; }
+        [data-theme="light"] .sidebar .nav-link.active {
+            color: #059669 !important;
+            background: rgba(5,150,105,0.08) !important;
+            border-left-color: #059669 !important;
+        }
+        [data-theme="light"] .sidebar { border-right: 1px solid rgba(0,0,0,0.07) !important; }
+        [data-theme="light"] .sidebar > div > div[style*="border-top"] { border-top-color: rgba(0,0,0,0.07) !important; }
+        [data-theme="light"] .sidebar .btn-link { color: rgba(0,0,0,0.35) !important; }
+        [data-theme="light"] .sidebar .btn-link:hover { color: rgba(0,0,0,0.65) !important; }
+        [data-theme="light"] .theme-toggle {
+            background: rgba(0,0,0,0.05) !important;
+            border-color: rgba(0,0,0,0.1) !important;
+        }
+        [data-theme="light"] .theme-toggle i { color: #059669 !important; }
+        [data-theme="light"] .theme-toggle-text { color: rgba(0,0,0,0.55) !important; }
+
+        /* Toggle do Tema */
         .theme-toggle {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);

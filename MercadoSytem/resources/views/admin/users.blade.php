@@ -7,9 +7,9 @@
     <div class="col-lg-12">
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Gerenciar Usuários</h6>
+                <span class="fw-semibold" style="font-size:0.875rem;">Gerenciar Usuários</span>
                 <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#createUserModal">
-                    <i class="fas fa-plus me-2"></i>Novo Usuário
+                    <i class="bi bi-plus-circle me-1"></i>Novo Usuário
                 </button>
             </div>            <div class="card-body">
                 <div class="table-responsive">
@@ -37,7 +37,7 @@
                                                 <input type="text" class="form-control" name="dashboard_name" 
                                                        value="{{ $user->getDashboardName() }}" required>
                                                 <button class="btn btn-outline-primary" type="submit">
-                                                    <i class="fas fa-save"></i>
+                                                    <i class="bi bi-floppy"></i>
                                                 </button>
                                             </div>
                                         </form>
@@ -48,9 +48,9 @@
                                             @method('PATCH')
                                             <button type="submit" class="btn btn-sm {{ $user->has_dashboard_access ? 'btn-success' : 'btn-danger' }}">
                                                 @if($user->has_dashboard_access)
-                                                    <i class="fas fa-check me-1"></i>Ativo
+                                                    <i class="bi bi-check-lg me-1"></i>Ativo
                                                 @else
-                                                    <i class="fas fa-times me-1"></i>Inativo
+                                                    <i class="bi bi-x-lg me-1"></i>Inativo
                                                 @endif
                                             </button>
                                         </form>
@@ -59,14 +59,14 @@
                                         <button type="button" class="btn btn-primary btn-sm me-1" 
                                                 data-bs-toggle="modal" data-bs-target="#editUserModal"
                                                 onclick="editUser({{ $user->id }}, @json($user->name), @json($user->email), @json($user->getDashboardName()))">
-                                            <i class="fas fa-edit"></i>
+                                            <i class="bi bi-pencil"></i>
                                         </button>
                                         <form method="POST" action="{{ route('admin.users.delete', $user) }}" class="d-inline"
                                               id="deleteForm{{ $user->id }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete({{ $user->id }})">
-                                                <i class="fas fa-trash"></i>
+                                                <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
                                     </td>

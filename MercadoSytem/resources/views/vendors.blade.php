@@ -11,124 +11,132 @@
 @endsection
 
 @section('content')
-<!-- Filtros -->
-<div class="row mb-3">
-    <div class="col-12">
-        <div class="d-flex gap-2 mb-3">
-            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#vendorFilterCollapse" aria-expanded="false" aria-controls="vendorFilterCollapse">
-                <i class="bi bi-funnel me-1"></i>
-                Filtros
-            </button>
-        </div>
-        
-        <div class="collapse" id="vendorFilterCollapse">
-            <div class="card border-0 shadow-sm mb-3">
-                <div class="card-body p-3">
-                    <div class="row g-2 align-items-end">
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <label for="filterSort" class="form-label fw-semibold small mb-1">Ordenar por</label>
-                            <select class="form-select form-select-sm" id="filterSort" onchange="filterVendors()">
-                                <option value="name-asc">Nome (A-Z)</option>
-                                <option value="name-desc">Nome (Z-A)</option>
-                                <option value="food-asc">Tipo de Comida (A-Z)</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <label for="filterFoodType" class="form-label fw-semibold small mb-1">Tipo de Comida</label>
-                            <select class="form-select form-select-sm" id="filterFoodType" onchange="filterVendors()">
-                                <option value="">Todos</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <label for="filterStatus" class="form-label fw-semibold small mb-1">Status</label>
-                            <select class="form-select form-select-sm" id="filterStatus" onchange="filterVendors()">
-                                <option value="">Todos</option>
-                                <option value="active">Ativos</option>
-                                <option value="inactive">Inativos</option>
-                            </select>
-                        </div>
-                        <div class="col-lg-3 col-md-6 col-12">
-                            <button class="btn btn-outline-secondary btn-sm w-100" onclick="clearVendorFilters()">
-                                <i class="bi bi-x-circle me-1"></i>
-                                Limpar Filtros
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<style>
+.vendor-filter-bar {
+    display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: flex-end;
+    padding: 0.75rem 1rem; background: var(--card-bg);
+    border: 1px solid var(--border-color); border-radius: 0.875rem; margin-bottom: 1.25rem;
+}
+.vendor-filter-bar .filter-group { display: flex; flex-direction: column; gap: 0.2rem; flex: 1; min-width: 120px; }
+.vendor-filter-bar .filter-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.vendor-filter-bar .form-select { font-size: 0.8rem; padding: 0.35rem 0.6rem; height: 32px; min-height: 32px; }
+
+.vendor-card-inner {
+    position: relative; overflow: hidden;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.vendor-card-inner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.18) !important;
+}
+.vendor-status-badge {
+    position: absolute; top: 0.75rem; right: 0.75rem;
+}
+.vendor-avatar {
+    width: 48px; height: 48px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem; font-weight: 700;
+    background: rgba(16,185,129,0.14); color: #10B981;
+}
+[data-theme="light"] .vendor-avatar { background: rgba(5,150,105,0.12); color: #059669; }
+.vendor-info-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.35rem; }
+.vendor-info-row i { width: 14px; flex-shrink: 0; }
+.vendor-footer { display: flex; gap: 0.5rem; justify-content: flex-end; padding: 0.6rem 0.75rem; border-top: 1px solid var(--border-color); }
+</style>
+
+<div class="vendor-filter-bar">
+    <div class="filter-group">
+        <span class="filter-label">Ordenar</span>
+        <select class="form-select" id="filterSort" onchange="filterVendors()">
+            <option value="name-asc">Nome (A-Z)</option>
+            <option value="name-desc">Nome (Z-A)</option>
+            <option value="food-asc">Tipo (A-Z)</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <span class="filter-label">Tipo</span>
+        <select class="form-select" id="filterFoodType" onchange="filterVendors()">
+            <option value="">Todos</option>
+        </select>
+    </div>
+    <div class="filter-group">
+        <span class="filter-label">Status</span>
+        <select class="form-select" id="filterStatus" onchange="filterVendors()">
+            <option value="">Todos</option>
+            <option value="active">Ativos</option>
+            <option value="inactive">Inativos</option>
+        </select>
+    </div>
+    <div class="d-flex align-items-end" style="flex-shrink:0;">
+        <button class="btn btn-outline-secondary btn-sm" onclick="clearVendorFilters()">
+            <i class="bi bi-x"></i>
+        </button>
     </div>
 </div>
 
+@if($vendors->count() === 0)
+<div class="text-center py-5">
+    <i class="bi bi-people mb-3" style="font-size:3rem;color:var(--text-muted);opacity:0.2;display:block;"></i>
+    <h6 style="color:var(--text-secondary);">Nenhum vendedor cadastrado</h6>
+    <p class="text-muted small mb-3">Cadastre o primeiro vendedor para começar.</p>
+    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#vendorModal">
+        <i class="bi bi-plus-circle me-1"></i>Novo Vendedor
+    </button>
+</div>
+@endif
+
 <div class="row g-3" id="vendorsContainer">
     @foreach($vendors as $vendor)
-    <div class="col-lg-4 col-md-6 col-sm-12 vendor-card" data-vendor-name="{{ strtolower($vendor->name) }}" data-food-type="{{ strtolower($vendor->food_type) }}" data-status="{{ $vendor->active ? 'active' : 'inactive' }}">
-        <div class="card h-100 border-0 shadow-sm">
+    <div class="col-lg-4 col-md-6 col-12 vendor-card" data-vendor-name="{{ strtolower($vendor->name) }}" data-food-type="{{ strtolower($vendor->food_type) }}" data-status="{{ $vendor->active ? 'active' : 'inactive' }}">
+        <div class="card vendor-card-inner h-100">
+            <div class="vendor-status-badge">
+                @if($vendor->active)
+                    <span class="badge bg-success">Ativo</span>
+                @else
+                    <span class="badge bg-secondary">Inativo</span>
+                @endif
+            </div>
             <div class="card-body p-3">
-                <div class="d-flex align-items-center mb-3">
-                    <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 50px; height: 50px; font-size: 1.5rem;">
-                        {{ substr($vendor->name, 0, 1) }}
-                    </div>
-                    <div class="flex-grow-1 min-width-0">
-                        <h5 class="card-title mb-1 text-truncate">{{ $vendor->name }}</h5>
-                        <small class="text-muted text-truncate d-block">{{ $vendor->email }}</small>
-                    </div>
-                </div>
-
-                <div class="mb-3">
-                    <span class="badge bg-info me-1">{{ $vendor->food_type }}</span>
-                    @if($vendor->active)
-                        <span class="badge bg-success">Ativo</span>
-                    @else
-                        <span class="badge bg-secondary">Inativo</span>
-                    @endif
-                </div>
-
-                <div class="mb-3">
-                    <div class="d-flex align-items-center text-muted small mb-2">
-                        <i class="bi bi-telephone me-2 flex-shrink-0"></i>
-                        <span class="text-truncate">{{ $vendor->phone }}</span>
-                    </div>                    @if($vendor->has_cnpj && $vendor->cnpj)
-                        <div class="d-flex align-items-center text-muted small mb-2">
-                            <i class="bi bi-shop me-2 flex-shrink-0"></i>
-                            <span class="text-truncate">CNPJ: {{ $vendor->cnpj }}</span>
+                <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="vendor-avatar">{{ substr($vendor->name, 0, 1) }}</div>
+                    <div class="flex-grow-1 min-width-0" style="padding-right:3.5rem;">
+                        <h5 class="card-title mb-0 text-truncate fw-semibold" style="font-size:0.95rem;">{{ $vendor->name }}</h5>
+                        <div class="text-muted text-truncate" style="font-size:0.78rem;">{{ $vendor->email }}</div>
+                        <div class="mt-1">
+                            <span class="badge bg-secondary" style="font-size:0.68rem;">{{ $vendor->food_type }}</span>
                         </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="vendor-info-row">
+                        <i class="bi bi-telephone"></i>
+                        <span class="text-truncate">{{ $vendor->phone }}</span>
+                    </div>
+                    @if($vendor->has_cnpj && $vendor->cnpj)
+                    <div class="vendor-info-row">
+                        <i class="bi bi-building"></i>
+                        <span class="text-truncate">{{ $vendor->cnpj }}</span>
+                    </div>
                     @endif
                     @if($vendor->description)
-                        <p class="text-muted small mb-0 text-truncate">{{ $vendor->description }}</p>
+                    <div class="vendor-info-row" style="align-items:flex-start;">
+                        <i class="bi bi-chat-left-text" style="margin-top:1px;"></i>
+                        <span style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ $vendor->description }}</span>
+                    </div>
                     @endif
                 </div>
             </div>
-            
-            <div class="card-footer bg-transparent p-2 p-md-3">
-                <!-- Botões compactos para mobile -->
-                <div class="d-flex d-md-none gap-1 justify-content-center">
-                    <button class="btn btn-sm btn-outline-primary px-2 py-1" onclick="editVendor({{ $vendor->id }})" title="Editar">
-                        <i class="bi bi-pencil" style="font-size: 0.85rem;"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-success px-2 py-1" onclick="addSchedule({{ $vendor->id }})" title="Horário">
-                        <i class="bi bi-calendar-plus" style="font-size: 0.85rem;"></i>
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger px-2 py-1" onclick="deleteVendor({{ $vendor->id }}, @json($vendor->name))" title="Excluir">
-                        <i class="bi bi-trash" style="font-size: 0.85rem;"></i>
-                    </button>
-                </div>
-                
-                <!-- Botões normais para desktop -->
-                <div class="d-none d-md-flex gap-2">
-                    <button class="btn btn-sm btn-outline-primary" onclick="editVendor({{ $vendor->id }})">
-                        <i class="bi bi-pencil"></i>
-                        Editar
-                    </button>
-                    <button class="btn btn-sm btn-outline-success" onclick="addSchedule({{ $vendor->id }})">
-                        <i class="bi bi-calendar-plus"></i>
-                        Horário
-                    </button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, @json($vendor->name))">
-                        <i class="bi bi-trash"></i>
-                        Excluir
-                    </button>
-                </div>
+            <div class="vendor-footer">
+                <button class="btn btn-sm btn-outline-primary" onclick="editVendor({{ $vendor->id }})" title="Editar">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-success" onclick="addSchedule({{ $vendor->id }})" title="Horário">
+                    <i class="bi bi-calendar-plus"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, @json($vendor->name))" title="Excluir">
+                    <i class="bi bi-trash"></i>
+                </button>
             </div>
         </div>
     </div>

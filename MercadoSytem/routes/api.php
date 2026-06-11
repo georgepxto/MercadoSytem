@@ -31,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('entries/{id}/checkout', [EntryController::class, 'checkOut']);
     Route::post('entries/{id}/checkout', [EntryController::class, 'checkOut']);
     Route::get('entries/today', [EntryController::class, 'today']);
+    Route::get('entries/stats/week', [EntryController::class, 'statsWeek']);
     Route::apiResource('entries', EntryController::class);
     
     // Vendor and Box routes for entries page filters
