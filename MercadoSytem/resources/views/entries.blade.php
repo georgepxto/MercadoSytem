@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Histórico - Sistema de Controle')
+@section('title', 'Histórico — Feirante')
 @section('page-title', 'Histórico de Entradas')
 
 @section('page-actions')

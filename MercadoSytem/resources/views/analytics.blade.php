@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Analytics - Sistema de Controle')
+@section('title', 'Analytics — Feirante')
 @section('page-title', 'Analytics')
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Check-in/Check-out - Sistema de Controle')
+@section('title', 'Check-in — Feirante')
 @section('page-title', 'Check-in / Check-out')
 
 @push('styles')

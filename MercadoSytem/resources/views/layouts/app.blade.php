@@ -7,10 +7,10 @@
     <meta name="theme-color" content="#3490dc">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="Mercado Fátima">
-    <meta name="description" content="Sistema de gerenciamento do Mercado N. S. Fátima">
-    
-    <title>@yield('title', 'Sistema de Controle - Mercado')</title>
+    <meta name="apple-mobile-web-app-title" content="Feirante">
+    <meta name="description" content="Feirante — Sistema de controle de boxes e vendedores">
+
+    <title>@yield('title', 'Feirante')</title>
     
     <link rel="manifest" href="/manifest.json">
     <link rel="apple-touch-icon" href="/icons/icon-192x192.png">

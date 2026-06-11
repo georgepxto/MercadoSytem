@@ -24,11 +24,6 @@ class DatabaseSeeder extends Seeder
             VendorSeeder::class,
             ScheduleSeeder::class,
             EntrySeeder::class,
-            
-            // Sistema de food market
-            CategorySeeder::class,
-            ProductSeeder::class,
-            OrderSeeder::class,
         ]);
     }
 }

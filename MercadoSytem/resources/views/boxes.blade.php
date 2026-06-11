@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Boxes - Sistema de Controle')
-@section('page-title', 'Boxes do Mercado')
+@section('title', 'Boxes — Feirante')
+@section('page-title', 'Boxes')
 
 @section('page-actions')
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#boxModal">
