@@ -1720,6 +1720,12 @@
                         Histórico
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('analytics') ? 'active' : '' }}" href="{{ route('analytics') }}">
+                        <i class="bi bi-bar-chart-line"></i>
+                        Analytics
+                    </a>
+                </li>
             </ul>
 
             <div style="border-top:1px solid rgba(255,255,255,0.06);margin:0 0.75rem;">

@@ -32,7 +32,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('entries/{id}/checkout', [EntryController::class, 'checkOut']);
     Route::get('entries/today', [EntryController::class, 'today']);
     Route::get('entries/stats/week', [EntryController::class, 'statsWeek']);
+    Route::get('entries/stats/period', [EntryController::class, 'statsPeriod']);
     Route::apiResource('entries', EntryController::class);
+
+    Route::get('boxes/{id}/history', [BoxController::class, 'history']);
     
     // Vendor and Box routes for entries page filters
     Route::apiResource('vendors', VendorController::class);

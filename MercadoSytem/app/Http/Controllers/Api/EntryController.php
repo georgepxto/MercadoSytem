@@ -218,6 +218,28 @@ class EntryController extends Controller
     }
 
     /**
+     * Entry counts for a flexible period (7, 30 or 90 days).
+     */
+    public function statsPeriod(Request $request)
+    {
+        $request->validate(['days' => 'nullable|integer|in:7,30,90']);
+        $days = (int) ($request->days ?? 7);
+
+        $result = [];
+        for ($i = $days - 1; $i >= 0; $i--) {
+            $date = Carbon::today()->subDays($i);
+            $result[] = [
+                'date'  => $date->format('Y-m-d'),
+                'label' => $days <= 7
+                    ? $date->locale('pt_BR')->isoFormat('ddd')
+                    : $date->format('d/m'),
+                'count' => DB::connection('main')->table('entries')->whereDate('entry_date', $date)->count(),
+            ];
+        }
+        return response()->json($result);
+    }
+
+    /**
      * Get today's entries.
      */
     public function today()

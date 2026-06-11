@@ -39,6 +39,7 @@ Route::middleware(['auth', 'tenant.database'])->group(function () {
     Route::get('/boxes', [WebController::class, 'boxes'])->name('boxes');
     Route::get('/entries', [WebController::class, 'entries'])->name('entries');
     Route::get('/entries/export', [WebController::class, 'exportEntries'])->name('entries.export');
+    Route::get('/analytics', [WebController::class, 'analytics'])->name('analytics');
     Route::get('/checkin', [WebController::class, 'checkin'])->name('checkin');
     
     // QR Code routes for boxes

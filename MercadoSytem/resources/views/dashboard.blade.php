@@ -51,6 +51,16 @@
     max-width: 88px; display: block; margin: 0 auto;
 }
 .box-chip.free .box-vendor-label { color: #10B981; }
+.box-chip.long-stay { border-color: rgba(248,113,113,0.35) !important; background: rgba(248,113,113,0.07) !important; cursor: pointer; }
+.box-chip.long-stay .box-dot { background: #F87171 !important; animation: pulse-red 1.4s ease-in-out infinite; }
+.box-chip.occupied { cursor: pointer; }
+@keyframes pulse-red {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(248,113,113,0.5); }
+    50% { opacity: 0.6; box-shadow: 0 0 0 4px rgba(248,113,113,0); }
+}
+.period-btn { font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 6px; border: 1px solid var(--border-color); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+.period-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+.period-btn.active { background: var(--accent-color); border-color: var(--accent-color); color: #fff; }
 .time-chip {
     display: inline-block; font-family: 'Rubik', monospace;
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
@@ -134,9 +144,16 @@
 <div class="row g-3 mb-4">
     <div class="col-lg-8">
         <div class="card h-100">
-            <div class="card-header d-flex align-items-center gap-2">
-                <i class="bi bi-graph-up" style="color:var(--accent-color);font-size:0.9rem;"></i>
-                <span class="fw-semibold" style="font-size:0.875rem;">Entradas — Últimos 7 dias</span>
+            <div class="card-header d-flex align-items-center justify-content-between gap-2">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-graph-up" style="color:var(--accent-color);font-size:0.9rem;"></i>
+                    <span class="fw-semibold" style="font-size:0.875rem;" id="chartTitle">Entradas — Últimos 7 dias</span>
+                </div>
+                <div class="d-flex gap-1">
+                    <button class="period-btn active" data-days="7">7d</button>
+                    <button class="period-btn" data-days="30">30d</button>
+                    <button class="period-btn" data-days="90">90d</button>
+                </div>
             </div>
             <div class="card-body" style="height:220px;position:relative;padding:1rem 1rem 0.5rem;">
                 <canvas id="weeklyChart"></canvas>
@@ -153,13 +170,25 @@
                 @if($allBoxes->count() > 0)
                 <div class="box-grid">
                     @foreach($allBoxes as $b)
-                    @php $chipClass = $b->is_occupied ? 'occupied' : (($b->available ?? true) ? 'free' : 'unavailable'); @endphp
-                    <div class="box-chip {{ $chipClass }}" title="{{ $b->is_occupied ? ($b->active_vendor ?? 'Ocupado') : 'Livre' }}">
+                    @php
+                        $chipClass = $b->is_occupied ? 'occupied' : (($b->available ?? true) ? 'free' : 'unavailable');
+                        $isLongStay = false;
+                        if ($b->is_occupied && $b->entry_time) {
+                            $entryCarbon = \Carbon\Carbon::parse($b->entry_time);
+                            $isLongStay = $entryCarbon->diffInHours(\Carbon\Carbon::now()) >= 4;
+                            if ($isLongStay) $chipClass = 'long-stay';
+                        }
+                    @endphp
+                    <div class="box-chip {{ $chipClass }}"
+                         data-box-id="{{ $b->id }}"
+                         title="{{ $b->is_occupied ? ($b->active_vendor ?? 'Ocupado') : 'Livre' }}"
+                         @if($b->is_occupied) onclick="openBoxModal({{ $b->id }}, '{{ addslashes($b->name ?? 'Box '.$b->number) }}')" @endif>
                         <span class="box-dot"></span>
                         <div class="box-num">Box {{ $b->number }}</div>
                         <span class="box-vendor-label">
                             @if($b->is_occupied && $b->active_vendor)
                                 {{ \Illuminate\Support\Str::limit($b->active_vendor, 10) }}
+                                @if($isLongStay)<br><small style="color:#F87171;font-size:0.55rem;">longa perm.</small>@endif
                             @else
                                 Livre
                             @endif
@@ -209,7 +238,12 @@
                 </thead>
                 <tbody>
                     @foreach($todayEntries as $entry)
-                    <tr style="{{ !$entry->exit_time ? 'background:rgba(16,185,129,0.04);' : '' }}">
+                    @php
+                        $isActive = !$entry->exit_time;
+                        $isLongEntry = $isActive && $entry->entry_time->diffInHours(\Carbon\Carbon::now()) >= 4;
+                        $rowBg = $isLongEntry ? 'background:rgba(248,113,113,0.05);' : ($isActive ? 'background:rgba(16,185,129,0.04);' : '');
+                    @endphp
+                    <tr style="{{ $rowBg }}">
                         <td style="padding-left:1.25rem;vertical-align:middle;">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="avatar-initials">{{ substr($entry->vendor->name, 0, 1) }}</div>
@@ -231,6 +265,8 @@
                         <td style="vertical-align:middle;">
                             @if($entry->exit_time)
                                 <span class="badge bg-secondary">Finalizado</span>
+                            @elseif($isLongEntry)
+                                <span class="badge bg-danger"><i class="bi bi-exclamation-triangle me-1"></i>Longa perm.</span>
                             @else
                                 <span class="badge bg-success">Ativo</span>
                             @endif
@@ -293,6 +329,26 @@
         @endif
     </div>
 </div>
+{{-- Box detail modal --}}
+<div class="modal fade" id="boxModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="boxModalTitle">Detalhes do Box</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="boxModalBody" style="min-height:160px;">
+                <div class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--accent-color);"></div></div>
+            </div>
+            <div class="modal-footer" id="boxModalFooter" style="display:none;">
+                <button class="btn btn-warning btn-sm" id="boxCheckoutBtn">
+                    <i class="bi bi-box-arrow-right me-1"></i>Fazer Check-out
+                </button>
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -308,10 +364,74 @@
         });
     }
 
-    (function buildChart() {
-        const stats = @json($weeklyStats);
+    let activeEntryForCheckout = null;
 
-        function makeChart() {
+    function openBoxModal(boxId, boxName) {
+        document.getElementById('boxModalTitle').textContent = boxName;
+        document.getElementById('boxModalBody').innerHTML = '<div class="text-center py-4"><div class="spinner-border spinner-border-sm" style="color:var(--accent-color);"></div></div>';
+        document.getElementById('boxModalFooter').style.display = 'none';
+        activeEntryForCheckout = null;
+        new bootstrap.Modal(document.getElementById('boxModal')).show();
+
+        axios.get(`/api/boxes/${boxId}/history`)
+            .then(r => {
+                const d = r.data;
+                const cur = d.current_entry;
+                let html = '';
+                if (cur) {
+                    activeEntryForCheckout = cur.id;
+                    document.getElementById('boxModalFooter').style.display = '';
+                    const mins = cur.entry_time ? Math.floor((Date.now() - new Date('1970-01-01T' + cur.entry_time)) / 60000) : null;
+                    const dur = mins !== null ? `${Math.floor(mins/60)}h ${mins%60}min` : '';
+                    html += `<div class="d-flex align-items-center gap-3 mb-3 p-3 rounded" style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.15);">
+                        <div class="avatar-initials" style="width:42px;height:42px;font-size:1rem;">${cur.vendor_name.charAt(0)}</div>
+                        <div>
+                            <div class="fw-semibold">${cur.vendor_name}</div>
+                            <div class="text-muted" style="font-size:0.8rem;">${cur.food_type ?? ''}</div>
+                            <div style="font-size:0.78rem;margin-top:0.2rem;">
+                                <span class="time-chip">${cur.entry_time?.substring(0,5) ?? ''}</span>
+                                ${dur ? `<span class="text-muted ms-2">${dur}</span>` : ''}
+                            </div>
+                        </div>
+                        <span class="badge bg-success ms-auto">Ativo</span>
+                    </div>`;
+                }
+                if (d.recent_entries && d.recent_entries.length > 0) {
+                    html += `<p class="text-muted mb-2" style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;">Histórico recente</p>
+                    <div class="table-responsive"><table class="table table-hover mb-0" style="font-size:0.82rem;">
+                    <thead><tr><th>Vendedor</th><th>Data</th><th>Entrada</th><th>Saída</th></tr></thead><tbody>`;
+                    d.recent_entries.forEach(e => {
+                        const date = new Date(e.entry_date).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+                        html += `<tr>
+                            <td>${e.vendor_name}</td>
+                            <td>${date}</td>
+                            <td>${e.entry_time?.substring(0,5) ?? '—'}</td>
+                            <td>${e.exit_time?.substring(0,5) ?? '<span class="badge bg-success" style="font-size:0.65rem;">Ativo</span>'}</td>
+                        </tr>`;
+                    });
+                    html += '</tbody></table></div>';
+                }
+                if (!cur && (!d.recent_entries || d.recent_entries.length === 0)) {
+                    html = '<div class="text-center py-3 text-muted">Sem histórico para este box.</div>';
+                }
+                document.getElementById('boxModalBody').innerHTML = html;
+            })
+            .catch(() => {
+                document.getElementById('boxModalBody').innerHTML = '<div class="text-center py-3 text-muted">Erro ao carregar dados.</div>';
+            });
+    }
+
+    document.getElementById('boxCheckoutBtn').addEventListener('click', () => {
+        if (!activeEntryForCheckout) return;
+        checkOut(activeEntryForCheckout);
+        bootstrap.Modal.getInstance(document.getElementById('boxModal'))?.hide();
+    });
+
+    (function buildChart() {
+        let currentStats = @json($weeklyStats);
+        let currentDays = 7;
+
+        function makeChart(stats) {
             const dark = document.body.getAttribute('data-theme') !== 'light';
             const grid = dark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
             const tick = dark ? '#6B6254' : '#7A7366';
@@ -337,7 +457,7 @@
                         borderColor: '#10B981',
                         backgroundColor: grad,
                         borderWidth: 2,
-                        pointRadius: 4,
+                        pointRadius: stats.length <= 7 ? 4 : 2,
                         pointBackgroundColor: '#10B981',
                         pointBorderColor: dark ? '#171510' : '#fff',
                         pointBorderWidth: 2,
@@ -363,7 +483,7 @@
                         }
                     },
                     scales: {
-                        x: { grid: { color: grid }, ticks: { color: tick, font: { size: 11, family: 'Rubik' } } },
+                        x: { grid: { color: grid }, ticks: { color: tick, font: { size: 11, family: 'Rubik' }, maxTicksLimit: 12 } },
                         y: {
                             beginAtZero: true, grid: { color: grid },
                             ticks: { color: tick, font: { size: 11, family: 'Rubik' }, stepSize: 1, precision: 0 }
@@ -373,8 +493,23 @@
             });
         }
 
-        makeChart();
-        document.getElementById('themeToggle').addEventListener('click', () => setTimeout(makeChart, 320));
+        makeChart(currentStats);
+        document.getElementById('themeToggle').addEventListener('click', () => setTimeout(() => makeChart(currentStats), 320));
+
+        document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const days = parseInt(this.dataset.days);
+                if (days === currentDays) return;
+                currentDays = days;
+                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                const titles = {7:'Entradas — Últimos 7 dias', 30:'Entradas — Últimos 30 dias', 90:'Entradas — Últimos 90 dias'};
+                document.getElementById('chartTitle').textContent = titles[days];
+                axios.get(`/api/entries/stats/period?days=${days}`)
+                    .then(r => { currentStats = r.data; makeChart(currentStats); })
+                    .catch(() => modernToast.error('Erro ao carregar dados do gráfico.'));
+            });
+        });
     })();
 
     setInterval(() => location.reload(), 60000);

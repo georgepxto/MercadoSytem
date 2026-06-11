@@ -85,10 +85,11 @@ class WebController extends Controller
                 ->where('entries.box_id', $box->id)
                 ->whereNull('entries.exit_time')
                 ->whereDate('entries.entry_date', \Carbon\Carbon::today())
-                ->select('vendors.name as vendor_name')
+                ->select('vendors.name as vendor_name', 'entries.entry_time')
                 ->first();
-            $box->is_occupied = (bool) $active;
+            $box->is_occupied  = (bool) $active;
             $box->active_vendor = $active ? $active->vendor_name : null;
+            $box->entry_time   = $active ? $active->entry_time : null;
             return $box;
         });
 
@@ -193,6 +194,75 @@ class WebController extends Controller
         $vendors = Vendor::where('active', true)->get();
         $boxes = Box::where('available', true)->get();
         return view('checkin', compact('vendors', 'boxes'));
+    }
+
+    public function analytics()
+    {
+        $days = 30;
+        $since = Carbon::today()->subDays($days - 1)->startOfDay();
+
+        $topVendors = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->where('entries.entry_date', '>=', $since)
+            ->select('vendors.name', DB::raw('COUNT(*) as count'))
+            ->groupBy('vendors.id', 'vendors.name')
+            ->orderByDesc('count')
+            ->limit(6)
+            ->get();
+
+        $boxStats = DB::connection('main')->table('entries')
+            ->join('boxes', 'entries.box_id', '=', 'boxes.id')
+            ->where('entries.entry_date', '>=', $since)
+            ->select('boxes.name', 'boxes.number', DB::raw('COUNT(*) as count'))
+            ->groupBy('boxes.id', 'boxes.name', 'boxes.number')
+            ->orderByDesc('count')
+            ->get();
+
+        $hourRaw = DB::connection('main')->table('entries')
+            ->where('entry_date', '>=', $since)
+            ->select(DB::raw('HOUR(entry_time) as hour'), DB::raw('COUNT(*) as count'))
+            ->groupBy(DB::raw('HOUR(entry_time)'))
+            ->orderBy('hour')
+            ->get()->keyBy('hour');
+
+        $hourData = [];
+        for ($h = 5; $h <= 22; $h++) {
+            $hourData[] = ['label' => sprintf('%02dh', $h), 'count' => $hourRaw->get($h)?->count ?? 0];
+        }
+
+        $dayRaw = DB::connection('main')->table('entries')
+            ->where('entry_date', '>=', $since)
+            ->select(DB::raw('DAYOFWEEK(entry_date) as dow'), DB::raw('COUNT(*) as count'))
+            ->groupBy(DB::raw('DAYOFWEEK(entry_date)'))
+            ->get()->keyBy('dow');
+
+        // MySQL: 1=Dom,2=Seg,...7=Sáb
+        $dayData = [];
+        foreach ([2=>'Seg',3=>'Ter',4=>'Qua',5=>'Qui',6=>'Sex',7=>'Sáb',1=>'Dom'] as $d => $lbl) {
+            $dayData[] = ['label' => $lbl, 'count' => $dayRaw->get($d)?->count ?? 0];
+        }
+
+        $avgStay = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->where('entries.entry_date', '>=', $since)
+            ->whereNotNull('entries.exit_time')
+            ->select('vendors.name', DB::raw('ROUND(AVG(TIMESTAMPDIFF(MINUTE, entry_time, exit_time)),0) as avg_min'))
+            ->groupBy('vendors.id', 'vendors.name')
+            ->orderByDesc('avg_min')
+            ->limit(6)
+            ->get();
+
+        $totalPeriod = DB::connection('main')->table('entries')->where('entry_date', '>=', $since)->count();
+        $prevSince   = Carbon::today()->subDays($days * 2 - 1)->startOfDay();
+        $prevPeriod  = DB::connection('main')->table('entries')
+            ->where('entry_date', '>=', $prevSince)
+            ->where('entry_date', '<', $since)
+            ->count();
+
+        return view('analytics', compact(
+            'topVendors', 'boxStats', 'hourData', 'dayData', 'avgStay',
+            'totalPeriod', 'prevPeriod', 'days'
+        ));
     }
 
     public function exportEntries(Request $request)

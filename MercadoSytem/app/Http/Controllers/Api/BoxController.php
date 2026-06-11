@@ -110,6 +110,40 @@ class BoxController extends Controller
     }
 
     /**
+     * Recent history + current occupant for one box.
+     */
+    public function history($id)
+    {
+        $box = DB::connection('main')->table('boxes')->where('id', $id)->first();
+        if (!$box) {
+            return response()->json(['message' => 'Box não encontrado'], 404);
+        }
+
+        $currentEntry = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->where('entries.box_id', $id)
+            ->whereNull('entries.exit_time')
+            ->whereDate('entries.entry_date', \Carbon\Carbon::today())
+            ->select('entries.*', 'vendors.name as vendor_name', 'vendors.food_type')
+            ->first();
+
+        $recentEntries = DB::connection('main')->table('entries')
+            ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
+            ->where('entries.box_id', $id)
+            ->orderBy('entries.entry_date', 'desc')
+            ->orderBy('entries.entry_time', 'desc')
+            ->limit(10)
+            ->select('entries.*', 'vendors.name as vendor_name', 'vendors.food_type')
+            ->get();
+
+        return response()->json([
+            'box' => $box,
+            'current_entry' => $currentEntry,
+            'recent_entries' => $recentEntries,
+        ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
