@@ -1665,13 +1665,19 @@
         }
 
         /* ===== BOTÕES — contraste no modo escuro ===== */
-        /* primary (verde esmeralda): forçar texto branco */
-        [data-theme="dark"] .btn-primary,
+        /* primary: verde mais escuro no dark mode para garantir contraste com texto branco */
+        [data-theme="dark"] .btn-primary {
+            background-color: #059669 !important;
+            border-color: #047857 !important;
+            color: #fff !important;
+        }
         [data-theme="dark"] .btn-primary * {
             color: #fff !important;
         }
         [data-theme="dark"] .btn-primary:hover,
         [data-theme="dark"] .btn-primary:focus {
+            background-color: #047857 !important;
+            border-color: #065F46 !important;
             color: #fff !important;
         }
 
