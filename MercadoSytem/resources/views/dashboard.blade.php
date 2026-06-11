@@ -377,23 +377,50 @@
             .then(r => {
                 const d = r.data;
                 const cur = d.current_entry;
+
+                // entry_time may be "HH:MM:SS" or a full datetime "YYYY-MM-DD HH:MM:SS"
+                function parseTime(raw) {
+                    if (!raw) return null;
+                    // If it contains a space or T, it's a datetime — extract time portion
+                    const timePart = raw.includes('T') ? raw.split('T')[1]
+                                   : raw.includes(' ') ? raw.split(' ')[1]
+                                   : raw;
+                    return timePart.substring(0, 5); // "HH:MM"
+                }
+
+                function parseDt(dateStr, timeStr) {
+                    if (!timeStr) return null;
+                    // If timeStr is already a full datetime
+                    if (timeStr.includes('T') || timeStr.includes(' ')) {
+                        return new Date(timeStr.replace(' ', 'T'));
+                    }
+                    if (!dateStr) return null;
+                    return new Date(dateStr + 'T' + timeStr);
+                }
+
+                function durStr(mins) {
+                    if (mins === null || isNaN(mins) || mins < 0) return '';
+                    const h = Math.floor(mins / 60);
+                    const m = mins % 60;
+                    return h > 0 ? `${h}h ${m}min` : `${m}min`;
+                }
+
                 let html = '';
                 if (cur) {
                     activeEntryForCheckout = cur.id;
                     document.getElementById('boxModalFooter').style.display = '';
-                    const entryDt = (cur.entry_date && cur.entry_time)
-                        ? new Date(cur.entry_date + 'T' + cur.entry_time)
-                        : null;
+                    const entryDt = parseDt(cur.entry_date, cur.entry_time);
                     const mins = entryDt && !isNaN(entryDt) ? Math.floor((Date.now() - entryDt.getTime()) / 60000) : null;
-                    const dur = mins !== null && mins >= 0 ? `${Math.floor(mins/60)}h ${mins%60}min` : '';
+                    const dur = durStr(mins);
+                    const timeDisplay = parseTime(cur.entry_time) ?? '';
                     html += `<div class="d-flex align-items-center gap-3 mb-3 p-3 rounded" style="background:rgba(16,185,129,0.07);border:1px solid rgba(16,185,129,0.15);">
                         <div class="avatar-initials" style="width:42px;height:42px;font-size:1rem;">${cur.vendor_name.charAt(0)}</div>
                         <div>
                             <div class="fw-semibold">${cur.vendor_name}</div>
                             <div class="text-muted" style="font-size:0.8rem;">${cur.food_type ?? ''}</div>
-                            <div style="font-size:0.78rem;margin-top:0.2rem;">
-                                <span class="time-chip">${cur.entry_time?.substring(0,5) ?? ''}</span>
-                                ${dur ? `<span class="text-muted ms-2">${dur}</span>` : ''}
+                            <div style="font-size:0.78rem;margin-top:0.25rem;display:flex;align-items:center;gap:0.5rem;">
+                                <span class="time-chip">Entrada ${timeDisplay}</span>
+                                ${dur ? `<span style="color:var(--accent-color);font-weight:600;">há ${dur}</span>` : ''}
                             </div>
                         </div>
                         <span class="badge bg-success ms-auto">Ativo</span>
@@ -404,13 +431,12 @@
                     <div class="table-responsive"><table class="table table-hover mb-0" style="font-size:0.82rem;">
                     <thead><tr><th>Vendedor</th><th>Data</th><th>Entrada</th><th>Saída</th></tr></thead><tbody>`;
                     d.recent_entries.forEach(e => {
-                        const date = new Date(e.entry_date).toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
-                        html += `<tr>
-                            <td>${e.vendor_name}</td>
-                            <td>${date}</td>
-                            <td>${e.entry_time?.substring(0,5) ?? '—'}</td>
-                            <td>${e.exit_time?.substring(0,5) ?? '<span class="badge bg-success" style="font-size:0.65rem;">Ativo</span>'}</td>
-                        </tr>`;
+                        const date = new Date(e.entry_date + 'T00:00:00').toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});
+                        const tIn  = parseTime(e.entry_time) ?? '—';
+                        const tOut = e.exit_time
+                            ? (parseTime(e.exit_time) ?? '—')
+                            : '<span class="badge bg-success" style="font-size:0.65rem;">Ativo</span>';
+                        html += `<tr><td>${e.vendor_name}</td><td>${date}</td><td>${tIn}</td><td>${tOut}</td></tr>`;
                     });
                     html += '</tbody></table></div>';
                 }
