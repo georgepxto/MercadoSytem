@@ -109,7 +109,7 @@
                     <button class="btn btn-sm btn-outline-success px-2 py-1" onclick="addSchedule({{ $vendor->id }})" title="Horário">
                         <i class="bi bi-calendar-plus" style="font-size: 0.85rem;"></i>
                     </button>
-                    <button class="btn btn-sm btn-outline-danger px-2 py-1" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')" title="Excluir">
+                    <button class="btn btn-sm btn-outline-danger px-2 py-1" onclick="deleteVendor({{ $vendor->id }}, @json($vendor->name))" title="Excluir">
                         <i class="bi bi-trash" style="font-size: 0.85rem;"></i>
                     </button>
                 </div>
@@ -124,7 +124,7 @@
                         <i class="bi bi-calendar-plus"></i>
                         Horário
                     </button>
-                    <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, '{{ $vendor->name }}')">
+                    <button class="btn btn-sm btn-outline-danger" onclick="deleteVendor({{ $vendor->id }}, @json($vendor->name))">
                         <i class="bi bi-trash"></i>
                         Excluir
                     </button>

@@ -58,7 +58,7 @@
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm me-1" 
                                                 data-bs-toggle="modal" data-bs-target="#editUserModal"
-                                                onclick="editUser({{ $user->id }}, '{{ $user->name }}', '{{ $user->email }}', '{{ $user->getDashboardName() }}')">
+                                                onclick="editUser({{ $user->id }}, @json($user->name), @json($user->email), @json($user->getDashboardName()))">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         <form method="POST" action="{{ route('admin.users.delete', $user) }}" class="d-inline"

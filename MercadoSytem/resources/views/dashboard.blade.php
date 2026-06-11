@@ -4,66 +4,96 @@
 @section('page-title', 'Dashboard')
 
 @section('content')
-<div class="row mb-4 g-2 g-sm-3">
-    <div class="col-6 col-md-6 col-lg-3">
-        <div class="card bg-primary text-white h-100">
-            <div class="card-body p-2 p-sm-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Total Vendedores</div>
-                        <div class="fs-3 fs-sm-2 fw-bold">{{ $totalVendors }}</div>
-                    </div>
-                    <div class="ms-2">
-                        <i class="bi bi-people fs-2 fs-sm-1 opacity-75"></i>
-                    </div>
+<style>
+.stat-card {
+    border: 1px solid var(--border-color) !important;
+    position: relative;
+    overflow: hidden;
+}
+.stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.07;
+}
+.stat-card .stat-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+.stat-card .stat-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.25rem;
+}
+.stat-card .stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--text-primary);
+}
+</style>
+
+<div class="row mb-4 g-3">
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body d-flex align-items-center gap-3 p-3">
+                <div class="stat-icon" style="background:rgba(16,185,129,0.12);color:#10B981;">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Vendedores</div>
+                    <div class="stat-value">{{ $totalVendors }}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-6 col-md-6 col-lg-3">
-        <div class="card bg-success text-white h-100">
-            <div class="card-body p-2 p-sm-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Total Boxes</div>
-                        <div class="fs-3 fs-sm-2 fw-bold">{{ $totalBoxes }}</div>
-                    </div>
-                    <div class="ms-2">
-                        <i class="bi bi-grid-3x3 fs-2 fs-sm-1 opacity-75"></i>
-                    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body d-flex align-items-center gap-3 p-3">
+                <div class="stat-icon" style="background:rgba(99,102,241,0.12);color:#818CF8;">
+                    <i class="bi bi-grid-3x3"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Total Boxes</div>
+                    <div class="stat-value">{{ $totalBoxes }}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-6 col-md-6 col-lg-3">
-        <div class="card bg-warning text-white h-100">
-            <div class="card-body p-2 p-sm-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Ativos Hoje</div>
-                        <div class="fs-3 fs-sm-2 fw-bold">{{ $activeEntries }}</div>
-                    </div>
-                    <div class="ms-2">
-                        <i class="bi bi-person-check fs-2 fs-sm-1 opacity-75"></i>
-                    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body d-flex align-items-center gap-3 p-3">
+                <div class="stat-icon" style="background:rgba(251,191,36,0.12);color:#FCD34D;">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Ativos Hoje</div>
+                    <div class="stat-value">{{ $activeEntries }}</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-6 col-md-6 col-lg-3">
-        <div class="card bg-info text-white h-100">
-            <div class="card-body p-2 p-sm-3">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="flex-grow-1">
-                        <div class="text-white-75 small mb-1" style="font-size: 0.75rem;">Entradas Hoje</div>
-                        <div class="fs-3 fs-sm-2 fw-bold">{{ $todayEntries->count() }}</div>
-                    </div>
-                    <div class="ms-2">
-                        <i class="bi bi-box-arrow-in-right fs-2 fs-sm-1 opacity-75"></i>
-                    </div>
+    <div class="col-6 col-lg-3">
+        <div class="card stat-card h-100">
+            <div class="card-body d-flex align-items-center gap-3 p-3">
+                <div class="stat-icon" style="background:rgba(56,189,248,0.12);color:#38BDF8;">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                </div>
+                <div>
+                    <div class="stat-label">Entradas Hoje</div>
+                    <div class="stat-value">{{ $todayEntries->count() }}</div>
                 </div>
             </div>
         </div>
@@ -73,11 +103,12 @@
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">
-                    <i class="bi bi-clock"></i>
-                    Atividade de Hoje - {{ date('d/m/Y') }}
-                </h5>
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <i class="bi bi-activity" style="color:var(--accent-color);"></i>
+                    <span class="fw-semibold" style="font-size:0.9rem;">Atividade de Hoje</span>
+                </div>
+                <span class="text-muted" style="font-size:0.8rem;">{{ date('d/m/Y') }}</span>
             </div>            <div class="card-body">
                 @if($todayEntries->count() > 0)                    <div class="table-responsive d-none d-lg-block">
                         <table class="table table-hover">
@@ -96,7 +127,7 @@
                                 <tr>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-2" style="width: 40px; height: 40px;">
+                                            <div class="avatar-initials me-2">
                                                 {{ substr($entry->vendor->name, 0, 1) }}
                                             </div>
                                             <div>
@@ -139,12 +170,12 @@
                         </table>
                     </div>                    <div class="d-lg-none">
                         @foreach($todayEntries as $entry)
-                        <div class="card mb-3 border-start border-3 @if($entry->exit_time) border-secondary @else border-success @endif">
+                        <div class="card mb-2" style="border-left: 2px solid {{ $entry->exit_time ? 'rgba(148,163,184,0.3)' : '#4ADE80' }} !important;">
                             <div class="card-body p-3">
                                 <div class="d-flex align-items-start justify-content-between mb-3">
                                     <div class="d-flex align-items-center flex-grow-1">
-                                        <div class="bg-primary rounded-circle text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; min-width: 45px;">
-                                            <span class="fw-bold">{{ substr($entry->vendor->name, 0, 1) }}</span>
+                                        <div class="avatar-initials me-3" style="width:40px;height:40px;min-width:40px;border-radius:10px;">
+                                            {{ substr($entry->vendor->name, 0, 1) }}
                                         </div>
                                         <div class="flex-grow-1 min-width-0">
                                             <h6 class="mb-1 fw-bold text-truncate">{{ $entry->vendor->name }}</h6>

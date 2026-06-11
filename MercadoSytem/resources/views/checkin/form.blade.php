@@ -221,7 +221,7 @@
                 </div>
             @endif
             
-            <form method="POST" action="{{ route('checkin.process', $box->number) }}">
+            <form method="POST" action="{{ route('checkin.process', $box->qr_token) }}">
                 @csrf
                 <div class="mb-4">
                     <label for="email" class="form-label">

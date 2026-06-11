@@ -48,7 +48,7 @@ class VendorController extends Controller
             'cnpj.required_if' => 'O CNPJ é obrigatório quando "Possui CNPJ" está marcado'
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['name', 'email', 'phone', 'food_type', 'description', 'active', 'has_cnpj', 'cnpj']);
         foreach ($data as $key => $value) {
             if (is_string($value)) {
                 $data[$key] = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
@@ -109,7 +109,7 @@ class VendorController extends Controller
             'cnpj.required_if' => 'O CNPJ é obrigatório quando "Possui CNPJ" está marcado'
         ]);
 
-        $data = $request->all();
+        $data = $request->only(['name', 'email', 'phone', 'food_type', 'description', 'active', 'has_cnpj', 'cnpj']);
         foreach ($data as $key => $value) {
             if (is_string($value)) {
                 $data[$key] = mb_convert_encoding($value, 'UTF-8', 'UTF-8');

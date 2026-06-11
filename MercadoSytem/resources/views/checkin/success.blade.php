@@ -257,7 +257,7 @@
                 @endif
             </div>
             
-            <a href="{{ route('checkin.form', $box->number) }}" class="btn-return">
+            <a href="{{ route('checkin.form', $box->qr_token) }}" class="btn-return">
                 <i class="bi bi-arrow-left me-2"></i>
                 Voltar ao Check-in
             </a>

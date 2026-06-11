@@ -267,6 +267,12 @@
 
 @section('scripts')
 <script>
+    // Parseia "YYYY-MM-DD HH:MM:SS" (MySQL) como Date local válido
+    function parseDbDateTime(str) {
+        if (!str) return new Date(NaN);
+        return new Date(str.replace(' ', 'T'));
+    }
+
     // Configurar CSRF token
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
@@ -446,8 +452,9 @@
 
                 let html = '';
                 activeVendors.forEach(entry => {
-                    const entryTime = entry.entry_time;
-                    const timeDisplay = entryTime ? new Date(`2000-01-01T${entryTime}`).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : 'N/A';
+                    const timeDisplay = entry.entry_time
+                        ? parseDbDateTime(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'})
+                        : 'N/A';
                     
                     html += `
                         <div class="d-flex justify-content-between align-items-center border-bottom py-2">
@@ -535,20 +542,20 @@
 
                 let html = '<div class="table-responsive"><table class="table table-sm table-hover"><thead><tr><th>Vendedor</th><th>Box</th><th>Entrada</th><th>Saída</th><th>Duração</th></tr></thead><tbody>';
                 entries.forEach(entry => {
-                    const entryTime = new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
-                    const exitTime = entry.exit_time ? new Date(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : null;
-                    
+                    const entryTime = parseDbDateTime(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+                    const exitTime = entry.exit_time ? parseDbDateTime(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : null;
+
                     // Calcular duração
                     let duration = '';
                     if (entry.exit_time) {
-                        const start = new Date(entry.entry_time);
-                        const end = new Date(entry.exit_time);
+                        const start = parseDbDateTime(entry.entry_time);
+                        const end = parseDbDateTime(entry.exit_time);
                         const diffMs = end - start;
                         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
                         const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
                         duration = `${diffHours}h ${diffMinutes}m`;
                     } else {
-                        const start = new Date(entry.entry_time);
+                        const start = parseDbDateTime(entry.entry_time);
                         const now = new Date();
                         const diffMs = now - start;
                         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));

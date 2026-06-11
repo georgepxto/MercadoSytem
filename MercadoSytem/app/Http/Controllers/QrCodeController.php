@@ -24,8 +24,8 @@ class QrCodeController extends Controller
         }
 
         // URL para check-in do box
-        $checkinUrl = route('checkin.form', $box->number);
-        
+        $checkinUrl = route('checkin.form', $box->qr_token);
+
         // Para simplicidade, vou usar uma API pública para gerar QR code
         $qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=' . urlencode($checkinUrl);
         
@@ -55,8 +55,8 @@ class QrCodeController extends Controller
         }
 
         // URL para check-in do box
-        $checkinUrl = route('checkin.form', $box->number);
-        
+        $checkinUrl = route('checkin.form', $box->qr_token);
+
         // Gerar QR code usando API pública
         $qrApiUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&format=png&data=' . urlencode($checkinUrl);
         

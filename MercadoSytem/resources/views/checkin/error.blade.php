@@ -271,7 +271,7 @@
                 Para fazer check-in neste box, você precisa primeiro realizar o check-out no box ativo.
             </p>
             
-            <a href="{{ route('checkin.form', $activeBox->number) }}" class="btn btn-primary">
+            <a href="{{ route('checkin.form', $activeBox->qr_token) }}" class="btn btn-primary">
                 <i class="bi bi-box-arrow-right me-2"></i>
                 Ir para Check-out
             </a>

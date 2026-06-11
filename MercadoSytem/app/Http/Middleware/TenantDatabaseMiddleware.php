@@ -80,7 +80,7 @@ class TenantDatabaseMiddleware
                 $tempConnection['database'] = null;
                 Config::set('database.connections.temp_create', $tempConnection);
                   // Criar base de dados
-                DB::connection('temp_create')->statement("CREATE DATABASE {$database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                DB::connection('temp_create')->statement("CREATE DATABASE `{$database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
                 
                 // Executar migrations no novo banco
                 $this->runTenantMigrations($database);

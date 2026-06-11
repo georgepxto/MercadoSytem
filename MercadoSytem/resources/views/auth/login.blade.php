@@ -3,471 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Login - Sistema de Mercado</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">    <style>
-        body {
-            background: white;
+    <title>Login - Mercado N.S. Fátima</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            height: 100%;
+            font-family: 'Rubik', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            background: #0F0E0A;
+            color: #E8E4D9;
+        }
+
+        .page {
             min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 1.5rem;
+        }
+
+        /* Dois pontos de luz ambiente */
+        .page::before,
+        .page::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(80px);
+        }
+
+        .page::before {
+            width: 400px;
+            height: 400px;
+            background: rgba(16, 185, 129, 0.07);
+            top: -10%;
+            right: -5%;
+        }
+
+        .page::after {
+            width: 350px;
+            height: 350px;
+            background: rgba(99, 102, 241, 0.05);
+            bottom: -10%;
+            left: -5%;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 380px;
+            animation: rise 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+        }
+
+        @keyframes rise {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Topo: marca */
+        .brand {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 1rem;
+            gap: 0.875rem;
+            margin-bottom: 2rem;
         }
-        
-        .login-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 400px;
-            width: 100%;
-            margin: auto;
-        }
-        
-        .login-header {
-            background: #1a1d23;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
-        
-        .login-body {
-            padding: 2rem;
-        }
-        
-        .btn-primary {
-            background: #1a1d23;
-            border: none;
-            padding: 12px 30px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background: #2d3748;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(26, 29, 35, 0.3);
-        }
-        
-        .form-control {
-            border-radius: 25px;
-            padding: 12px 20px;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s ease;
-            font-size: 16px; /* Previne zoom no iOS */
-        }
-        
-        .form-control:focus {
-            border-color: #2c3e50;
-            box-shadow: 0 0 0 0.2rem rgba(44, 62, 80, 0.25);
-            transform: translateY(-1px);
-        }
-        
-        .input-group-text {
-            transition: all 0.3s ease;
-        }
-        
-        .input-group:focus-within .input-group-text {
-            background-color: #f8f9fa !important;
-            border-color: #2c3e50;
-        }
-        
-        .user-type-tabs {
-            display: none;
-        }
-        
-        .user-type-tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: none;
-            background: transparent;
-        }
-        
-        .user-type-tab.active {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-        }
-        
-        /* Melhorias específicas para mobile */
-        @media (max-width: 576px) {
-            body {
-                padding: 0.5rem;
-                align-items: flex-start;
-                padding-top: 2rem;
-            }
-            
-            .login-card {
-                margin-top: 1rem;
-                border-radius: 20px;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-            }
-            
-            .login-header {
-                padding: 1.5rem 1rem;
-            }
-            
-            .login-header i {
-                font-size: 2.5rem !important;
-            }
-            
-            .login-header h2 {
-                font-size: 1.5rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .login-header p {
-                font-size: 0.9rem;
-            }
-            
-            .login-body {
-                padding: 1.5rem;
-            }
-            
-            .form-control {
-                padding: 14px 20px;
-                font-size: 16px;
-            }
-            
-            .input-group-text {
-                padding: 14px 15px;
-            }
-            
-            .btn-lg {
-                padding: 14px 30px;
-                font-size: 1.1rem;
-            }
-            
-            .form-check {
-                margin: 1.5rem 0;
-            }
-            
-            .form-check-label {
-                font-size: 0.95rem;
-            }
-        }
-        
-        /* Ultra mobile (telas muito pequenas) */
-        @media (max-width: 375px) {
-            .login-header {
-                padding: 1rem;
-            }
-            
-            .login-body {
-                padding: 1rem;
-            }
-            
-            .login-header h2 {
-                font-size: 1.3rem;
-            }
-        }
-        
-        /* Melhorias de acessibilidade e UX */
-        .form-control::placeholder {
-            color: #9ca3af;
-            opacity: 1;
-        }
-        
-        .alert {
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
             border-radius: 12px;
-            border: none;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+            background: #10B981;
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 1.25rem;
+            flex-shrink: 0;
         }
-        
-        .btn:focus {
-            box-shadow: 0 0 0 0.2rem rgba(26, 29, 35, 0.25);
+
+        .brand-text h1 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #E8E4D9;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
         }
-        
-        /* Animações suaves */
-        .login-card {
-            animation: slideInUp 0.6s ease-out;
+
+        .brand-text p {
+            font-size: 0.8rem;
+            color: #6B6254;
+            margin-top: 0.15rem;
         }
-        
-        @keyframes slideInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+
+        /* Card do formulário */
+        .form-card {
+            background: #171510;
+            border: 1px solid rgba(255,255,255,0.055);
+            border-radius: 14px;
+            padding: 1.75rem;
         }
-        
-        /* Loading state para botão */
-        .btn-loading {
-            position: relative;
-            color: transparent !important;
+
+        .field + .field { margin-top: 1.125rem; }
+
+        label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #6B6254;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.45rem;
         }
-        
-        .btn-loading::after {
-            content: "";
+
+        .input-wrap { position: relative; }
+
+        .input-wrap i {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            left: 0.85rem;
             top: 50%;
-            left: 50%;
-            margin-left: -10px;
-            margin-top: -10px;
-            border: 2px solid #ffffff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 1s linear infinite;
+            transform: translateY(-50%);
+            color: #6B6254;
+            font-size: 0.9rem;
+            pointer-events: none;
         }
-        
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 0.72rem 1rem 0.72rem 2.5rem;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 9px;
+            color: #E8E4D9;
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.18s, background 0.18s;
+        }
+
+        input::placeholder {
+            color: rgba(107,98,84,0.55);
+        }
+
+        input:focus {
+            border-color: #10B981;
+            background: rgba(16,185,129,0.04);
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.08);
+        }
+
+        /* Remember me */
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1.125rem;
+        }
+
+        .remember input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.04);
+            cursor: pointer;
+            padding: 0;
+            accent-color: #10B981;
+        }
+
+        .remember label {
+            font-size: 0.85rem;
+            color: #6B6254;
+            letter-spacing: 0;
+            text-transform: none;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        /* Botão */
+        .btn-enter {
+            width: 100%;
+            margin-top: 1.5rem;
+            padding: 0.78rem;
+            background: #10B981;
+            border: none;
+            border-radius: 9px;
+            color: #fff;
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.925rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.18s, box-shadow 0.18s, transform 0.12s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-enter:hover {
+            background: #059669;
+            box-shadow: 0 4px 20px rgba(16,185,129,0.22);
+            transform: translateY(-1px);
+        }
+
+        .btn-enter:active {
+            transform: translateY(0);
+        }
+
+        .btn-enter.loading { color: transparent; }
+
+        .btn-enter.loading::after {
+            content: '';
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 50%; left: 50%;
+            margin: -9px 0 0 -9px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Erro */
+        .error-box {
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.16);
+            border-radius: 9px;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1.25rem;
+            font-size: 0.85rem;
+            color: #FCA5A5;
+            display: flex;
+            gap: 0.5rem;
+            align-items: flex-start;
+        }
+
+        @media (max-width: 480px) {
+            .page { align-items: flex-start; padding-top: 2.5rem; }
+            .form-card { padding: 1.25rem; }
         }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <div class="login-header">
-            <i class="fas fa-store fa-3x mb-3"></i>
-            <h2>Sistema de Mercado</h2>
-            <p class="mb-0">Faça login para acessar o sistema</p>
+<div class="page">
+    <div class="login-box">
+        <div class="brand">
+            <div class="brand-mark">
+                <i class="bi bi-shop"></i>
+            </div>
+            <div class="brand-text">
+                <h1>Mercado N.S. Fátima</h1>
+                <p>Sistema de controle de entrada</p>
+            </div>
         </div>
-        
-        <div class="login-body">
+
+        <div class="form-card">
             @if ($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    @foreach ($errors->all() as $error)
-                        <div>{{ $error }}</div>
-                    @endforeach
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="error-box">
+                    <i class="bi bi-exclamation-circle flex-shrink-0" style="margin-top:2px;"></i>
+                    <span>
+                        @foreach ($errors->all() as $error)
+                            {{ $error }}<br>
+                        @endforeach
+                    </span>
                 </div>
-            @endif            <form method="POST" action="{{ route('login') }}">
+            @endif
+
+            <form method="POST" action="{{ route('login') }}" id="loginForm">
                 @csrf
 
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 15px 0 0 15px; border-color: #e9ecef;">
-                            <i class="fas fa-envelope text-muted"></i>
-                        </span>
-                        <input type="email" class="form-control border-start-0" name="email" 
+                <div class="field">
+                    <label for="email">E-mail</label>
+                    <div class="input-wrap">
+                        <i class="bi bi-envelope"></i>
+                        <input type="email" id="email" name="email"
                                value="{{ old('email') }}" required autocomplete="email" autofocus
-                               placeholder="Seu e-mail" style="border-radius: 0 15px 15px 0;">
+                               placeholder="seu@email.com">
                     </div>
                 </div>
 
-                <div class="mb-3">
-                    <div class="input-group">
-                        <span class="input-group-text bg-transparent border-end-0" style="border-radius: 15px 0 0 15px; border-color: #e9ecef;">
-                            <i class="fas fa-lock text-muted"></i>
-                        </span>
-                        <input type="password" class="form-control border-start-0" name="password" 
+                <div class="field">
+                    <label for="password">Senha</label>
+                    <div class="input-wrap">
+                        <i class="bi bi-lock"></i>
+                        <input type="password" id="password" name="password"
                                required autocomplete="current-password"
-                               placeholder="Sua senha" style="border-radius: 0 15px 15px 0;">
+                               placeholder="••••••••">
                     </div>
                 </div>
 
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" name="remember" id="remember">
-                    <label class="form-check-label" for="remember">
-                        Lembrar de mim
-                    </label>
-                </div>                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="fas fa-sign-in-alt me-2"></i>Entrar
-                    </button>
+                <div class="remember">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Lembrar de mim</label>
                 </div>
+
+                <button type="submit" class="btn-enter" id="submitBtn">Entrar</button>
             </form>
-            
         </div>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Melhorias de UX e mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            // Converter alerts Bootstrap em notificações modernas
-            const alerts = document.querySelectorAll('.alert-danger');
-            alerts.forEach(alert => {
-                const message = alert.textContent.trim();
-                if (message) {
-                    // Remover alert Bootstrap
-                    alert.style.display = 'none';
-                    
-                    // Criar notificação moderna
-                    setTimeout(() => {
-                        showModernToast(message, 'error', 'Erro de Login');
-                    }, 100);
-                }
-            });
-            
-            // Melhorar UX do formulário
-            const form = document.querySelector('form');
-            const submitBtn = document.querySelector('button[type="submit"]');
-            const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
-            
-            // Estado de loading no botão
-            form.addEventListener('submit', function(e) {
-                submitBtn.classList.add('btn-loading');
-                submitBtn.disabled = true;
-                
-                // Timeout de segurança para reativar o botão
-                setTimeout(() => {
-                    submitBtn.classList.remove('btn-loading');
-                    submitBtn.disabled = false;
-                }, 10000);
-            });
-            
-            // Animações nos inputs
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'translateY(-2px)';
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'translateY(0)';
-                });
-                
-                // Prevenir zoom no iOS
-                input.addEventListener('touchstart', function() {
-                    if (window.innerWidth < 768) {
-                        document.querySelector('meta[name="viewport"]').setAttribute('content', 
-                            'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0');
-                    }
-                });
-            });
-            
-            // Auto-focus no primeiro campo se não estiver em mobile
-            if (window.innerWidth > 768) {
-                const emailInput = document.querySelector('input[name="email"]');
-                if (emailInput && !emailInput.value) {
-                    setTimeout(() => emailInput.focus(), 500);
-                }
-            }
-            
-            // Melhorar navegação por teclado em mobile
-            inputs.forEach((input, index) => {
-                input.addEventListener('keydown', function(e) {
-                    if (e.key === 'Enter' && index < inputs.length - 1) {
-                        e.preventDefault();
-                        inputs[index + 1].focus();
-                    }
-                });
-            });
-        });
-        
-        // Sistema de notificação simples para páginas de login
-        function showModernToast(message, type = 'info', title = 'Aviso') {
-            const container = document.getElementById('toastContainer') || createToastContainer();
-            
-            const toastId = 'toast_' + Date.now();
-            const icons = {
-                success: '✓',
-                error: '✕',
-                warning: '⚠',
-                info: 'ⓘ'
-            };
-            
-            const colors = {
-                success: '#22c55e',
-                error: '#ef4444',
-                warning: '#f59e0b',
-                info: '#3b82f6'
-            };
-            
-            const toastHtml = `
-                <div class="modern-toast ${type}" id="${toastId}" style="
-                    background: white;
-                    border: none;
-                    border-radius: 12px;
-                    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-                    margin-bottom: 16px;
-                    overflow: hidden;
-                    border-left: 4px solid ${colors[type]};
-                    transform: translateX(400px);
-                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-                    opacity: 0;
-                    position: relative;
-                ">
-                    <div style="padding: 16px 20px 8px; display: flex; align-items: center; gap: 12px;">
-                        <div style="
-                            width: 24px; height: 24px; border-radius: 50%; 
-                            display: flex; align-items: center; justify-content: center; 
-                            font-size: 14px; color: white; font-weight: bold;
-                            background: ${colors[type]};
-                        ">${icons[type]}</div>
-                        <h6 style="font-weight: 600; color: #1f2937; margin: 0; font-size: 16px;">${title}</h6>
-                        <button onclick="hideToast('${toastId}')" style="
-                            position: absolute; top: 12px; right: 12px; background: none; 
-                            border: none; color: #9ca3af; cursor: pointer; padding: 4px; 
-                            border-radius: 4px; transition: all 0.2s;
-                        ">✕</button>
-                    </div>
-                    <div style="padding: 0 20px 16px; color: #6b7280; font-size: 14px; line-height: 1.5;">
-                        ${message}
-                    </div>
-                </div>
-            `;
-            
-            container.insertAdjacentHTML('beforeend', toastHtml);
-            const toastElement = document.getElementById(toastId);
-            
-            // Animar entrada
-            setTimeout(() => {
-                toastElement.style.transform = 'translateX(0)';
-                toastElement.style.opacity = '1';
-            }, 100);
-            
-            // Auto-remover após 6 segundos
-            setTimeout(() => {
-                hideToast(toastId);
-            }, 6000);
-        }
-        
-        function hideToast(toastId) {
-            const toast = document.getElementById(toastId);
-            if (toast) {
-                toast.style.transform = 'translateX(400px)';
-                toast.style.opacity = '0';
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.parentNode.removeChild(toast);
-                    }
-                }, 400);
-            }
-        }
-        
-        function createToastContainer() {
-            const container = document.createElement('div');
-            container.id = 'toastContainer';
-            
-            // Responsive positioning
-            const isMobile = window.innerWidth < 768;
-            container.style.cssText = `
-                position: fixed;
-                ${isMobile ? 'top: 10px; left: 10px; right: 10px;' : 'top: 20px; right: 20px;'}
-                z-index: 9999;
-                max-width: ${isMobile ? 'none' : '400px'};
-                width: ${isMobile ? 'auto' : '100%'};
-            `;
-            document.body.appendChild(container);
-            
-            // Ajustar quando a orientação mudar
-            window.addEventListener('orientationchange', () => {
-                setTimeout(() => {
-                    const newIsMobile = window.innerWidth < 768;
-                    container.style.cssText = `
-                        position: fixed;
-                        ${newIsMobile ? 'top: 10px; left: 10px; right: 10px;' : 'top: 20px; right: 20px;'}
-                        z-index: 9999;
-                        max-width: ${newIsMobile ? 'none' : '400px'};
-                        width: ${newIsMobile ? 'auto' : '100%'};
-                    `;
-                }, 500);
-            });
-            
-            return container;
-        }
-    </script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function() {
+        const btn = document.getElementById('submitBtn');
+        btn.classList.add('loading');
+        btn.disabled = true;
+        setTimeout(() => { btn.classList.remove('loading'); btn.disabled = false; }, 10000);
+    });
+</script>
 </body>
 </html>

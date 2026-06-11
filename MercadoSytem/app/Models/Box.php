@@ -69,6 +69,6 @@ class Box extends Model
 
     public function getCheckinUrlAttribute(): string
     {
-        return url('/checkin/box' . $this->number);
+        return route('checkin.form', $this->qr_token);
     }
 }

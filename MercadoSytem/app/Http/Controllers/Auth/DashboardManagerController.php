@@ -168,7 +168,7 @@ class DashboardManagerController extends Controller
             
             if (empty($databases)) {
                 // Criar base de dados
-                DB::connection('temp')->statement("CREATE DATABASE {$database} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                DB::connection('temp')->statement("CREATE DATABASE `{$database}` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
                 
                 // Configurar conexão para a nova base
                 TenantServiceProvider::switchToTenantDatabase($userId);
@@ -213,7 +213,7 @@ class DashboardManagerController extends Controller
             $databases = DB::connection('temp')->select("SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = ?", [$database]);
             
             if (!empty($databases)) {
-                DB::connection('temp')->statement("DROP DATABASE {$database}");
+                DB::connection('temp')->statement("DROP DATABASE `{$database}`");
             }
             
         } catch (\Exception $e) {

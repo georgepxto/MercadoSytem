@@ -276,6 +276,11 @@
 
 @section('scripts')
 <script>
+    function parseDbDateTime(str) {
+        if (!str) return new Date(NaN);
+        return new Date(str.replace(' ', 'T'));
+    }
+
     // Configurar CSRF token
     axios.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').getAttribute('content');    function editBox(boxId) {
         console.log('Editando box ID:', boxId);
@@ -430,9 +435,9 @@
                             `;
                             
                             entriesResponse.data.slice(0, 5).forEach(entry => {
-                                const entryDate = new Date(entry.entry_date).toLocaleDateString('pt-BR');
-                                const entryTime = new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
-                                const exitTime = entry.exit_time ? new Date(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : '-';
+                                const entryDate = parseDbDateTime(entry.entry_date || entry.entry_time).toLocaleDateString('pt-BR');
+                                const entryTime = parseDbDateTime(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
+                                const exitTime = entry.exit_time ? parseDbDateTime(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : '-';
                                 
                                 html += `
                                     <tr>

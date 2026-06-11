@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\DB;
 
 class CheckinController extends Controller
 {
-    public function showCheckinForm($boxNumber)
+    public function showCheckinForm($token)
     {
-        $box = Box::where('number', $boxNumber)->firstOrFail();
+        $box = Box::where('qr_token', $token)->firstOrFail();
         return view('checkin.form', compact('box'));
     }
 
-    public function processCheckin(Request $request, $boxNumber)
+    public function processCheckin(Request $request, $token)
     {
         $request->validate([
             'email' => 'required|email|exists:vendors,email'
         ]);
 
-        $box = Box::where('number', $boxNumber)->firstOrFail();
+        $box = Box::where('qr_token', $token)->firstOrFail();
         $vendor = Vendor::where('email', $request->email)->firstOrFail();
 
         $today = Carbon::today();

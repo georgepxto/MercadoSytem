@@ -19,7 +19,7 @@ class DashboardManagerSeeder extends Seeder
         DashboardManager::create([
             'name' => 'Administrador Principal',
             'email' => 'admin@admin.com',
-            'password' => Hash::make('admin123'),
+            'password' => Hash::make(env('DEMO_ADMIN_PASSWORD', 'admin123')),
         ]);
     }
 }

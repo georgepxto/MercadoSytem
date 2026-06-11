@@ -32,7 +32,7 @@ class ProductController extends Controller
             'available' => 'boolean'
         ]);
 
-        $product = Product::create($request->all());
+        $product = Product::create($request->only(['name', 'description', 'price', 'vendor_id', 'category_id', 'available']));
         return response()->json($product->load(['vendor', 'category']), Response::HTTP_CREATED);
     }
 
@@ -61,7 +61,7 @@ class ProductController extends Controller
             'available' => 'boolean'
         ]);
 
-        $product->update($request->all());
+        $product->update($request->only(['name', 'description', 'price', 'vendor_id', 'category_id', 'available']));
         return response()->json($product->load(['vendor', 'category']));
     }
 

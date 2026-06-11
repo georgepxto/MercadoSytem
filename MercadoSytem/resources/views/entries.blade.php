@@ -234,16 +234,16 @@
                     </div>
                     @endforeach
                 </div>
-            </div>
 
                 @if($entries->count() == 0)
-                    <div class="text-center py-4">
-                        <i class="bi bi-inbox fs-1 text-muted mb-3"></i>
-                        <h5 class="text-muted">Nenhum registro encontrado</h5>
-                        <p class="text-muted">Não há registros de entrada/saída no período selecionado.</p>
-                    </div>
+                <div class="text-center py-4">
+                    <i class="bi bi-inbox fs-1 text-muted mb-3 d-block"></i>
+                    <h5 class="text-muted">Nenhum registro encontrado</h5>
+                    <p class="text-muted">Não há registros de entrada/saída no período selecionado.</p>
+                </div>
                 @endif
             </div>
+
             @if($entries->hasPages())
             <div class="card-footer">
                 {{ $entries->links() }}
@@ -415,9 +415,38 @@
             });
     }
 
+    function parseDbDate(str) {
+        if (!str) return null;
+        // MySQL returns "YYYY-MM-DD HH:MM:SS" — replace space with T for valid ISO 8601
+        return new Date(str.replace(' ', 'T'));
+    }
+
+    function formatDate(str) {
+        const d = parseDbDate(str);
+        if (!d || isNaN(d)) return '-';
+        return d.toLocaleDateString('pt-BR');
+    }
+
+    function formatTime(str) {
+        const d = parseDbDate(str);
+        if (!d || isNaN(d)) return '-';
+        return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function calcTotalTime(entryStr, exitStr) {
+        if (!exitStr) return '-';
+        const entry = parseDbDate(entryStr);
+        const exit  = parseDbDate(exitStr);
+        if (!entry || !exit || isNaN(entry) || isNaN(exit)) return '-';
+        const totalMinutes = Math.floor((exit - entry) / (1000 * 60));
+        const hours   = Math.floor(totalMinutes / 60);
+        const minutes = totalMinutes % 60;
+        return `${hours}h ${minutes}min`;
+    }
+
     function updateEntriesTable(entries) {
         const tbody = document.getElementById('entriesTableBody');
-        
+
         if (entries.length === 0) {
             tbody.innerHTML = `
                 <tr>
@@ -433,17 +462,10 @@
 
         let html = '';
         entries.forEach(entry => {
-            const entryDate = new Date(entry.entry_date).toLocaleDateString('pt-BR');
-            const entryTime = new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
-            const exitTime = entry.exit_time ? new Date(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : '-';
-            
-            let totalTime = '-';
-            if (entry.exit_time) {
-                const totalMinutes = Math.floor((new Date(entry.exit_time) - new Date(entry.entry_time)) / (1000 * 60));
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = totalMinutes % 60;
-                totalTime = `${hours}h ${minutes}min`;
-            }
+            const entryDate = formatDate(entry.entry_date);
+            const entryTime = formatTime(entry.entry_time);
+            const exitTime  = entry.exit_time ? formatTime(entry.exit_time) : '-';
+            const totalTime = calcTotalTime(entry.entry_time, entry.exit_time);
 
             html += `
                 <tr>
@@ -498,17 +520,10 @@
 
         let html = '';
         entries.forEach(entry => {
-            const entryDate = new Date(entry.entry_date).toLocaleDateString('pt-BR');
-            const entryTime = new Date(entry.entry_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'});
-            const exitTime = entry.exit_time ? new Date(entry.exit_time).toLocaleTimeString('pt-BR', {hour: '2-digit', minute: '2-digit'}) : '-';
-            
-            let totalTime = '-';
-            if (entry.exit_time) {
-                const totalMinutes = Math.floor((new Date(entry.exit_time) - new Date(entry.entry_time)) / (1000 * 60));
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = totalMinutes % 60;
-                totalTime = `${hours}h ${minutes}min`;
-            }
+            const entryDate = formatDate(entry.entry_date);
+            const entryTime = formatTime(entry.entry_time);
+            const exitTime  = entry.exit_time ? formatTime(entry.exit_time) : '-';
+            const totalTime = calcTotalTime(entry.entry_time, entry.exit_time);
 
             const statusBadge = entry.exit_time ? 
                 '<span class="badge bg-secondary">Finalizado</span>' : 

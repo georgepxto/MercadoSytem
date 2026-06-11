@@ -20,12 +20,12 @@ use App\Http\Controllers\QrCodeController;
 
 // Authentication routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/login', [LoginController::class, 'login'])->middleware('throttle:login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 // Public check-in routes (no authentication required)
-Route::get('/checkin/box{boxNumber}', [CheckinController::class, 'showCheckinForm'])->name('checkin.form');
-Route::post('/checkin/box{boxNumber}', [CheckinController::class, 'processCheckin'])->name('checkin.process');
+Route::get('/checkin/{token}', [CheckinController::class, 'showCheckinForm'])->name('checkin.form');
+Route::post('/checkin/{token}', [CheckinController::class, 'processCheckin'])->name('checkin.process');
 
 // Redirect root to dashboard
 Route::get('/', function() {

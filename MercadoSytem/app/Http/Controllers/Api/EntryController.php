@@ -15,6 +15,13 @@ class EntryController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'date_from' => 'nullable|date_format:Y-m-d',
+            'date_to'   => 'nullable|date_format:Y-m-d',
+            'vendor_id' => 'nullable|integer',
+            'box_id'    => 'nullable|integer',
+        ]);
+
         // Iniciar consulta no banco principal
         $query = DB::connection('main')->table('entries')
             ->join('vendors', 'entries.vendor_id', '=', 'vendors.id')
@@ -176,7 +183,7 @@ class EntryController extends Controller
             'notes' => 'nullable|string'
         ]);
 
-        $entry->update($request->all());
+        $entry->update($request->only(['vendor_id', 'box_id', 'entry_time', 'exit_time', 'entry_date', 'notes']));
         return response()->json($entry->load(['vendor', 'box']));
     }
 

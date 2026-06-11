@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'MercadoFatima',
             'email' => 'contato@mercadofatima.com',
-            'password' => Hash::make('fatima123'),
+            'password' => Hash::make(env('DEMO_USER_PASSWORD', 'fatima123')),
             'dashboard_name' => 'MercadoFatima',
             'user_type' => 'common',
             'has_dashboard_access' => true,
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Usuário Teste',
             'email' => 'teste@example.com',
-            'password' => Hash::make('teste123'),
+            'password' => Hash::make(env('DEMO_USER_PASSWORD', 'teste123')),
             'dashboard_name' => 'Teste Dashboard',
             'user_type' => 'common',
             'has_dashboard_access' => false,
