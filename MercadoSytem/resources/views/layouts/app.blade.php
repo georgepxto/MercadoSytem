@@ -1663,6 +1663,137 @@
         [data-theme="light"] .stat-card .stat-value {
             color: #1A1710 !important;
         }
+
+        /* ===== BOTÕES — contraste no modo escuro ===== */
+        /* warning: fundo âmbar escuro + texto claro */
+        [data-theme="dark"] .btn-warning,
+        [data-theme="dark"] .btn-warning * {
+            background-color: #B45309 !important;
+            border-color: #92400E !important;
+            color: #FEF3C7 !important;
+        }
+        [data-theme="dark"] .btn-warning:hover,
+        [data-theme="dark"] .btn-warning:focus {
+            background-color: #92400E !important;
+            border-color: #78350F !important;
+        }
+
+        /* secondary: sutil, fundo escuro, texto médio */
+        [data-theme="dark"] .btn-secondary,
+        [data-theme="dark"] .btn-secondary * {
+            background-color: rgba(148,163,184,0.1) !important;
+            border-color: rgba(148,163,184,0.22) !important;
+            color: #94A3B8 !important;
+        }
+        [data-theme="dark"] .btn-secondary:hover,
+        [data-theme="dark"] .btn-secondary:focus {
+            background-color: rgba(148,163,184,0.18) !important;
+            color: #CBD5E1 !important;
+        }
+
+        /* outline-primary */
+        [data-theme="dark"] .btn-outline-primary {
+            border-color: rgba(16,185,129,0.45) !important;
+            color: #10B981 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-primary:hover,
+        [data-theme="dark"] .btn-outline-primary:focus {
+            background-color: rgba(16,185,129,0.12) !important;
+            border-color: #10B981 !important;
+            color: #34D399 !important;
+        }
+        [data-theme="dark"] .btn-outline-primary * { color: inherit !important; }
+
+        /* outline-secondary */
+        [data-theme="dark"] .btn-outline-secondary {
+            border-color: rgba(148,163,184,0.3) !important;
+            color: #94A3B8 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-secondary:hover,
+        [data-theme="dark"] .btn-outline-secondary:focus {
+            background-color: rgba(148,163,184,0.1) !important;
+            border-color: rgba(148,163,184,0.45) !important;
+            color: #CBD5E1 !important;
+        }
+        [data-theme="dark"] .btn-outline-secondary * { color: inherit !important; }
+
+        /* outline-success */
+        [data-theme="dark"] .btn-outline-success {
+            border-color: rgba(16,185,129,0.45) !important;
+            color: #10B981 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-success:hover,
+        [data-theme="dark"] .btn-outline-success:focus {
+            background-color: rgba(16,185,129,0.12) !important;
+            color: #34D399 !important;
+        }
+        [data-theme="dark"] .btn-outline-success * { color: inherit !important; }
+
+        /* outline-danger */
+        [data-theme="dark"] .btn-outline-danger {
+            border-color: rgba(248,113,113,0.45) !important;
+            color: #F87171 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-danger:hover,
+        [data-theme="dark"] .btn-outline-danger:focus {
+            background-color: rgba(248,113,113,0.1) !important;
+            color: #FCA5A5 !important;
+        }
+        [data-theme="dark"] .btn-outline-danger * { color: inherit !important; }
+
+        /* outline-warning */
+        [data-theme="dark"] .btn-outline-warning {
+            border-color: rgba(251,191,36,0.45) !important;
+            color: #FCD34D !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-warning:hover,
+        [data-theme="dark"] .btn-outline-warning:focus {
+            background-color: rgba(251,191,36,0.1) !important;
+            color: #FDE68A !important;
+        }
+        [data-theme="dark"] .btn-outline-warning * { color: inherit !important; }
+
+        /* outline-info */
+        [data-theme="dark"] .btn-outline-info {
+            border-color: rgba(56,189,248,0.45) !important;
+            color: #38BDF8 !important;
+            background: transparent !important;
+        }
+        [data-theme="dark"] .btn-outline-info:hover,
+        [data-theme="dark"] .btn-outline-info:focus {
+            background-color: rgba(56,189,248,0.1) !important;
+            color: #7DD3FC !important;
+        }
+        [data-theme="dark"] .btn-outline-info * { color: inherit !important; }
+
+        /* danger sólido */
+        [data-theme="dark"] .btn-danger,
+        [data-theme="dark"] .btn-danger * {
+            background-color: #DC2626 !important;
+            border-color: #B91C1C !important;
+            color: #fff !important;
+        }
+        [data-theme="dark"] .btn-danger:hover,
+        [data-theme="dark"] .btn-danger:focus {
+            background-color: #B91C1C !important;
+        }
+
+        /* success sólido */
+        [data-theme="dark"] .btn-success,
+        [data-theme="dark"] .btn-success * {
+            background-color: #059669 !important;
+            border-color: #047857 !important;
+            color: #fff !important;
+        }
+        [data-theme="dark"] .btn-success:hover,
+        [data-theme="dark"] .btn-success:focus {
+            background-color: #047857 !important;
+        }
     </style>
 </head>
 <body>
