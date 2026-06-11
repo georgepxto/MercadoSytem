@@ -1665,6 +1665,16 @@
         }
 
         /* ===== BOTÕES — contraste no modo escuro ===== */
+        /* primary (verde esmeralda): forçar texto branco */
+        [data-theme="dark"] .btn-primary,
+        [data-theme="dark"] .btn-primary * {
+            color: #fff !important;
+        }
+        [data-theme="dark"] .btn-primary:hover,
+        [data-theme="dark"] .btn-primary:focus {
+            color: #fff !important;
+        }
+
         /* warning: fundo âmbar escuro + texto claro */
         [data-theme="dark"] .btn-warning,
         [data-theme="dark"] .btn-warning * {
